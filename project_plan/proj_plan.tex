@@ -11,11 +11,11 @@
 \setlength{\voffset}{0in}
 \setlength{\headsep}{5pt}
 \addtolength{\textheight}{2cm}
-%\setlength{\footskip}{5pt}
+\setlength{\footskip}{5pt}
 %
 \begin{document}
 
-\title{\vskip -5em TNCG13\\ Project Plan - A plugin for creating and viewing clouds in the Maya viewport}   % type title between braces
+\title{\vskip -5em TNCG13\\ Project Plan - Plugin for creating and viewing clouds in the Maya viewport}   % type title between braces
 
 \author{
  Johan Beck-Nor\'{e}n, johbe559@student.liu.se
@@ -23,11 +23,11 @@
  }
         \date{\today}    % type date between braces
         \maketitle
-\section{Description}
+\section{Project Overview}
 We want to write a plug-in for Maya where you can create a cloud volume either procedurally from  noise parameter settings, or from loading in a mesh and converting it to volume voxel scalar values.
-The volume can be rendered in realtime in the viewport by using colorboxes for ray directions, and ray marching for accumulating densitys.
+The volume can be rendered in realtime in the viewport by using colorcubes for ray directions, and ray marching for accumulating densitys.
 A transfer function can be used to transform the density values to intensities matching that of clouds.
-A front-marching algorithm should be used so that we can use early termination if we reach an intensity maximum before traversing the entire volume.
+%A front-marching algorithm should be used so that we can use early termination if we reach an intensity maximum before traversing the entire volume.
 
 The idea is for a user to quickly and in realtime get a preview of what the cloud will look like when rendered using the power of Maya, with global illumination and image-based lighting.
 Since the cloud in the plugin will not be physically based we can have convenient parameters for configuring the appearance of the clouds.
@@ -35,4 +35,12 @@ The plugin can be extended to use an emission-absorbtion lighting model for use 
 
 The plan is the use the C++ interface to Maya for writing the plugin.
 To be able to render the cloud volume in realtime we are hoping to use GLSL or other shading languages to use the GPUs power for the raymarching.
+\section{Time Plan}
+\begin{itemize}
+ \item Set up development environment with placeholder/template files and an OpenGL+GLSL graphics context for Maya
+ \item Investigate how to represent a voxel volume datawise to be useful in Maya
+ \item Write node for data generation (create density data for the cloud)
+ \item Write node to render input cloud volume in the Maya viewport.
+ \item Prepare volume for offline render in Maya
+\end{itemize}
 \end{document}
