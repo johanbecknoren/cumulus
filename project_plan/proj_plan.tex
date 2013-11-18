@@ -24,15 +24,15 @@
         \date{\today}    % type date between braces
         \maketitle
 \section{Description}
-We want to write a plug-in for Maya where you can create a cloud volume either procedurally from  noise parameter settings, or from loading in a mesh
-and converting it to volume voxel scalar values.The volume can be rendered in realtime in the viewport by using colorboxes for ray directions, and ray
-marching for accumulating densitys. A transfer function can be used to transform the density values to intensities matching that of clouds. A front-marching
-algorithm should be used so that we can use early termination if we reach an intensity maximum before traversing the entire volume.
+We want to write a plug-in for Maya where you can create a cloud volume either procedurally from  noise parameter settings, or from loading in a mesh and converting it to volume voxel scalar values.
+The volume can be rendered in realtime in the viewport by using colorboxes for ray directions, and ray marching for accumulating densitys.
+A transfer function can be used to transform the density values to intensities matching that of clouds.
+A front-marching algorithm should be used so that we can use early termination if we reach an intensity maximum before traversing the entire volume.
 
-The idea is for a user to quickly and in realtime get a preview of what the cloud will look like when rendered using the power of Maya, with global
-illumination and image-based lighting. Since the cloud in the plugin will not be physically based we can have convenient parameters for configuring
-the appearance of the clouds. The plugin can be extended to use an emission-absorbtion lighting model for use in the viewport.
+The idea is for a user to quickly and in realtime get a preview of what the cloud will look like when rendered using the power of Maya, with global illumination and image-based lighting.
+Since the cloud in the plugin will not be physically based we can have convenient parameters for configuring the appearance of the clouds.
+The plugin can be extended to use an emission-absorbtion lighting model for use in the viewport.
 
-The plan is the use the C++ interface to Maya for writing the plugin. To be able to render the cloud volume in realtime we are hoping to use GLSL or
-other shading languages to use the GPUs power for the raymarching.
+The plan is the use the C++ interface to Maya for writing the plugin.
+To be able to render the cloud volume in realtime we are hoping to use GLSL or other shading languages to use the GPUs power for the raymarching.
 \end{document}
