@@ -34,12 +34,8 @@ endif()
 
 set(CMAKE_SUPPRESS_REGENERATION TRUE)
 
-find_package(OpenGL)
-find_package(GLFW 2.7.0)
 
-if (OPENGL_FOUND)
-	find_package(GLEW REQUIRED)
-endif()
+find_package(GLFW)
 
 if (WIN32)
 	find_package(DXSDK)
@@ -58,6 +54,11 @@ else()
         "${PROJECT_SOURCE_DIR}/cmake or set it through the MAYA_LOCATION "
         "cmake command line argument or environment variable."
     )
+endif()
+
+find_package(OpenGL)
+if (OPENGL_FOUND)
+	find_package(GLEW REQUIRED)
 endif()
 
 if( OPENGL_FOUND )
@@ -89,8 +90,7 @@ if(UNIX)
 	set(PLATFORM_LINK_FLAGS
 		)
 
-endif(UNIX)
-if(WIN32)
+else()
 	set(PLATFORM_COMPILE_FLAGS
 		/D_AFXDLL
 		/DNT_PLUGIN
@@ -102,6 +102,6 @@ if(WIN32)
 	set(PLATFORM_LINK_FLAGS
 		"/export:initializePlugin /export:uninitializePlugin"
 	)
-endif(WIN32)
+endif(UNIX)
 
 add_executable(cumulus ${HEADERS} ${SRCS} )

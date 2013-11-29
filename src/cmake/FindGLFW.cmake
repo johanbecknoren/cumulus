@@ -53,7 +53,7 @@ find_path( GLFW_INCLUDE_DIR
         "The directory where GL/glfw.h resides"
 )
 
-if (WIN32)
+if (NOT UNIX)
     if(CYGWIN)
         find_library( GLFW_glfw_LIBRARY 
             NAMES
@@ -65,6 +65,8 @@ if (WIN32)
             PATHS
                 ${GLFW_LOCATION}/lib
                 ${GLFW_LOCATION}/lib/x64
+                ${PROJECT_SOURCE_DIR}/externals/lib
+                ${PROJECT_SOURCE_DIR}/externals/lib/x64
                 $ENV{GLFW_LOCATION}/lib
                 ${OPENGL_LIBRARY_DIR}
                 /usr/lib
@@ -87,8 +89,8 @@ if (WIN32)
                 ${GLFW_LOCATION}/lib/x64
                 ${GLFW_LOCATION}/lib-msvc110
                 $ENV{GLFW_LOCATION}/lib
-                ${PROJECT_SOURCE_DIR}/extern/glfw/bin
-                ${PROJECT_SOURCE_DIR}/extern/glfw/lib
+                ${PROJECT_SOURCE_DIR}/externals/glfw/bin
+                ${PROJECT_SOURCE_DIR}/externals/glfw/lib
                 $ENV{PROGRAMFILES}/GLFW/lib
                 C:/MinGW/lib
                 ${OPENGL_LIBRARY_DIR}
@@ -147,12 +149,11 @@ else ()
                 "The GLFW library"
         )
     endif (APPLE)
-endif (WIN32)
+endif (NOT UNIX)
 
 set( GLFW_FOUND "NO" )
 
 if(GLFW_INCLUDE_DIR)
-
     if(GLFW_glfw_LIBRARY)
         set( GLFW_LIBRARIES ${GLFW_glfw_LIBRARY} 
                             ${GLFW_x11_LIBRARY} 
