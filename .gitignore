@@ -6,3 +6,12 @@
 *.backup
 *.tex~
 .gitignore~
+
+# String field kernels
+*.inc
+*.inc.rule
+
+/[bB]uild*
+/inst*
+
+*.pyc
