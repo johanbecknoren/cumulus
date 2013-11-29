@@ -40,6 +40,7 @@ find_path( GLFW_INCLUDE_DIR
         $ENV{PROGRAMFILES}/GLFW/include
         ${OPENGL_INCLUDE_DIR}
         C:/MinGW/include
+		${PROJECT_SOURCE_DIR}/externals/include
         /usr/openwin/share/include
         /usr/openwin/include
         /usr/X11R6/include
@@ -61,9 +62,7 @@ if (NOT UNIX)
                 GLFW3
             PATHS
                 ${GLFW_LOCATION}/lib
-                ${GLFW_LOCATION}/lib/x64
-                ${PROJECT_SOURCE_DIR}/externals/bin
-                ${PROJECT_SOURCE_DIR}/externals/lib
+                ${PROJECT_SOURCE_DIR}/externals/bin/x64
                 ${PROJECT_SOURCE_DIR}/externals/lib/x64
                 $ENV{GLFW_LOCATION}/lib
                 ${OPENGL_LIBRARY_DIR}
@@ -77,14 +76,13 @@ if (NOT UNIX)
     else()
         find_library( GLFW_glfw_LIBRARY
             NAMES 
-                libglfw3
+                glfw3
             PATHS
                 ${GLFW_LOCATION}/lib
-                ${GLFW_LOCATION}/lib/x64
                 ${GLFW_LOCATION}/lib-msvc110
                 $ENV{GLFW_LOCATION}/lib
-                ${PROJECT_SOURCE_DIR}/externals/bin
-                ${PROJECT_SOURCE_DIR}/externals/lib
+                ${PROJECT_SOURCE_DIR}/externals/bin/x64
+                ${PROJECT_SOURCE_DIR}/externals/lib/x64
                 $ENV{PROGRAMFILES}/GLFW/lib
                 ${OPENGL_LIBRARY_DIR}
             DOC 

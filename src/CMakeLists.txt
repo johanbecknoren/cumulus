@@ -11,28 +11,24 @@ set(EXECUTABLE_OUTPUT_PATH
 
 # Specify the list of directories to search for cmake modules.
 set(CMAKE_MODULE_PATH
-    ${CMAKE_CURRENT_SOURCE_DIR}/cmake
+	${CMAKE_CURRENT_SOURCE_DIR}/cmake
 	)
 
-FILE(GLOB HEADERS  ./glrender/*.h*)
-
+FILE(GLOB HEADERS ./glrender/*.h*)
 FILE(GLOB SRCS  ./glrender/*.cpp)
 
-if (WIN32)
-	add_definitions(
-	        # Link against the static version of GLEW.
-	        -DGLEW_STATIC
-	    )
-endif(WIN32)
+if (NOT DEFINED CMAKE_PLUGINDIR_BASE)
+    set( CMAKE_PLUGINDIR_BASE plugin )
+endif()
 
-if (MSVC)
-	list(APPEND COMPILER_FLAGS /Wall)
-	list(APPEND COMPILER_FLAGS
-		/W3
-		/WX #Treat all warnings as errors
-		/DNOMINMAX
-		/D_USE_MATH_DEFINES
-		)
+if (WIN32)
+	#list(APPEND COMPILER_FLAGS /Wall)
+	#list(APPEND COMPILER_FLAGS
+	#	/W3
+	#	/WX #Treat all warnings as errors
+	#	/DNOMINMAX
+	#	/D_USE_MATH_DEFINES
+	#	)
 else()
 	if (UNIX)
 		list(APPEND COMPILER_FLAGS "-std=c++11")
@@ -40,35 +36,33 @@ else()
 	list(APPEND COMPILER_FLAGS -Wall)
 endif()
 
-
-set(CMAKE_SUPPRESS_REGENERATION TRUE)
-
+#set(CMAKE_SUPPRESS_REGENERATION TRUE)
 
 find_package(GLFW)
 if (GLFW_FOUND)
-	include_directories(
-		${GLFW_INCLUDE_DIR}
-	)
+#	include_directories(
+#		${GLFW_INCLUDE_DIR}
+#	)
 	list(APPEND CUMULUS_LIBRARIES
 			${GLFW_LIBRARY})
 endif (GLFW_FOUND)
 
-find_package(Maya 201400)
+#find_package(Maya 201400)
 
-if(MAYA_FOUND)
-    add_definitions(
-        -DCUMULUS_FOUND_MAYA
-    )
-else()
-    message(WARNING
-        "Maya was not found "
-        "please add your Maya path to FindMaya.cmake in "
-        "${PROJECT_SOURCE_DIR}/cmake or set it through the MAYA_LOCATION "
-        "cmake command line argument or environment variable."
-    )
-endif()
+#if(MAYA_FOUND)
+#    add_definitions(
+#        -DCUMULUS_FOUND_MAYA
+#    )
+#else()
+#    message(WARNING
+#        "Maya was not found "
+#        "please add your Maya path to FindMaya.cmake in "
+#        "${PROJECT_SOURCE_DIR}/cmake or set it through the MAYA_LOCATION "
+#        "cmake command line argument or environment variable."
+#    )
+#endif()
 
-add_definitions(-DGLFW_INCLUDE_GLU)
+#add_definitions(-DGLFW_INCLUDE_GLU)
 
 find_package(OpenGL)
 if (OPENGL_FOUND)
@@ -91,42 +85,15 @@ if( OPENGL_FOUND )
 			${GLEW_INCLUDE_DIR}
 		)
 	endif()
-	
-	include_directories(
-		${MAYA_INCLUDE_DIRS}
-	)
+
 endif()
 
-if(UNIX)
-	set(PLATFORM_COMPILE_FLAGS
-		-D_BOOL
-		-DREQUIRE_IOSTREAM
-		-DLINUX
-		)
-
-	set(PLATFORM_PLUGIN_EXTENSION
-		.so
-		)
-
-	set(PLATFORM_LINK_FLAGS
-		)
-
-else()
-	set(PLATFORM_COMPILE_FLAGS
-		/D_AFXDLL
-		/DNT_PLUGIN
-		/DREQUIRE_IOSTREAM
-	)
-	set(PLATFORM_PLUGIN_EXTENSION
-		.mll
-	)
-	set(PLATFORM_LINK_FLAGS
-		"/export:initializePlugin /export:uninitializePlugin"
-	)
-endif(UNIX)
 MESSAGE("${COMPILER_FLAGS} .. ${CUMULUS_LIBRARIES}")
 
 set(CMAKE_CXX_FLAGS ${COMPILER_FLAGS})
+
+#add_subdirectory(glrender)
+#add_subdirectory(hello)
 
 add_executable(cumulus ${HEADERS} ${SRCS} )
 
