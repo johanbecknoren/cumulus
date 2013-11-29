@@ -18,17 +18,26 @@ FILE(GLOB HEADERS  ./glrender/*.h*)
 
 FILE(GLOB SRCS  ./glrender/*.cpp)
 
+if (WIN32)
+	add_definitions(
+	        # Link against the static version of GLEW.
+	        -DGLEW_STATIC
+	    )
+endif(WIN32)
+
 if (MSVC)
-	list(append OSD_COMPILER_FLAGS /Wall)
+	list(APPEND COMPILER_FLAGS /Wall)
+	list(APPEND COMPILER_FLAGS
+		/W3
+		/WX #Treat all warnings as errors
+		/DNOMINMAX
+		/D_USE_MATH_DEFINES
+		)
 else()
-	SET(CMAKE_CXX_FLAGS "-std=c++11")
-	list(APPEND OSD_COMPILER_FLAGS -Wall)
-	list(APPEND OSD_COMPILER_FLAGS
-			/W3
-			/WX #Treat all warnings as errors
-			/DNOMINMAX
-			/D_USE_MATH_DEFINES
-			)
+	if (UNIX)
+		list(APPEND COMPILER_FLAGS "-std=c++11")
+	endif (UNIX)
+	list(APPEND COMPILER_FLAGS -Wall)
 endif()
 
 
@@ -36,6 +45,13 @@ set(CMAKE_SUPPRESS_REGENERATION TRUE)
 
 
 find_package(GLFW)
+if (GLFW_FOUND)
+	include_directories(
+		${GLFW_INCLUDE_DIR}
+	)
+	list(APPEND CUMULUS_LIBRARIES
+			${GLFW_LIBRARY})
+endif (GLFW_FOUND)
 
 find_package(Maya 201400)
 
@@ -52,10 +68,19 @@ else()
     )
 endif()
 
+add_definitions(-DGLFW_INCLUDE_GLU)
+
 find_package(OpenGL)
 if (OPENGL_FOUND)
 	find_package(GLEW REQUIRED)
+	list(APPEND CUMULUS_LIBRARIES
+			${OPENGL_gl_LIBRARY})
 endif()
+
+set(PLATFORM_LIBRARIES
+    ${OPENGL_LIBRARY}
+    ${GLEW_LIBRARY}
+)
 
 if( OPENGL_FOUND )
 	include_directories(
@@ -99,5 +124,10 @@ else()
 		"/export:initializePlugin /export:uninitializePlugin"
 	)
 endif(UNIX)
+MESSAGE("${COMPILER_FLAGS} .. ${CUMULUS_LIBRARIES}")
+
+set(CMAKE_CXX_FLAGS ${COMPILER_FLAGS})
 
 add_executable(cumulus ${HEADERS} ${SRCS} )
+
+target_link_libraries(cumulus ${CUMULUS_LIBRARIES})

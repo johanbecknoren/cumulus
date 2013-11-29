@@ -57,14 +57,12 @@ if (NOT UNIX)
     if(CYGWIN)
         find_library( GLFW_glfw_LIBRARY 
             NAMES
-                glfw32
                 libglfw3
-                glfw3dll
-                glfw3
-                glfw
+                GLFW3
             PATHS
                 ${GLFW_LOCATION}/lib
                 ${GLFW_LOCATION}/lib/x64
+                ${PROJECT_SOURCE_DIR}/externals/bin
                 ${PROJECT_SOURCE_DIR}/externals/lib
                 ${PROJECT_SOURCE_DIR}/externals/lib/x64
                 $ENV{GLFW_LOCATION}/lib
@@ -72,7 +70,6 @@ if (NOT UNIX)
                 /usr/lib
                 /usr/lib/w32api
                 /usr/local/lib
-                C:/MinGW/lib
                 /usr/X11R6/lib
             DOC 
                 "The GLFW library"
@@ -80,41 +77,22 @@ if (NOT UNIX)
     else()
         find_library( GLFW_glfw_LIBRARY
             NAMES 
-                glfw32 
-                glfw32s 
-                glfw
-                glfw3
+                libglfw3
             PATHS
                 ${GLFW_LOCATION}/lib
                 ${GLFW_LOCATION}/lib/x64
                 ${GLFW_LOCATION}/lib-msvc110
                 $ENV{GLFW_LOCATION}/lib
-                ${PROJECT_SOURCE_DIR}/externals/glfw/bin
-                ${PROJECT_SOURCE_DIR}/externals/glfw/lib
+                ${PROJECT_SOURCE_DIR}/externals/bin
+                ${PROJECT_SOURCE_DIR}/externals/lib
                 $ENV{PROGRAMFILES}/GLFW/lib
-                C:/MinGW/lib
                 ${OPENGL_LIBRARY_DIR}
             DOC 
                 "The GLFW library"
         )
     endif()
 else ()
-    if (APPLE)
-        find_library( GLFW_glfw_LIBRARY glfw
-            NAMES 
-                glfw
-                glfw3
-            PATHS
-                ${GLFW_LOCATION}/lib
-                ${GLFW_LOCATION}/lib/cocoa
-                $ENV{GLFW_LOCATION}/lib
-                $ENV{GLFW_LOCATION}/lib/cocoa
-                /usr/local/lib
-        )
-        set(GLFW_cocoa_LIBRARY "-framework Cocoa" CACHE STRING "Cocoa framework for OSX")
-        set(GLFW_corevideo_LIBRARY "-framework CoreVideo" CACHE STRING "CoreVideo framework for OSX")
-        set(GLFW_iokit_LIBRARY "-framework IOKit" CACHE STRING "IOKit framework for OSX")
-    elseif(UNIX)
+    if(UNIX)
         
         find_package(X11 REQUIRED)
         
@@ -130,7 +108,6 @@ else ()
 
         find_library( GLFW_glfw_LIBRARY
             NAMES 
-                glfw
                 glfw3
             PATHS
                 ${GLFW_LOCATION}/lib
@@ -148,7 +125,7 @@ else ()
             DOC 
                 "The GLFW library"
         )
-    endif (APPLE)
+    endif (UNIX)
 endif (NOT UNIX)
 
 set( GLFW_FOUND "NO" )
