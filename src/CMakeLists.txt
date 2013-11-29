@@ -14,9 +14,9 @@ set(CMAKE_MODULE_PATH
     ${CMAKE_CURRENT_SOURCE_DIR}/cmake
 	)
 
-FILE(GLOB HEADERS  ./*.h*)
+FILE(GLOB HEADERS  ./glrender/*.h*)
 
-FILE(GLOB SRCS  ./*.cpp)
+FILE(GLOB SRCS  ./glrender/*.cpp)
 
 if (MSVC)
 	list(append OSD_COMPILER_FLAGS /Wall)
@@ -36,10 +36,6 @@ set(CMAKE_SUPPRESS_REGENERATION TRUE)
 
 
 find_package(GLFW)
-
-if (WIN32)
-	find_package(DXSDK)
-endif()
 
 find_package(Maya 201400)
 
