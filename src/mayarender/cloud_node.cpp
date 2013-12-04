@@ -49,30 +49,26 @@ void CloudNode::draw( M3dView & view, const MDagPath &path,
 
 	view.beginGL();
 
+	// Push the color settings
+	//
+	glPushAttrib( GL_CURRENT_BIT );
 
-	if ( ( style == M3dView::kFlatShaded ) ||
-		( style == M3dView::kGouraudShaded ) )
-	{
-		// Push the color settings
-		//
-		glPushAttrib( GL_CURRENT_BIT );
+	if ( status == M3dView::kActive ) {
+		view.setDrawColor( 13, M3dView::kActiveColors );
+	} else {
+		view.setDrawColor( 13, M3dView::kDormantColors );
+	}
 
-		if ( status == M3dView::kActive ) {
-			view.setDrawColor( 13, M3dView::kActiveColors );
-		} else {
-			view.setDrawColor( 13, M3dView::kDormantColors );
-		}
-
-		glBegin(GL_QUADS);
-		glVertex3f(-0.5, 0.0, -0.5);
-		glVertex3f(0.5, 0.0, -0.5);
-		glVertex3f(0.5, 0.0, 0.5);
-		glVertex3f(-0.5, 0.0, 0.5);
-		glEnd();
+	glBegin(GL_QUADS);
+	glVertex3f(-0.5, 0.0, -0.5);
+	glVertex3f(0.5, 0.0, -0.5);
+	glVertex3f(0.5, 0.0, 0.5);
+	glVertex3f(-0.5, 0.0, 0.5);
+	glEnd();
 		
 
-		glPopAttrib();
-	}
+	glPopAttrib();
+	
 
 	// Draw the outline of the foot
 	//
