@@ -7,8 +7,10 @@
 //
 
 #include "cloud_node.h"
+#include "clouddrawoverride.h"
 
 #include <maya/MFnPlugin.h>
+#include <maya/MDrawRegistry.h>
 
 MStatus initializePlugin( MObject obj )
 //
@@ -25,12 +27,23 @@ MStatus initializePlugin( MObject obj )
 	MFnPlugin plugin( obj, "", "0.0.1", "Any");
 
 	status = plugin.registerNode("sfxCloud", CloudNode::id, CloudNode::creator,
-								  CloudNode::initialize);
+								  CloudNode::initialize,
+								  MPxNode::kLocatorNode,
+                                &CloudNode::drawDbClassification);
 	if (!status) {
 		status.perror("registerNode");
 		return status;
 	}
 
+	status = MHWRender::MDrawRegistry::registerDrawOverrideCreator(
+		CloudNode::drawDbClassification,
+		CloudNode::drawRegistrantId,
+		CloudDrawOverride::Creator
+		);
+	if (!status) {
+        status.perror("registerDrawOverrideCreator");
+        return status;
+    }
 	return status;
 }
 
