@@ -31,38 +31,24 @@ if (WIN32)
 	#	)
 else()
 	if (UNIX)
-		list(APPEND COMPILER_FLAGS "-std=c++11")
+
+	SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++11 -Werror -Wall -Werror=sign-compare -Wno-error=unused-variable -Wno-error=unused-but-set-variable -g3")
+	include_directories("/usr/X11/include")
 	endif (UNIX)
-	list(APPEND COMPILER_FLAGS -Wall)
 endif()
 
 #set(CMAKE_SUPPRESS_REGENERATION TRUE)
 
 find_package(GLFW)
 if (GLFW_FOUND)
-#	include_directories(
-#		${GLFW_INCLUDE_DIR}
-#	)
+	include_directories(
+		${GLFW_INCLUDE_DIR}
+	)
 	list(APPEND CUMULUS_LIBRARIES
 			${GLFW_LIBRARY})
 endif (GLFW_FOUND)
 
-#find_package(Maya 201400)
-
-#if(MAYA_FOUND)
-#    add_definitions(
-#        -DCUMULUS_FOUND_MAYA
-#    )
-#else()
-#    message(WARNING
-#        "Maya was not found "
-#        "please add your Maya path to FindMaya.cmake in "
-#        "${PROJECT_SOURCE_DIR}/cmake or set it through the MAYA_LOCATION "
-#        "cmake command line argument or environment variable."
-#    )
-#endif()
-
-#add_definitions(-DGLFW_INCLUDE_GLU)
+# add_definitions(-DGLFW_INCLUDE_GLU)
 
 find_package(OpenGL)
 if (OPENGL_FOUND)
@@ -88,13 +74,14 @@ if( OPENGL_FOUND )
 
 endif()
 
-MESSAGE("${COMPILER_FLAGS} .. ${CUMULUS_LIBRARIES}")
-
-set(CMAKE_CXX_FLAGS ${COMPILER_FLAGS})
-
-#add_subdirectory(glrender)
+add_subdirectory(glrender)
 #add_subdirectory(hello)
+
 
 add_executable(cumulus ${HEADERS} ${SRCS} )
 
 target_link_libraries(cumulus ${CUMULUS_LIBRARIES})
+message(${CUMULUS_LIBRARIES})
+if(UNIX)
+        target_link_libraries(cumulus GL X11 m Xxf86vm Xrandr pthread Xi ${EXTRA_LIBS})
+endif(UNIX)
