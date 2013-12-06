@@ -22,9 +22,10 @@ if (NOT DEFINED CMAKE_PLUGINDIR_BASE)
 endif()
 
 if (UNIX)
-
 	SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++11 -Werror -Wall -Werror=sign-compare -Wno-error=unused-variable -Wno-error=unused-but-set-variable -g3")
 	include_directories("/usr/X11/include")
+else ()
+    SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "/Wall /W3 /WX /DNOMINMAX /D_CRT_SECURE_NO_WARNINGS")
 endif (UNIX)
 
 #set(CMAKE_SUPPRESS_REGENERATION TRUE)
@@ -65,5 +66,6 @@ macro(f_create_glfw_executable target)
   
   target_link_libraries(${target} ${CUMULUS_LIBRARIES} GL X11 m Xxf86vm Xrandr pthread Xi)
 endmacro()
+
 add_subdirectory(core)
 add_subdirectory(glrender)
