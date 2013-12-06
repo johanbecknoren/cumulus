@@ -2,12 +2,12 @@ project(Cumulus)
 
 cmake_minimum_required(VERSION 2.8.6)
 
-# Set the directory where the executables will be stored.
-set(EXECUTABLE_OUTPUT_PATH
-    ${PROJECT_BINARY_DIR}/bin
+# Set the directory where the libraries will be stored.
+set(LIBRARY_OUTPUT_PATH
+    ${PROJECT_BINARY_DIR}/lib
     CACHE PATH
-    "Directory where executables will be stored"
-	)
+    "Directory where all libraries will be stored"
+)
 
 # Specify the list of directories to search for cmake modules.
 set(CMAKE_MODULE_PATH
@@ -21,21 +21,11 @@ if (NOT DEFINED CMAKE_PLUGINDIR_BASE)
     set( CMAKE_PLUGINDIR_BASE plugin )
 endif()
 
-if (WIN32)
-	#list(APPEND COMPILER_FLAGS /Wall)
-	#list(APPEND COMPILER_FLAGS
-	#	/W3
-	#	/WX #Treat all warnings as errors
-	#	/DNOMINMAX
-	#	/D_USE_MATH_DEFINES
-	#	)
-else()
-	if (UNIX)
+if (UNIX)
 
 	SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++11 -Werror -Wall -Werror=sign-compare -Wno-error=unused-variable -Wno-error=unused-but-set-variable -g3")
 	include_directories("/usr/X11/include")
-	endif (UNIX)
-endif()
+endif (UNIX)
 
 #set(CMAKE_SUPPRESS_REGENERATION TRUE)
 
@@ -54,13 +44,8 @@ find_package(OpenGL)
 if (OPENGL_FOUND)
 	find_package(GLEW REQUIRED)
 	list(APPEND CUMULUS_LIBRARIES
-			${OPENGL_gl_LIBRARY})
+	  ${OPENGL_gl_LIBRARY})
 endif()
-
-set(PLATFORM_LIBRARIES
-    ${OPENGL_LIBRARY}
-    ${GLEW_LIBRARY}
-)
 
 if( OPENGL_FOUND )
 	include_directories(
@@ -74,14 +59,11 @@ if( OPENGL_FOUND )
 
 endif()
 
+macro(f_create_glfw_executable target)
+  add_executable(${target} ${ARGN})
+  message(${ARGN})
+  
+  target_link_libraries(${target} ${CUMULUS_LIBRARIES} GL X11 m Xxf86vm Xrandr pthread Xi)
+endmacro()
+add_subdirectory(core)
 add_subdirectory(glrender)
-#add_subdirectory(hello)
-
-
-add_executable(cumulus ${HEADERS} ${SRCS} )
-
-target_link_libraries(cumulus ${CUMULUS_LIBRARIES})
-message(${CUMULUS_LIBRARIES})
-if(UNIX)
-        target_link_libraries(cumulus GL X11 m Xxf86vm Xrandr pthread Xi ${EXTRA_LIBS})
-endif(UNIX)
