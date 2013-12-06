@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <stdlib.h> // Exit and status
+#include <coregl.h>
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -23,6 +24,9 @@ int main(int argc, char **argv) {
 		exit(EXIT_FAILURE);
 	}
 
+	core::CoreGL gltest = core::CoreGL();
+	gltest.te();
+	
 	glfwMakeContextCurrent(window);
 
 	while (!glfwWindowShouldClose(window))

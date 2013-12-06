@@ -39,7 +39,6 @@ find_path( GLFW_INCLUDE_DIR
         $ENV{GLFW_LOCATION}/include
         $ENV{PROGRAMFILES}/GLFW/include
         ${OPENGL_INCLUDE_DIR}
-        C:/MinGW/include
 		${PROJECT_SOURCE_DIR}/externals/include
         /usr/openwin/share/include
         /usr/openwin/include
@@ -76,6 +75,7 @@ if (NOT UNIX)
     else()
         find_library( GLFW_glfw_LIBRARY
             NAMES 
+                glfw
                 glfw3
             PATHS
                 ${GLFW_LOCATION}/lib
