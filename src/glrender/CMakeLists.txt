@@ -17,4 +17,5 @@ f_create_glfw_executable(cumulusGL
   ${HEADERS})
 
 target_link_libraries(cumulusGL
-  ${PLATFORM_LIBS} cumulusCore)
+  ${PLATFORM_LIBS}
+  cumulusCore)

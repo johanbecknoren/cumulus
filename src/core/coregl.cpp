@@ -1,9 +1,15 @@
 #include "coregl.h"
+#include "objloader.h"
 #include <iostream>
-core::CoreGL::CoreGL() {
+namespace core {
+CoreGL::CoreGL() {
 	te();
 }
 
-void core::CoreGL::te() {
+void CoreGL::te() {
 	std::cout << "testing testing" << std::endl;
+	ObjLoader objectLoader = ObjLoader();
+	objectLoader.loadObj("bunny.obj");
 }
+	
+} // namespace core

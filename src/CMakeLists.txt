@@ -66,6 +66,6 @@ macro(f_create_glfw_executable target)
   
   target_link_libraries(${target} ${CUMULUS_LIBRARIES} GL X11 m Xxf86vm Xrandr pthread Xi)
 endmacro()
-
+add_subdirectory(externals/include)
 add_subdirectory(core)
 add_subdirectory(glrender)

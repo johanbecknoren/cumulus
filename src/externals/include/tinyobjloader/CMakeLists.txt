@@ -1,0 +1,10 @@
+SET(TINY_HEADERS tiny_obj_loader.h)
+SET(TINY_SOURCES tiny_obj_loader.cc)
+
+add_library(tinyobj ${TINY_HEADERS} ${TINY_SOURCES})
+
+set_target_properties(tinyobj PROPERTIES OUTPUT_NAME tinyobj CLEAN_DIRECT_OUTPUT 1)
+
+install(FILES ${TINY_HEADERS}
+  DESTINATION ${CMAKE_INCDIR_BASE}/tinyobj
+  PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)

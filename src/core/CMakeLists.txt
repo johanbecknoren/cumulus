@@ -1,16 +1,22 @@
 # cumulusCore #
 
-file(GLOB HEADERS *.h*)
-file(GLOB SRCS *.cpp)
+file(GLOB CORE_HEADERS [a-z]*.h*)
+file(GLOB CORE_SRCS [a-z]*.cpp)
+message(${CORE_HEADERS} "<-h")
 
-add_library(cumulusCore ${HEADERS} ${SRCS})
+include_directories(
+  ${CMAKE_SOURCE_DIR}/externals/include
+  )
+
+add_library(cumulusCore ${CORE_HEADERS} ${CORE_SRCS})
 
 set_target_properties(cumulusCore PROPERTIES OUTPUT_NAME core CLEAN_DIRECT_OUTPUT 1)
 
 target_link_libraries(
   cumulusCore
-  ${PLATFORM_LIBRARIES})
+  ${PLATFORM_LIBRARIES}
+  tinyobj)
 
-install(FILES ${HEADERS}
+install(FILES ${CORE_HEADERS}
   DESTINATION ${CMAKE_INCDIR_BASE}/core
   PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
