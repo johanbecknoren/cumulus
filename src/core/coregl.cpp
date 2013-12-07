@@ -15,7 +15,7 @@ void CoreGL::te() {
 
 void CoreGL::loadShaders() {
 	shaderManager = ShaderManager();
-	shaderManager.loadShaders("", "", ShaderManager::shaderId::BASIC);
+	shaderManager.loadShaders("basic.vert", "basic.frag", ShaderManager::shaderId::BASIC);
 }
 
 } // namespace core
