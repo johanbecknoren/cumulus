@@ -23,9 +23,8 @@ int main(int argc, char **argv) {
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
-
-	core::CoreGL gltest = core::CoreGL();
-	gltest.te();
+    std::string path = "bunny.obj";
+    core::CoreGL *gltest = core::CoreGL::creator(path);
 	
 	glfwMakeContextCurrent(window);
 
@@ -34,10 +33,11 @@ int main(int argc, char **argv) {
     	// Keep running
     	glfwSwapBuffers(window);
         glfwPollEvents();
+        gltest->render();
 	}
 
 	glfwDestroyWindow(window);
 	glfwTerminate();
-
+    delete gltest;
 	return 0;
 }
