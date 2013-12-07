@@ -35,7 +35,8 @@ if (GLFW_FOUND)
 	include_directories(
 		${GLFW_INCLUDE_DIR}
 	)
-	list(APPEND CUMULUS_LIBRARIES
+	set(CUMULUS_LIBRARIES
+        ${CUMULUS_LIBRARIES}
 			${GLFW_LIBRARY})
 endif (GLFW_FOUND)
 
@@ -44,8 +45,9 @@ endif (GLFW_FOUND)
 find_package(OpenGL)
 if (OPENGL_FOUND)
 	find_package(GLEW REQUIRED)
-	list(APPEND CUMULUS_LIBRARIES
-	  ${OPENGL_gl_LIBRARY})
+	list(APPEND
+        CUMULUS_LIBRARIES
+        ${OPENGL_gl_LIBRARY})
 endif()
 
 if( OPENGL_FOUND )
@@ -63,8 +65,13 @@ endif()
 macro(f_create_glfw_executable target)
   add_executable(${target} ${ARGN})
   message(${ARGN})
-  
-  target_link_libraries(${target} ${CUMULUS_LIBRARIES} GL X11 m Xxf86vm Xrandr pthread Xi)
+  if(UNIX)
+    target_link_libraries(${target} ${CUMULUS_LIBRARIES} GL X11 m Xxf86vm Xrandr pthread Xi)
+  else()
+    message("hej" ${CUMULUS_LIBRARIES})
+    target_link_libraries(${target} ${CUMULUS_LIBRARIES})
+  endif(UNIX)
+
 endmacro()
 
 add_subdirectory(core)
