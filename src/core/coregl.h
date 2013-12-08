@@ -7,15 +7,16 @@
 namespace core {
 
 class CoreGL {
+
 public:
-	static CoreGL *creator(std::string path);
-    
+	static CoreGL *creator(std::string path);    
 	~CoreGL() {}
-	void te();
+	void render();
+
 private:
 	void loadShaders();
 	ShaderManager shaderManager;
-	void render();
+
     void initialize(std::string path);
     CoreGL();
 };

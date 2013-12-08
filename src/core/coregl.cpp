@@ -4,16 +4,6 @@
 #include <iostream>
 namespace core {
 
-CoreGL::CoreGL() {
-	te();
-}
-
-void CoreGL::te() {
-	std::cout << "testing testing" << std::endl;
-	ObjLoader objectLoader = ObjLoader();
-	objectLoader.loadObj("bunny.obj");
-}
-
 void CoreGL::loadShaders() {
 	shaderManager = ShaderManager();
 	shaderManager.loadShaders("basic.vert", "basic.frag", ShaderManager::shaderId::BASIC);
@@ -34,5 +24,7 @@ core::CoreGL *core::CoreGL::creator(std::string path) {
 
 void core::CoreGL::initialize(std::string path) {
     std::cout << "Loading object " << path.c_str() << std::endl;
+	ObjLoader objectLoader = ObjLoader();
+	objectLoader.loadObj(path);
 }
 } // namespace core

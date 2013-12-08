@@ -37,8 +37,11 @@ if (GLFW_FOUND)
 	)
 	set(CUMULUS_LIBRARIES
         ${CUMULUS_LIBRARIES}
-			${GLFW_LIBRARY}
-            "glfw3.lib")
+			${GLFW_LIBRARY})
+	if(WIN32)
+	  list(APPEND CUMULUS_LIBRARIES
+		"glfw3.lib")
+	endif(WIN32)
 endif (GLFW_FOUND)
 
 # add_definitions(-DGLFW_INCLUDE_GLU)

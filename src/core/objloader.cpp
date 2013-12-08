@@ -3,6 +3,7 @@
 #include <tinyobjloader/tiny_obj_loader.h>
 #include <glm/glm.hpp>
 #include <vector>
+#include <iostream>
 
 namespace core {
 void core::ObjLoader::loadObj(std::string path) {
@@ -11,7 +12,7 @@ void core::ObjLoader::loadObj(std::string path) {
 	std::vector<unsigned int> indices;
 	std::string err = tinyobj::LoadObj(shapes, path.c_str());
 	if (!err.empty()) {
-		// std::cerr << err << std::endl;
+		std::cerr << err << std::endl;
 		return;
 	}
 
@@ -37,6 +38,7 @@ void core::ObjLoader::loadObj(std::string path) {
 		}
 		vertOffset += numVerts;
 	}
+	std::cout << "Found " << indices.size() / 3 << "faces. \n";
 }
 
 } // namespace core
