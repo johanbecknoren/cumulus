@@ -77,6 +77,10 @@ macro(f_create_glfw_executable target)
   endif(UNIX)
 
 endmacro()
+
+get_filename_component(PARENT_DIR ${CMAKE_SOURCE_DIR} PATH)
+add_definitions(-DCMAKE_PROJECT_ROOT_DIR=\"${PARENT_DIR}\")
+
 add_subdirectory(externals/include)
 add_subdirectory(core)
 add_subdirectory(glrender)

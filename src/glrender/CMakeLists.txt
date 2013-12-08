@@ -10,6 +10,7 @@ file(GLOB SRCS *.cpp)
 
 include_directories(
   ${PROJECT_SOURCE_DIR}/core
+  ${CMAKE_SOURCE_DIR}/externals/include
 )
 
 f_create_glfw_executable(cumulusGL

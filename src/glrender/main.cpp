@@ -1,8 +1,11 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 #include <stdlib.h> // Exit and status
 #include <coregl.h>
+
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -23,7 +26,7 @@ int main(int argc, char **argv) {
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
-    std::string path = "bunny.obj";
+    std::string path = "box.obj";
     core::CoreGL *gltest = core::CoreGL::creator(path);
 	
 	glfwMakeContextCurrent(window);
@@ -32,11 +35,14 @@ int main(int argc, char **argv) {
 	{
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
         glClearColor(0., 0., 0., 0.);
-
+		glm::mat4 projection =
+			glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.f);
+		// glm::mat4 transform = 
+		gltest->render(projection, glm::mat4(1.0f));
+		
     	// Keep running
     	glfwSwapBuffers(window);
         glfwPollEvents();
-        gltest->render();
 	}
 
 	glfwDestroyWindow(window);

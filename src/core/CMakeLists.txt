@@ -2,7 +2,6 @@
 
 file(GLOB CORE_HEADERS [a-z]*.h*)
 file(GLOB CORE_SRCS [a-z]*.cpp)
-message(${CORE_HEADERS} "<-h")
 
 include_directories(
   ${CMAKE_SOURCE_DIR}/externals/include

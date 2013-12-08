@@ -1,16 +1,21 @@
 #include "objloader.h"
-
+#include "model.h"
 #include <tinyobjloader/tiny_obj_loader.h>
 #include <glm/glm.hpp>
 #include <vector>
 #include <iostream>
+#include <sstream>
 
 namespace core {
 void core::ObjLoader::loadObj(std::string path) {
+	std::stringstream fullPath(CMAKE_PROJECT_ROOT_DIR);
+	fullPath << CMAKE_PROJECT_ROOT_DIR << "/models/" << path;
+
 	std::vector<tinyobj::shape_t> shapes;
 	std::vector<glm::vec3> verts;
 	std::vector<unsigned int> indices;
-	std::string err = tinyobj::LoadObj(shapes, path.c_str());
+
+	std::string err = tinyobj::LoadObj(shapes, fullPath.str().c_str());
 	if (!err.empty()) {
 		std::cerr << err << std::endl;
 		return;
@@ -25,20 +30,21 @@ void core::ObjLoader::loadObj(std::string path) {
 									  shapes[n].mesh.positions[i * 3 + 1],
 									  shapes[n].mesh.positions[i * 3 + 2]));
 		}
-
 		for (unsigned int i = 0; i < numFaces; ++i) {
 			// std::vector<unsigned int> val = std::vector<unsigned int>(3);
-			for (unsigned int u; u < 3; ++u) {
+			for (unsigned int u = 0; u < 3; ++u) {
 				// val[u] = shapes[n].mesh.indices[i * 3 + u + vertOffset];
-				indices.push_back(shapes[n].mesh.indices[i * 3 + u + vertOffset]);
+				unsigned int v = shapes[n].mesh.indices[i * 3 + u + vertOffset];
+				indices.push_back(v);
 			}
+
 			// glm::vec3 v0 = verts[val[0]];
 			// glm::vec3 v1 = verts[val[1]];
 			// glm::vec3 v2 = verts[val[2]];			
 		}
 		vertOffset += numVerts;
 	}
-	std::cout << "Found " << indices.size() / 3 << "faces. \n";
+	std::cout << "Found " << indices.size() / 3 << " faces and " << verts.size() << " verts\n";
 }
 
 } // namespace core
