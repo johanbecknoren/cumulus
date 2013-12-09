@@ -22,8 +22,8 @@ void core::ObjLoader::loadObj(std::string path) {
 	}
 
 	for (unsigned int n = 0, vertOffset = 0; n < shapes.size(); ++n) {
-		unsigned int numFaces = shapes[n].mesh.indices.size() / 3;
-		unsigned int numVerts = shapes[n].mesh.positions.size() / 3;
+		unsigned int numFaces = (unsigned int) shapes[n].mesh.indices.size() / 3;
+		unsigned int numVerts = (unsigned int) shapes[n].mesh.positions.size() / 3;
 
 		for (unsigned int i = 0; i < numVerts; ++i) {
 			verts.push_back(glm::vec3(shapes[n].mesh.positions[i * 3],

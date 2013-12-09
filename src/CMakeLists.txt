@@ -25,7 +25,7 @@ if (UNIX)
 	SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++11 -Werror -Wall -Werror=sign-compare -Wno-error=unused-variable -Wno-error=unused-but-set-variable -g3")
 	include_directories("/usr/X11/include")
 else ()
-    SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "/Wall /W3 /WX /DNOMINMAX /D_CRT_SECURE_NO_WARNINGS")
+    SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "/Wall /WX /DNOMINMAX /D_CRT_SECURE_NO_WARNINGS")
 endif (UNIX)
 
 #set(CMAKE_SUPPRESS_REGENERATION TRUE)
@@ -40,11 +40,11 @@ if (GLFW_FOUND)
 			${GLFW_LIBRARY})
 	if(WIN32)
 	  list(APPEND CUMULUS_LIBRARIES
-		"glfw3.lib")
+		"")
 	endif(WIN32)
 endif (GLFW_FOUND)
 
-# add_definitions(-DGLFW_INCLUDE_GLU)
+add_definitions(-DGLFW_INCLUDE_GLU)
 
 find_package(OpenGL)
 if (OPENGL_FOUND)
@@ -62,6 +62,8 @@ if( OPENGL_FOUND )
 		include_directories(
 			${GLEW_INCLUDE_DIR}
 		)
+		list(APPEND CUMULUS_LIBRARIES
+			${GLEW_LIBRARY})
 	endif()
 
 endif()
