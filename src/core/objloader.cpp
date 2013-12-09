@@ -1,7 +1,7 @@
 #include "objloader.h"
 #include "model.h"
 #include <tinyobjloader/tiny_obj_loader.h>
-#include <glm/glm.hpp>
+// #include <glm/glm.hpp>
 #include <vector>
 #include <iostream>
 #include <sstream>
@@ -45,6 +45,7 @@ void core::ObjLoader::loadObj(std::string path) {
 		vertOffset += numVerts;
 	}
 	std::cout << "Found " << indices.size() / 3 << " faces and " << verts.size() << " verts\n";
+	Model *m = Model::creator(verts, indices);
 }
 
 } // namespace core
