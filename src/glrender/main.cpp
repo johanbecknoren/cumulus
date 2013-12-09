@@ -21,13 +21,32 @@ int main(int argc, char **argv) {
 	GLFWwindow* window = glfwCreateWindow(640, 480, "Cumulus", NULL, NULL);
 	
 	glfwSetKeyCallback(window, key_callback);
+	glfwMakeContextCurrent(window);
+	//Init glew
+	glewExperimental = GL_TRUE;
+	GLenum err = glewInit();
+	if (GLEW_OK != err) {
+		std::cerr << "Error: " << glewGetErrorString(err) << std::endl;
+	}
+	glGetError();
+    int OpenGLmajor = 0, OpenGLminor = 0;
+
+    OpenGLmajor = glfwGetWindowAttrib(window, GLFW_CONTEXT_VERSION_MAJOR);
+    OpenGLminor = glfwGetWindowAttrib(window, GLFW_CONTEXT_VERSION_MINOR);
+
+	std::cout << "Running OpenGL version " << OpenGLmajor << "." << OpenGLminor << std::endl;
+	
+    if(OpenGLmajor < 3) {
+		std::cout << "OpenGL version support is to damn low!" << std::endl;
+        return false;
+    }
 	
 	if (!window) {
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
     std::string path = "box.obj";
-    core::CoreGL *gltest = core::CoreGL::creator(path);
+    core::CoreGL *cloud = core::CoreGL::creator(path);
 	
 	glfwMakeContextCurrent(window);
 
@@ -38,15 +57,15 @@ int main(int argc, char **argv) {
 		glm::mat4 projection =
 			glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.f);
 		// glm::mat4 transform = 
-		gltest->render(projection, glm::mat4(1.0f));
+		cloud->render(projection, glm::mat4(1.0f));
 		
     	// Keep running
-    	glfwSwapBuffers(window);
         glfwPollEvents();
+    	glfwSwapBuffers(window);
 	}
 
 	glfwDestroyWindow(window);
 	glfwTerminate();
-    delete gltest;
+    delete cloud;
 	return 0;
 }

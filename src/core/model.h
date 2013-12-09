@@ -10,10 +10,16 @@ namespace core {
 class Model {
 public:
 	~Model();
-	static Model creator(std::vector<glm::vec3> v, std::vector<unsigned int> i);
+	static Model *creator(std::vector<glm::vec3> &v, std::vector<unsigned int> &i);
+	unsigned int numIndices;
+	unsigned int numVerts;
+	unsigned int numFaces;
+protected:
+	Model();
 	
 private:
-	Model();
+	GLuint vertAttribLoc;
+	GLuint normAttribLoc;
 	
 };
 } // namespace core
