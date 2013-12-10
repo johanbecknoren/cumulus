@@ -1,5 +1,6 @@
 #include "objloader.h"
 #include <tinyobjloader/tiny_obj_loader.h>
+#include <glm/ext.hpp>
 #include <iostream>
 #include <sstream>
 
@@ -43,6 +44,7 @@ void ObjLoader::loadObj(std::string path, unsigned int id) {
 	}
 	std::cout << "Found " << indices.size() / 3 << " faces and " << verts.size() << " verts\n";
 	models.push_back(*Model::creator(id, verts, indices));
+	std::cout << glm::to_string(models[0].vertexArray[0]) << std::endl;
 }
 
 void ObjLoader::drawModels() {

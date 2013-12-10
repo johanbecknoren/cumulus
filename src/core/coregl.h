@@ -12,6 +12,7 @@ public:
 	static CoreGL *creator(std::string path);    
 	~CoreGL() {}
 	void render(glm::mat4 trans, glm::mat4 proj);
+	static void printError(const char *functionName);
 
 private:
 	void loadShaders();
