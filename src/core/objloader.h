@@ -11,6 +11,8 @@ public:
 	ObjLoader() {};
 	~ObjLoader() {};
 	void loadObj(std::string path, unsigned int id);
+	void drawModels();
+	void drawModelsWireFrame();
 private:
 	std::vector<Model> models;
 };

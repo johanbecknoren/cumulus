@@ -6,8 +6,6 @@
 #include <iostream>
 #include <stdlib.h> // Exit and status
 
-
-
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
@@ -57,8 +55,8 @@ int main(int argc, char **argv) {
         glClearColor(0., 0., 0., 0.);
 		glm::mat4 projection =
 			glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.f);
-		// glm::mat4 transform = 
-		cloud->render(projection, glm::mat4(1.0f));
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(0.f, 0.f, 10.f));
+		cloud->render(projection, transform);
 		
     	// Keep running
         glfwPollEvents();

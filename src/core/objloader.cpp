@@ -4,7 +4,7 @@
 #include <sstream>
 
 namespace core {
-void core::ObjLoader::loadObj(std::string path, unsigned int id) {
+void ObjLoader::loadObj(std::string path, unsigned int id) {
 	std::stringstream fullPath(CMAKE_PROJECT_ROOT_DIR);
 	fullPath << CMAKE_PROJECT_ROOT_DIR << "/models/" << path;
 
@@ -43,6 +43,24 @@ void core::ObjLoader::loadObj(std::string path, unsigned int id) {
 	}
 	std::cout << "Found " << indices.size() / 3 << " faces and " << verts.size() << " verts\n";
 	models.push_back(*Model::creator(id, verts, indices));
+}
+
+void ObjLoader::drawModels() {
+	std::vector<Model>::iterator it = models.begin();
+	while(it != models.end()) {
+		glBindVertexArray((it)->vao);
+		glDrawElements(GL_TRIANGLES, it->numFaces * 3, GL_UNSIGNED_INT, 0L);
+		++it;
+	}
+};
+
+void ObjLoader::drawModelsWireFrame() {
+	std::vector<Model>::iterator it = models.begin();
+	while(it != models.end()) {
+		glBindVertexArray((it)->vao);
+		glDrawElements(GL_LINE_STRIP, it->numFaces * 3, GL_UNSIGNED_INT, 0L);
+		++it;
+	}
 }
 
 } // namespace core

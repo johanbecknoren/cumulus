@@ -18,7 +18,7 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 	GLuint matrixLoc = 0;
 	// glUniformMatrix4fv(matrixLoc, 1, GL_FALSE, glm::value_ptr(mvp));
 	glUseProgram(shaderManager.getId(ShaderManager::shaderId::BASIC));
-	
+	objectLoader.drawModels();
 }
 
 core::CoreGL *core::CoreGL::creator(std::string path) {
@@ -32,5 +32,7 @@ void core::CoreGL::initialize(std::string path) {
 	loadShaders();
 	objectLoader = ObjLoader();
 	objectLoader.loadObj(path, shaderManager.getId(ShaderManager::shaderId::BASIC));
+
+	std::cout << "Loading done.\n";
 }
 } // namespace core
