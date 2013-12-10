@@ -12,15 +12,26 @@ public:
 	~Model();
 	static Model *creator(std::vector<glm::vec3> &v, std::vector<unsigned int> &i);
 	unsigned int numIndices;
+	unsigned int normalsCount;
 	unsigned int numVerts;
 	unsigned int numFaces;
-protected:
-	Model();
-	
-private:
+	unsigned int texCount;
 	GLuint vertAttribLoc;
 	GLuint normAttribLoc;
-	
+	GLuint texAttribLoc;
+	GLfloat *vertexArray;
+	GLfloat *normalArray;
+	GLfloat *texCoords;
+	GLuint *indexArray;
+	GLuint *normalsIndex;
+	GLuint vao;
+
+protected:
+	Model();
+	static void generateNormals(Model *m);
+
+private:
+
 };
 } // namespace core
 
