@@ -2,8 +2,7 @@
 #define __CORE_GL__
 
 #include "shadermanager.h"
-#include <string>
-#include <glm/glm.hpp>
+#include "objloader.h"
 
 namespace core {
 
@@ -16,10 +15,11 @@ public:
 
 private:
 	void loadShaders();
-	ShaderManager shaderManager;
-
-    void initialize(std::string path);
+	void initialize(std::string path);
     CoreGL();
+
+	ShaderManager shaderManager;
+	ObjLoader objectLoader;
 };
 
 }

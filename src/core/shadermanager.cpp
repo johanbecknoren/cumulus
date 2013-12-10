@@ -2,11 +2,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stddef.h>
-#include <string.h>
+#include <sstream>
+
+
 namespace core {
 
 ShaderManager::ShaderManager() {
-	shaders = new GLuint[numShaders];
 }
 
 char* ShaderManager::readFile(char *file)
@@ -100,7 +101,7 @@ GLuint ShaderManager::compileShaders(const char *vs, const char *fs, const char 
 	if (gs != NULL)	printShaderInfoLog(g, gfn);
 	
 	printProgramInfoLog(p, vfn, ffn, gfn);
-	
+
 	return p;
 }
 
@@ -108,16 +109,23 @@ GLuint ShaderManager::getId(shaderId id) {
 	return shaders[id];
 }
 
-bool ShaderManager::loadShaders(const char *vertFileName, const char *fragFileName, shaderId id)
+bool ShaderManager::loadShaders(std::string vertFileName, std::string fragFileName, shaderId id)
 {
-	GLuint sid = loadShaderG(vertFileName, fragFileName, NULL);
+	GLuint sid = loadShaderG(fixPath(vertFileName).c_str(), fixPath(fragFileName).c_str(), NULL);
 	shaders[id] = sid;
 	return true;
 }
-
-bool ShaderManager::loadShadersG(const char *vertFileName, const char *fragFileName, const char *geomFileName, shaderId id)
+std::string ShaderManager::fixPath(std::string localPath) {
+	std::stringstream fullPath(CMAKE_PROJECT_ROOT_DIR);
+	fullPath << CMAKE_PROJECT_ROOT_DIR << "/src/core/shaders/" << localPath;
+	return fullPath.str();
+}
+bool ShaderManager::loadShadersG(std::string vertFileName, std::string fragFileName, 
+								 std::string geomFileName, shaderId id)
 {
-	GLuint sid = loadShaderG(vertFileName, fragFileName, NULL);
+	
+	GLuint sid = loadShaderG(fixPath(vertFileName).c_str(), 
+		fixPath(fragFileName).c_str(), fixPath(geomFileName).c_str());
 	shaders[id] = sid;
 	return true;
 }
@@ -132,7 +140,6 @@ GLuint ShaderManager::loadShaderG(const char *vertFileName, const char *fragFile
 {
 	char *vs, *fs, *gs;
 	GLuint p = 0;
-	
 	vs = readFile((char *)vertFileName);
 	fs = readFile((char *)fragFileName);
     if(geomFileName != NULL)
@@ -150,6 +157,7 @@ GLuint ShaderManager::loadShaderG(const char *vertFileName, const char *fragFile
 	if (vs != NULL) free(vs);
 	if (fs != NULL) free(fs);
 	if (gs != NULL) free(gs);
+	printf("Shader loaded with id %i \n", p);
 	return p;
 }
 } //namespace core

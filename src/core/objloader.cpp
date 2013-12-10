@@ -1,13 +1,10 @@
 #include "objloader.h"
-#include "model.h"
 #include <tinyobjloader/tiny_obj_loader.h>
-// #include <glm/glm.hpp>
-#include <vector>
 #include <iostream>
 #include <sstream>
 
 namespace core {
-void core::ObjLoader::loadObj(std::string path) {
+void core::ObjLoader::loadObj(std::string path, unsigned int id) {
 	std::stringstream fullPath(CMAKE_PROJECT_ROOT_DIR);
 	fullPath << CMAKE_PROJECT_ROOT_DIR << "/models/" << path;
 
@@ -45,7 +42,7 @@ void core::ObjLoader::loadObj(std::string path) {
 		vertOffset += numVerts;
 	}
 	std::cout << "Found " << indices.size() / 3 << " faces and " << verts.size() << " verts\n";
-	Model *m = Model::creator(verts, indices);
+	models.push_back(*Model::creator(id, verts, indices));
 }
 
 } // namespace core

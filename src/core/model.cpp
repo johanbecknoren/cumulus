@@ -1,4 +1,6 @@
 #include "model.h"
+#include <glm/gtc/type_ptr.hpp>
+#include <iostream>
 #define PI 3.14159265359f
 namespace core {
 
@@ -6,7 +8,13 @@ namespace core {
 
 	}
 
-	Model *Model::creator(std::vector<glm::vec3> &verts, std::vector<unsigned int> &indices) {
+	Model::~Model() {
+		//delete[] normalArray;
+		//delete[] texCoords;
+		//delete[] normalsIndex;
+	}
+
+	Model *Model::creator(GLuint program, std::vector<glm::vec3> &verts, std::vector<unsigned int> &indices) {
 		Model *model = new Model();
 		model->numIndices = (unsigned int) indices.size();
 		model->numVerts = (unsigned int) verts.size();
@@ -15,18 +23,42 @@ namespace core {
 		model->normAttribLoc = 1;
 		model->texAttribLoc = 3;
 
-		model->indexArray = new unsigned int[model->numIndices];
-		unsigned int faceIndex = 0;
-		std::vector<unsigned int>::iterator iit = indices.begin();
-		memcpy(&model->indexArray, &(*iit), model->numIndices * sizeof(float));
+		model->indexArray = indices;
+		//std::copy(&model->indexArray, &model->indexArray + model->numIndices, verts.begin());
+		std::vector<unsigned int>::iterator iit = model->indexArray.begin();
+		model->vertexArray = verts;
+		std::vector<glm::vec3>::iterator vit = model->vertexArray.begin();
+
+		glGenVertexArrays(1, &model->vao);
+		glBindVertexArray(model->vao);
+
+		GLuint buffer;
+		glGenBuffers(1, &buffer);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+			sizeof(unsigned int) * model->numFaces * 3,
+			&(*iit), GL_STATIC_DRAW);
+		char *vertVarName = "in_Position";
+		char *normVarName = "in_Normal";
+		char *texCoordVarName = "in_TexCoord";
 		
+		glBindAttribLocation(program, model->vertAttribLoc, vertVarName);
+		glBindAttribLocation(program, model->normAttribLoc, normVarName);
+		glBindAttribLocation(program, model->texAttribLoc, texCoordVarName);
+
+		glGenBuffers(1, &buffer);
+		glBindBuffer(GL_ARRAY_BUFFER, buffer);
+		glBufferData(GL_ARRAY_BUFFER,
+			sizeof(float) * 3 * model->numVerts,
+			glm::value_ptr(verts[0]), GL_STATIC_DRAW);
+		generateNormals(model);
 		return model;
 	}
 
 	void Model::generateNormals(Model* mesh)
 	{
 		// If model has vertices but no vertexnormals, generate normals
-		if (mesh->vertexArray && !mesh->normalArray)
+		if (mesh->vertexArray.size() > 0 && !mesh->normalArray)
 		{
 			unsigned int face;
 			unsigned int normalIndex;
@@ -37,18 +69,18 @@ namespace core {
 			mesh->normalsCount = mesh->numVerts;
 
 			mesh->normalsIndex = new GLuint[mesh->numIndices];
-			memcpy(mesh->normalsIndex, mesh->indexArray,
+			memcpy(mesh->normalsIndex, &mesh->indexArray[0],
 				sizeof(GLuint) * mesh->numIndices);
-
+			GLfloat *first = glm::value_ptr(mesh->vertexArray[0]);
 			for (face = 0; face * 3 < mesh->numIndices; face++)
 			{
 				int i0 = mesh->indexArray[face * 3 + 0];
 				int i1 = mesh->indexArray[face * 3 + 1];
 				int i2 = mesh->indexArray[face * 3 + 2];
-
-				GLfloat* vertex0 = &mesh->vertexArray[i0 * 3];
-				GLfloat* vertex1 = &mesh->vertexArray[i1 * 3];
-				GLfloat* vertex2 = &mesh->vertexArray[i2 * 3];
+				
+				GLfloat* vertex0 = first + i0 * 3;
+				GLfloat* vertex1 = first + i1 * 3;
+				GLfloat* vertex2 = first + i2 * 3;
 
 				float v0x = vertex1[0] - vertex0[0];
 				float v0y = vertex1[1] - vertex0[1];

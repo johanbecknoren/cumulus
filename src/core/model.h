@@ -2,7 +2,7 @@
 #define __MODEL_H__
 
 #include <GL/glew.h>
-#include <GL/glfw.h>
+#include <GLFW/glfw3.h>
 #include <vector>
 #include <glm/glm.hpp>
 
@@ -10,7 +10,7 @@ namespace core {
 class Model {
 public:
 	~Model();
-	static Model *creator(std::vector<glm::vec3> &v, std::vector<unsigned int> &i);
+	static Model *creator(GLuint program, std::vector<glm::vec3> &v, std::vector<unsigned int> &i);
 	unsigned int numIndices;
 	unsigned int normalsCount;
 	unsigned int numVerts;
@@ -19,16 +19,16 @@ public:
 	GLuint vertAttribLoc;
 	GLuint normAttribLoc;
 	GLuint texAttribLoc;
-	GLfloat *vertexArray;
+	std::vector<glm::vec3> vertexArray;
 	GLfloat *normalArray;
 	GLfloat *texCoords;
-	GLuint *indexArray;
+	std::vector<unsigned int> indexArray;
 	GLuint *normalsIndex;
 	GLuint vao;
-
+	static void generateNormals(Model *m);
 protected:
 	Model();
-	static void generateNormals(Model *m);
+	
 
 private:
 
