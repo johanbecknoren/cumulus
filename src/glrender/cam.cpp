@@ -10,6 +10,8 @@ const float M_PI = 3.14159f;
 Camera::Camera(GLFWwindow *window, int theWindowWidth, int theWindowHeight)
 {
 	initCamera();
+
+	speedFactor = 0.3f;
  
 	windowWidth  = theWindowWidth;
 	windowHeight = theWindowHeight;
@@ -169,7 +171,7 @@ void Camera::move(float deltaTime)
 		movement = glm::normalize(movement);
  
 	// Calculate our value to keep the movement the same speed regardless of the framerate...
-	float framerateIndependentFactor = movementSpeedFactor * deltaTime;
+	float framerateIndependentFactor = movementSpeedFactor * (deltaTime * speedFactor);
  
 	// .. and then apply it to our movement vector.
 	movement *= framerateIndependentFactor;

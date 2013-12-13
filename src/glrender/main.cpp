@@ -82,17 +82,23 @@ int main(int argc, char **argv) {
 	
 	cam = new Camera(window, 640, 480);
 	glfwMakeContextCurrent(window);
+	float currentTime, lastTime = 0.0;
 	float deltaTime = 0.01f;
 
 	while (!glfwWindowShouldClose(window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0., 0., 0., 0.);
+
+		currentTime = float(glfwGetTime());
+		deltaTime = currentTime - lastTime;
+		lastTime = currentTime;
+
 		cam->move(deltaTime);
 
 		cloud->render(cam->getModelView(), cam->getProjection());
     	// Keep running
-		cam->print();
+		//cam->print();
         glfwPollEvents();
     	glfwSwapBuffers(window);
 	}
