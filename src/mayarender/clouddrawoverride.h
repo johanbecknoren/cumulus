@@ -5,21 +5,23 @@
 #include <maya/MPxNode.h>
 #include <maya/MFnNumericAttribute.h>
 #include <maya/MTypeId.h> 
-
 #include <maya/MPxLocatorNode.h>
 #include <maya/MPxDrawOverride.h>
 #include <maya/MDrawContext.h>
 #include <maya/MFrameContext.h>
 #include <maya/MDrawRegistry.h>
 
+#include <core/coregl.h>
+
 class CloudData : public MUserData {
 public:
-	CloudData() : MUserData(false) {} // False - dont del after draw
+	CloudData() : MUserData(false), core(NULL) {} // False - dont del after draw
 	virtual ~CloudData() {}
 
 	MBoundingBox fCurrentBoundingBox;
 	float fMultiplier;
 	float fColor[3];
+	core::CoreGL *core;
 };
 
 class CloudDrawOverride : public MHWRender::MPxDrawOverride {

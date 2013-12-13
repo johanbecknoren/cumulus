@@ -1,7 +1,5 @@
 #include "clouddrawoverride.h"
 #include "cloud_node.h"
-#define __SKIP_CORE_GL__
-#include <core/coregl.h>
 
 #include <maya/MHWGeometryUtilities.h>
 #include <maya/MStateManager.h>
@@ -254,7 +252,6 @@ void CloudDrawOverride::draw(const MHWRender::MDrawContext& context, const MUser
 	{
 		// set colour
 		glColor4fv(color);
-
 		// set world matrix
 		glMatrixMode(GL_MODELVIEW);
 		glPushMatrix();

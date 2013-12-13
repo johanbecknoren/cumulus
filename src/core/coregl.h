@@ -3,7 +3,6 @@
 
 #include "shadermanager.h"
 #include "objloader.h"
-#include "glincludes.h"
 
 namespace core {
 
