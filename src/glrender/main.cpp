@@ -2,18 +2,38 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 #include <stdlib.h> // Exit and status
-#include "camera.h"
+#include "cam.h"
 
-Camera cam;
+Camera *cam = NULL;
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GL_TRUE);
-	if (key == GLFW_KEY_W && action == GLFW_PRESS)
-		cam.applyMovement(Camera::FORWARD);
-	if (key == GLFW_KEY_S && action == GLFW_PRESS)
-		cam.applyMovement(Camera::BACKWARD);
+	if (cam != NULL) {
+		if (key == GLFW_KEY_W) {
+			if (action == GLFW_PRESS)
+				cam->holdingForward = true;
+			if (action == GLFW_RELEASE)
+				cam->holdingForward = false;
+		}
+		if (key == GLFW_KEY_S) {
+			if (action == GLFW_PRESS)
+				cam->holdingBackward = true;
+			if (action == GLFW_RELEASE)
+				cam->holdingBackward = false;
+		}
+	}
+	//if (key == GLFW_KEY_S && action == GLFW_PRESS)
+	//	cam.applyMovement(Camera::BACKWARD);
+	//if (key == GLFW_KEY_A && action == GLFW_PRESS)
+	//	cam.applyMovement(Camera::STRAFE_L);
+	//if (key == GLFW_KEY_D && action == GLFW_PRESS)
+	//	cam.applyMovement(Camera::STRAFE_R);
+	//if (key == GLFW_KEY_X && action == GLFW_PRESS)
+	//	cam.applyMovement(Camera::DOWN);
+	//if (key == GLFW_KEY_Z && action == GLFW_PRESS)
+	//	cam.applyMovement(Camera::UP);
 }
 
 int main(int argc, char **argv) {
@@ -48,20 +68,21 @@ int main(int argc, char **argv) {
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
-    std::string path = "box.obj";
+    std::string path = "bunny_small.obj";
     core::CoreGL *cloud = core::CoreGL::creator(path);
 	
+	cam = new Camera(window, 640, 480);
 	glfwMakeContextCurrent(window);
-
+	float deltaTime = 0.3f;
 	while (!glfwWindowShouldClose(window))
 	{
-		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0., 0., 0., 0.);
-		cam.update();
-		
-		cloud->render(cam.getProjection(), cam.getView());
-		
+		cam->move(deltaTime);
+
+		cloud->render(cam->getProjection(), cam->getModelView());
     	// Keep running
+		cam->print();
         glfwPollEvents();
     	glfwSwapBuffers(window);
 	}
