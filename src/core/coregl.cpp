@@ -24,20 +24,27 @@ core::CoreGL::CoreGL() {
 }
 
 void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
-	glm::mat4 mvp = proj * trans; // * glm::scale(glm::mat4(1.0f), glm::vec3(10.f));;
+	glm::mat4 projectionMatrix = glm::perspective(45.0f, (float)640 / (float)480, 1.0f, 200.0f);
+	glm::mat4 mvp = projectionMatrix * trans;
 
-	GLuint matrixLoc = 0;
 	GLuint id = shaderManager.getId(ShaderManager::shaderId::BASIC);
 	glUseProgram(id);
-	
+	GLboolean transposed = GL_FALSE;
+
+	GLuint matrixLoc = glGetUniformLocation(id, "camTrans");
 	glUniformMatrix4fv(
-		glGetUniformLocation(id, "camTrans"), 1, 
-		GL_FALSE, glm::value_ptr(mvp));
+		matrixLoc, 1, 
+		transposed, glm::value_ptr(mvp));
 	objectLoader.drawModels();
 	printError("Core render");
 
 	//glPushMatrix();
 	//glLoadIdentity();
+	glUseProgram(id);
+	
+	glUniformMatrix4fv(
+		matrixLoc, 1, 
+		transposed, glm::value_ptr(mvp));
 	glBegin(GL_QUADS);
 	glVertex3f(-1.0f,-1.0f, -1.0f);
 	glVertex3f( 1.0f,-1.0f, -1.0f);

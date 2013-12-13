@@ -1,4 +1,6 @@
 #include "objloader.h"
+#include "glincludes.h"
+
 #include <tinyobjloader/tiny_obj_loader.h>
 #include <glm/ext.hpp>
 #include <iostream>
@@ -50,7 +52,6 @@ void ObjLoader::loadObj(std::string path, unsigned int id) {
 void ObjLoader::drawModels() {
 	std::vector<Model>::iterator it = models.begin();
 	while(it != models.end()) {
-		std::cout << "Drawing model" << it->numIndices << std::endl;
 		glBindVertexArray((it)->vao);
 		glDrawElements(GL_TRIANGLES, it->numIndices, GL_UNSIGNED_INT, 0L);
 		++it;

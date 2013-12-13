@@ -1,8 +1,6 @@
 #ifndef __MODEL_H__
 #define __MODEL_H__
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 #include <vector>
 #include <glm/glm.hpp>
 
@@ -10,21 +8,21 @@ namespace core {
 class Model {
 public:
 	~Model();
-	static Model *creator(GLuint program, std::vector<glm::vec3> &v, std::vector<unsigned int> &i);
+	static Model *creator(unsigned int program, std::vector<glm::vec3> &v, std::vector<unsigned int> &i);
 	unsigned int numIndices;
 	unsigned int normalsCount;
 	unsigned int numVerts;
 	unsigned int numFaces;
 	unsigned int texCount;
-	GLuint vertAttribLoc;
-	GLuint normAttribLoc;
-	GLuint texAttribLoc;
+	unsigned int vertAttribLoc;
+	unsigned int normAttribLoc;
+	unsigned int texAttribLoc;
 	std::vector<glm::vec3> vertexArray;
-	GLfloat *normalArray;
-	GLfloat *texCoords;
+	float *normalArray;
+	float *texCoords;
 	std::vector<unsigned int> indexArray;
-	GLuint *normalsIndex;
-	GLuint vao;
+	unsigned int *normalsIndex;
+	unsigned int vao;
 	static void generateNormals(Model *m);
 protected:
 	Model();

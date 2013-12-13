@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <sstream>
-
+#include "glincludes.h"
 
 namespace core {
 

@@ -1,9 +1,12 @@
 #include "cam.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/string_cast.hpp>
+
 // Borrowed from http://r3dux.org/2012/12/a-c-camera-class-for-simple-opengl-fps-controls/
 
 const float Camera::TO_RADS = 3.141592654f / 180.0f; // The value of 1 degree in radians
- 
+const float M_PI = 3.14159f; 
+
 Camera::Camera(GLFWwindow *window, int theWindowWidth, int theWindowHeight)
 {
 	initCamera();
@@ -14,14 +17,14 @@ Camera::Camera(GLFWwindow *window, int theWindowWidth, int theWindowHeight)
 	// Calculate the middle of the window
 	windowMidX = windowWidth  / 2;
 	windowMidY = windowHeight / 2;
-	float fov = 45.f;
-	float near = 2.f;
-	float far = 1500.f;
-	GLfloat aspectRatio = (windowWidth > windowHeight)? float(windowWidth)/float(windowHeight) : float(windowHeight)/float(windowWidth);
-	GLfloat fH = tan( float(fov / 360.0f * 3.14159f) ) * near;
-	GLfloat fW = fH * aspectRatio;
-	glFrustum(-fW, fW, -fH, fH, near, far);
-	projection = glm::frustum(-fW, fW, -fH, fH, near, far);
+	//float fov = 45.f;
+	//float near = 2.f;
+	//float far = 150.f;
+	//GLfloat aspectRatio = (windowWidth > windowHeight)? float(windowWidth)/float(windowHeight) : float(windowHeight)/float(windowWidth);
+	//GLfloat fH = tan( float(fov / 360.0f * 3.14159f) ) * near;
+	//GLfloat fW = fH * aspectRatio;
+	//glFrustum(-fW, fW, -fH, fH, near, far);
+	//projection = glm::frustum(-fW, fW, -fH, fH, near, far);
 
 	glfwSetCursorPos(window, windowMidX, windowMidY);
 }
@@ -50,6 +53,21 @@ void Camera::initCamera()
 	holdingBackward    = false;
 	holdingLeftStrafe  = false;
 	holdingRightStrafe = false;
+
+	// Create projection matrix
+	float fovy = 45.;
+	float cotf = 1.0f/tanf(fovy*float(M_PI)/360.0f);
+	
+	float aspect = 45.f;
+	float zNear = 0.01f;
+	float zFar = 50.f;
+	projection = glm::mat4(0);
+	projection[0][0] = cotf/aspect;	
+	projection[1][1] = cotf;
+	projection[2][2] = (zFar+zNear)/(zNear-zFar);
+	projection[3][2] = (2.0f*zFar*zNear)/(zNear-zFar);
+
+	projection[2][3] = -1.0;
 }
  
 // Function to convert degrees to radians
@@ -120,9 +138,9 @@ void Camera::handleMouseMove(GLFWwindow *window, int mouseX, int mouseY)
 #include <glm/gtc/matrix_transform.hpp>
 glm::mat4 Camera::getModelView() {
 	glm::mat4 view;
-	glm::rotate(view, rotation.x, glm::vec3(1.f, 0.f, 0.f));
-	glm::rotate(view, rotation.y, glm::vec3(0.f, 1.f, 0.f));
-	glm::translate(view, -position);
+	view = glm::rotate(view, rotation.x, glm::vec3(1.f, 0.f, 0.f));
+	view = glm::rotate(view, rotation.y, glm::vec3(0.f, 1.f, 0.f));
+	view = glm::translate(view, -position);
 	return view;
 }
 
@@ -168,7 +186,8 @@ void Camera::move(float deltaTime)
 	}
  
 	// Normalise our movement vector
-	movement = glm::normalize(movement);
+	if (glm::length(movement) > 0)
+		movement = glm::normalize(movement);
  
 	// Calculate our value to keep the movement the same speed regardless of the framerate...
 	float framerateIndependentFactor = movementSpeedFactor * deltaTime;

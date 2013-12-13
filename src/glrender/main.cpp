@@ -3,6 +3,7 @@
 #include <iostream>
 #include <stdlib.h> // Exit and status
 #include "cam.h"
+#include <glincludes.h>
 
 Camera *cam = NULL;
 
@@ -11,21 +12,27 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GL_TRUE);
 	if (cam != NULL) {
-		if (key == GLFW_KEY_W) {
+		if (key == GLFW_KEY_S) {
 			if (action == GLFW_PRESS)
 				cam->holdingForward = true;
 			if (action == GLFW_RELEASE)
 				cam->holdingForward = false;
 		}
-		if (key == GLFW_KEY_S) {
+		if (key == GLFW_KEY_W) {
 			if (action == GLFW_PRESS)
 				cam->holdingBackward = true;
 			if (action == GLFW_RELEASE)
 				cam->holdingBackward = false;
 		}
 	}
-	//if (key == GLFW_KEY_S && action == GLFW_PRESS)
-	//	cam.applyMovement(Camera::BACKWARD);
+	if (key == GLFW_KEY_A) {
+		if (action == GLFW_PRESS) cam->holdingLeftStrafe = true;
+		if (action == GLFW_RELEASE) cam->holdingLeftStrafe = false;
+	}
+	if (key == GLFW_KEY_D) {
+		if (action == GLFW_PRESS) cam->holdingRightStrafe = true;
+		if (action == GLFW_RELEASE) cam->holdingRightStrafe = false;
+	}
 	//if (key == GLFW_KEY_A && action == GLFW_PRESS)
 	//	cam.applyMovement(Camera::STRAFE_L);
 	//if (key == GLFW_KEY_D && action == GLFW_PRESS)
@@ -73,7 +80,8 @@ int main(int argc, char **argv) {
 	
 	cam = new Camera(window, 640, 480);
 	glfwMakeContextCurrent(window);
-	float deltaTime = 0.3f;
+	float deltaTime = 0.01f;
+
 	while (!glfwWindowShouldClose(window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

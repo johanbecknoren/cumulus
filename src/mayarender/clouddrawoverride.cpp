@@ -1,10 +1,13 @@
 #include "clouddrawoverride.h"
 #include "cloud_node.h"
+#define __SKIP_CORE_GL__
+#include <core/coregl.h>
 
 #include <maya/MHWGeometryUtilities.h>
 #include <maya/MStateManager.h>
 #include <maya/MHWGeometryUtilities.h>
 #include <maya/MDistance.h>
+
 
 CloudDrawOverride::~CloudDrawOverride() {}
 

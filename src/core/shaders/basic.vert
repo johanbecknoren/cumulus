@@ -14,7 +14,7 @@ void main(void)
 {
     VertexOut.normal = in_Normal;
 
-    vec4 spacePos =  camTrans* vec4(in_Position, 1.0);
+    vec4 spacePos =  camTrans * vec4(in_Position, 1.0);
 
     gl_Position = spacePos;
 }
