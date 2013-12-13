@@ -1,9 +1,11 @@
+#define __USE_CORE_GL__
 #include <coregl.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 #include <stdlib.h> // Exit and status
 #include "cam.h"
-#include <glincludes.h>
+
+//#include <glincludes.h>
 
 Camera *cam = NULL;
 

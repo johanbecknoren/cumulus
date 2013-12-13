@@ -3,6 +3,9 @@
 
 #include "shadermanager.h"
 #include "objloader.h"
+#ifdef __USE_CORE_GL__
+#include "glincludes.h"
+#endif
 
 namespace core {
 

@@ -3,7 +3,9 @@
 #include <iostream>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#ifndef __USE_CORE_GL__
 #include "glincludes.h"
+#endif
 
 namespace core {
 
