@@ -105,7 +105,7 @@ MUserData* CloudDrawOverride::prepareForDraw(
 	data->fColor[0] = color.r;
 	data->fColor[1] = color.g;
 	data->fColor[2] = color.b;
-
+	data->core = core::CoreGL::creator("bunny.obj");
 	return data;
 }
 
@@ -261,7 +261,9 @@ void CloudDrawOverride::draw(const MHWRender::MDrawContext& context, const MUser
 		glMatrixMode(GL_PROJECTION);
 		glPushMatrix();
 		glLoadMatrixd(projection.matrix[0]);
-
+		if (cloudData->core != NULL) {
+			//cloudData->core->render(
+		}
 		glColor3f(1, 0, 0);
  
 		glBegin(GL_QUADS);

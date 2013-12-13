@@ -3,6 +3,7 @@
 #include <iostream>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <GL/glew.h>
 #ifndef __USE_CORE_GL__
 #include "glincludes.h"
 #endif
@@ -40,10 +41,8 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 	objectLoader.drawModels();
 	printError("Core render");
 
-	//glPushMatrix();
-	//glLoadIdentity();
 	glUseProgram(id);
-	
+
 	glUniformMatrix4fv(
 		matrixLoc, 1, 
 		transposed, glm::value_ptr(mvp));
@@ -53,7 +52,6 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 	glVertex3f( 1.0f, 1.0f, -1.0f);
 	glVertex3f(-1.0f, 1.0f, -1.0f);
 	glEnd();
-	//glPopMatrix();
 }
 
 core::CoreGL *core::CoreGL::creator(std::string path) {
