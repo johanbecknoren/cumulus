@@ -14,13 +14,13 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GL_TRUE);
 	if (cam != NULL) {
-		if (key == GLFW_KEY_S) {
+		if (key == GLFW_KEY_W) {
 			if (action == GLFW_PRESS)
 				cam->holdingForward = true;
 			if (action == GLFW_RELEASE)
 				cam->holdingForward = false;
 		}
-		if (key == GLFW_KEY_W) {
+		if (key == GLFW_KEY_S) {
 			if (action == GLFW_PRESS)
 				cam->holdingBackward = true;
 			if (action == GLFW_RELEASE)
@@ -90,7 +90,7 @@ int main(int argc, char **argv) {
         glClearColor(0., 0., 0., 0.);
 		cam->move(deltaTime);
 
-		cloud->render(cam->getProjection(), cam->getModelView());
+		cloud->render(cam->getModelView(), cam->getProjection());
     	// Keep running
 		cam->print();
         glfwPollEvents();

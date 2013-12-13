@@ -17,14 +17,8 @@ Camera::Camera(GLFWwindow *window, int theWindowWidth, int theWindowHeight)
 	// Calculate the middle of the window
 	windowMidX = windowWidth  / 2;
 	windowMidY = windowHeight / 2;
-	float fov = 45.f;
-	float near = 2.f;
-	float far = 150.f;
-	GLfloat aspectRatio = (windowWidth > windowHeight)? float(windowWidth)/float(windowHeight) : float(windowHeight)/float(windowWidth);
-	GLfloat fH = tan( float(fov / 360.0f * 3.14159f) ) * near;
-	GLfloat fW = fH * aspectRatio;
-	glFrustum(-fW, fW, -fH, fH, near, far);
-	projection = glm::frustum(-fW, fW, -fH, fH, near, far);
+
+	projection = glm::perspective(45.0f, (float)640 / (float)480, 1.0f, 200.0f);
 
 	glfwSetCursorPos(window, windowMidX, windowMidY);
 }
@@ -53,21 +47,6 @@ void Camera::initCamera()
 	holdingBackward    = false;
 	holdingLeftStrafe  = false;
 	holdingRightStrafe = false;
-
-	// Create projection matrix
-	//float fovy = 45.;
-	//float cotf = 1.0f/tanf(fovy*float(M_PI)/360.0f);
-	//
-	//float aspect = 45.f;
-	//float zNear = 0.01f;
-	//float zFar = 50.f;
-	//projection = glm::mat4(0);
-	//projection[0][0] = cotf/aspect;	
-	//projection[1][1] = cotf;
-	//projection[2][2] = (zFar+zNear)/(zNear-zFar);
-	//projection[3][2] = (2.0f*zFar*zNear)/(zNear-zFar);
-
-	//projection[2][3] = -1.0;
 }
  
 // Function to convert degrees to radians

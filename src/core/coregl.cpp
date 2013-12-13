@@ -27,8 +27,7 @@ core::CoreGL::CoreGL() {
 }
 
 void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
-	glm::mat4 projectionMatrix = glm::perspective(45.0f, (float)640 / (float)480, 1.0f, 200.0f);
-	glm::mat4 mvp = projectionMatrix * trans;
+	glm::mat4 mvp = proj * trans;
 
 	GLuint id = shaderManager.getId(ShaderManager::shaderId::BASIC);
 	glUseProgram(id);
