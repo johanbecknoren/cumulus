@@ -40,9 +40,9 @@ void CoreGL::setVolumeData() {
 	}*/
 
 	for(size_t i=0; i<volume_.xdim()*volume_.ydim()*volume_.zdim(); i+=3) {
-		volume_.setValueAt(1.f, i);
-		volume_.setValueAt(1.f, i+1);
-		volume_.setValueAt(1.f, i+2);
+		volume_.setValueAt( (float)rand()/((float)RAND_MAX), i);
+		volume_.setValueAt((float)rand()/((float)RAND_MAX), i+1);
+		volume_.setValueAt((float)rand()/((float)RAND_MAX), i+2);
 	}
 
 	std::cout<<"Volume max: "<<volume_.getMax()<<std::endl;
@@ -68,24 +68,11 @@ void CoreGL::initVolumeTexture() {
 	glTexImage3D(GL_TEXTURE_3D, 0, GL_RGB32F, volume_.xdim(), volume_.ydim(), volume_.zdim(), 0, GL_RGB, 
 		GL_FLOAT, volume_.getData());
 	
-
-	glUniform1i(glGetUniformLocation(id, "volumeData"), 0);
-	/*int samples = 256;
+	int samples = 256;
 	float stepSize = 1.0f/GLfloat(samples);
-	glUniform1i(glGetUniformLocation(volumeShader, "samples"), samples);
-	glUniform1f(glGetUniformLocation(volumeShader, "stepSize"), stepSize);*/
-	
-	//glGenTextures(0, &texId);
-	//
-	//glActiveTexture(GL_TEXTURE0);
-	//glBindTexture(GL_TEXTURE_3D, texId);
-	///*TexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	//glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);*/
-	///*glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	//glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);*/
-
-	//glTexImage3D(GL_TEXTURE_3D, 0, GL_FLOAT, volume_.xdim(), volume_.ydim(), volume_.zdim(), 1, GL_FLOAT, GL_FLOAT, volume_.getData());
-
+	glUniform1i(glGetUniformLocation(id, "volumeData"), 0);
+	glUniform1i(glGetUniformLocation(id, "samples"), samples);
+	glUniform1f(glGetUniformLocation(id, "stepSize"), stepSize);
 	
 }
 
