@@ -4,6 +4,7 @@ in VertexData {
     vec3 normal;
     vec4 screen_space;
     vec2 pixPos;
+    vec2 texCoord;
 } FragIn;
 
 uniform sampler3D volumeTex;
@@ -18,7 +19,7 @@ void main(void)
 	
 	//vec2 normsscoord = FragIn.screen_space.xy*0.5 + 0.5;
 
-	vec2 texCoord = (FragIn.pixPos + vec2(1.f)) * 0.5f;
+	vec2 texCoord = (FragIn.pixPos + vec2(1.f)) * 0.5f /3.333333f; //FragIn.texCoord;
 	int count =0;
 	for(int i=0; i<=samples; ++i) {
 		
@@ -37,5 +38,5 @@ void main(void)
 	/*if(color.x != 0.0 || color.y != 0.0 || color.z != 0.0)
 		color.x = 0.5f;*/
 
-	out_Color = color.rrrr;
+	out_Color = color.rrra;//vec4(max(max(color.r, color.g), color.b));
 }
