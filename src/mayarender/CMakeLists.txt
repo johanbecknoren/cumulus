@@ -1,7 +1,5 @@
 # cumulusMaya #
 
-find_package(Maya 201200)
-
 if(WIN32)
 
 	set(MAYA_LIB_PATH
@@ -17,7 +15,8 @@ if(WIN32)
     set(PLATFORM_LINK_FLAGS
         "/export:initializePlugin /export:uninitializePlugin"
     )
-    set(PLATFORM_LIBS
+
+    set(MAYA_PLATFORM_LIBS
     	${MAYA_LIB_PATH}/Foundation.lib
     	${MAYA_LIB_PATH}/OpenMaya.lib
     	${MAYA_LIB_PATH}/OpenMayaUI.lib
@@ -25,6 +24,7 @@ if(WIN32)
     	${MAYA_LIB_PATH}/OpenMayaFX.lib
 	    ${MAYA_LIB_PATH}/OpenMayaRender.lib
 		${MAYA_LIB_PATH}/Image.lib
+
 		opengl32.lib
 		glu32.lib)
 endif(WIN32)
@@ -53,11 +53,11 @@ set_target_properties(cumulusMaya
 	SUFFIX ${PLATFORM_PLUGIN_EXTENSION}
 	LINK_FLAGS "${PLATFORM_LINK_FLAGS}")
 
-#f_create_glfw_executable(cumulusMaya
-#  ${SRCS}
-#  ${HEADERS})
-
 target_link_libraries(cumulusMaya
-  ${PLATFORM_LIBS}
+  ${MAYA_PLATFORM_LIBS}
   ${GLEW_LIBRARY}
+  ${GLFW_LIBRARY}
+  tinyobj
   cumulusCore)
+
+install(TARGETS cumulusMaya DESTINATION ${CMAKE_PLUGINDIR_BASE})
