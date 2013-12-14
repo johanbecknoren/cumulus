@@ -102,6 +102,7 @@ if(WIN32)
         PATH
             ${MAYA_LOCATION}
             $ENV{MAYA_LOCATION}
+            "E:/Program/Autodesk/Maya2014"
             "C:/Program Files/Autodesk/Maya2014-x64"
             "C:/Program Files/Autodesk/Maya2014"
             "C:/Autodesk/maya-2014x64"
@@ -147,7 +148,7 @@ find_path(MAYA_INCLUDE_DIR maya/MFn.h
     PATH_SUFFIXES
         ../../devkit/include/
         include/
-    DOC 
+    DOC  
         "Maya's devkit headers path"
 )
 
