@@ -34,10 +34,33 @@ void CoreGL::setVolumeData() {
 	for(unsigned int i=0; i<volume_.xdim(); ++i) {
 		for(unsigned int j=0; j<volume_.ydim(); ++j) {
 			for(unsigned int k=0; k<volume_.zdim(); ++k) {
-				volume_.setValueAt((float)rand()/((float)RAND_MAX), i,j,k);
+				volume_.setValueAt(1.f,i,j,k);//(float)rand()/((float)RAND_MAX), i,j,k);
 			}
 		}
 	}
+
+	std::cout<<"Volume max: "<<volume_.getMax()<<std::endl;
+
+	initVolumeTexture();
+}
+
+void CoreGL::initVolumeTexture() {
+	GLuint texId = 0;
+
+	glEnable(GL_TEXTURE_3D);
+
+	glGenTextures(0, &texId);
+	
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_3D, texId);
+	/*TexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);*/
+	/*glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);*/
+
+	glTexImage3D(GL_TEXTURE_3D, 0, GL_FLOAT, volume_.xdim(), volume_.ydim(), volume_.zdim(), 1, GL_FLOAT, GL_FLOAT, volume_.getData());
+
+	
 }
 
 void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
@@ -48,17 +71,23 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 	GLboolean transposed = GL_FALSE;
 
 	GLuint matrixLoc = glGetUniformLocation(id, "camTrans");
+
 	glUniformMatrix4fv(
 		matrixLoc, 1, 
 		transposed, glm::value_ptr(mvp));
+
 	objectLoader.drawModels();
 	printError("Core render");
+
+	glUseProgram(id);
+	glUniform1i(glGetUniformLocation(id, "volumeTex"), 0);
 
 	glUseProgram(id);
 
 	glUniformMatrix4fv(
 		matrixLoc, 1, 
 		transposed, glm::value_ptr(mvp));
+
 	glBegin(GL_QUADS);
 	glVertex3f(-1.0f,-1.0f, -1.0f);
 	glVertex3f( 1.0f,-1.0f, -1.0f);

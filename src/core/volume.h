@@ -10,6 +10,10 @@ public:
 	void setValueAt(float val, const unsigned int &x, const unsigned int &y, const unsigned int &z); // Assign voxel at (x,y,z) to val
 	float getValueAt(const unsigned int &x, const unsigned int &y, const unsigned int &z) const;
 	
+	float* getData() const { return data_; }
+
+	float getMax();
+
 	unsigned int xdim() { return xdim_; }
 	unsigned int ydim() { return ydim_; }
 	unsigned int zdim() { return zdim_; }

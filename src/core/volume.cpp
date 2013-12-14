@@ -32,3 +32,13 @@ float Volume::getValueAt(const unsigned int &x, const unsigned int &y, const uns
 unsigned int Volume::getIndexAt(const unsigned int &x, const unsigned int &y, const unsigned int &z) const {
 	return x + y*xdim_ + z*xdim_*ydim_;
 }
+
+float Volume::getMax() {
+	float retVal = FLT_MIN;
+	for(unsigned int i=0; i<xdim_*ydim_*zdim_; ++i) {
+		if(data_[i] > retVal)
+			retVal = data_[i];
+	}
+
+	return retVal;
+}
