@@ -15,7 +15,7 @@ if(WIN32)
     set(PLATFORM_LINK_FLAGS
         "/export:initializePlugin /export:uninitializePlugin"
     )
-    set(PLATFORM_LIBS
+    set(MAYA_PLATFORM_LIBS
     	${MAYA_LIB_PATH}Foundation.lib
     	${MAYA_LIB_PATH}OpenMaya.lib
     	${MAYA_LIB_PATH}OpenMayaUI.lib
@@ -41,7 +41,7 @@ include_directories(
 )
 
 message("${CMAKE_LIBRARY_PATH}")
-add_library(cumulusMaya SHARED
+add_library(cumulusMaya
 	${SRCS}
 	${HEADERS})
 
@@ -51,11 +51,11 @@ set_target_properties(cumulusMaya
 	SUFFIX ${PLATFORM_PLUGIN_EXTENSION}
 	LINK_FLAGS "${PLATFORM_LINK_FLAGS}")
 
-#f_create_glfw_executable(cumulusMaya
-#  ${SRCS}
-#  ${HEADERS})
-
 target_link_libraries(cumulusMaya
-  ${PLATFORM_LIBS}
+  ${MAYA_PLATFORM_LIBS}
   ${GLEW_LIBRARY}
+  ${GLFW_LIBRARY}
+  tinyobj
   cumulusCore)
+
+install(TARGETS cumulusMaya DESTINATION ${CMAKE_PLUGINDIR_BASE})

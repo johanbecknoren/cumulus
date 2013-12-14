@@ -10,6 +10,7 @@ file(GLOB SRCS *.cpp)
 
 include_directories(
   ${PROJECT_SOURCE_DIR}/core
+  ${PROJECT_SOURCE_DIR}/mayarender
   ${CMAKE_SOURCE_DIR}/externals/include
 )
 
@@ -19,4 +20,5 @@ f_create_glfw_executable(cumulusGL
 
 target_link_libraries(cumulusGL
   ${PLATFORM_LIBS}
-  cumulusCore)
+  cumulusCore
+	cumulusMaya)

@@ -70,11 +70,10 @@ endif()
 
 macro(f_create_glfw_executable target)
   add_executable(${target} ${ARGN})
-  message(${ARGN})
+
   if(UNIX)
     target_link_libraries(${target} ${CUMULUS_LIBRARIES} GL X11 m Xxf86vm Xrandr pthread Xi)
   else()
-    message("hej" ${CUMULUS_LIBRARIES})
     target_link_libraries(${target} ${CUMULUS_LIBRARIES})
   endif(UNIX)
 
