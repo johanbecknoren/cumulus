@@ -3,6 +3,8 @@
 
 #include "shadermanager.h"
 #include "objloader.h"
+#include "volume.h"
+#include "utils.h"
 #ifdef __USE_CORE_GL__
 #include "glincludes.h"
 #endif
@@ -16,6 +18,8 @@ public:
 	~CoreGL() {}
 	void render(glm::mat4 trans, glm::mat4 proj);
 	static void printError(const char *functionName);
+	void setVolumeData();
+	void initVolumeTexture();
 
 private:
 	void loadShaders();
@@ -24,6 +28,8 @@ private:
 
 	ShaderManager shaderManager;
 	ObjLoader objectLoader;
+
+	Volume volume_;
 };
 
 }

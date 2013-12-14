@@ -1,6 +1,10 @@
 #include "clouddrawoverride.h"
 #include "cloud_node.h"
 
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
+//#include <utils.h>
+
 #include <maya/MHWGeometryUtilities.h>
 #include <maya/MStateManager.h>
 #include <maya/MHWGeometryUtilities.h>
@@ -105,7 +109,7 @@ MUserData* CloudDrawOverride::prepareForDraw(
 	data->fColor[0] = color.r;
 	data->fColor[1] = color.g;
 	data->fColor[2] = color.b;
-
+//	data->core = core::CoreGL::creator("bunny.obj");
 	return data;
 }
 
@@ -261,7 +265,13 @@ void CloudDrawOverride::draw(const MHWRender::MDrawContext& context, const MUser
 		glMatrixMode(GL_PROJECTION);
 		glPushMatrix();
 		glLoadMatrixd(projection.matrix[0]);
-
+		//if (cloudData->core != NULL) 
+		{
+			
+	//		glm::mat4 tproj = core::carrToGlmM4(projection.matrix);
+		//	glm::mat4 ttrans = core::carrToGlmM4(transform.matrix);
+	//		cloudData->core->render(ttrans, tproj);
+		}
 		glColor3f(1, 0, 0);
  
 		glBegin(GL_QUADS);

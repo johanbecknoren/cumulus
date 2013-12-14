@@ -4,7 +4,7 @@
 #include <iostream>
 #include <stdlib.h> // Exit and status
 #include "cam.h"
-
+#include <test.h>
 //#include <glincludes.h>
 
 Camera *cam = NULL;
@@ -43,6 +43,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 	//	cam.applyMovement(Camera::DOWN);
 	//if (key == GLFW_KEY_Z && action == GLFW_PRESS)
 	//	cam.applyMovement(Camera::UP);
+	TestClass t = TestClass();
 }
 
 int main(int argc, char **argv) {
@@ -80,7 +81,7 @@ int main(int argc, char **argv) {
     std::string path = "bunny_small.obj";
     core::CoreGL *cloud = core::CoreGL::creator(path);
 	
-	cam = new Camera(window, 640, 480);
+	cam = new Camera(window, kWidth, kHeight);
 	glfwMakeContextCurrent(window);
 	float currentTime, lastTime = 0.0;
 	float deltaTime = 0.01f;

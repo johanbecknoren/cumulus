@@ -11,23 +11,23 @@
 #include <maya/MFrameContext.h>
 #include <maya/MDrawRegistry.h>
 
-#include <core/coregl.h>
+#include <coregl.h>
 
 class CloudData : public MUserData {
 public:
-	CloudData() : MUserData(false), core(NULL) {} // False - dont del after draw
+	CloudData() : MUserData(false)//, core(NULL) 
+	{} // False - dont del after draw
 	virtual ~CloudData() {}
 
 	MBoundingBox fCurrentBoundingBox;
 	float fMultiplier;
 	float fColor[3];
-	core::CoreGL *core;
+//	core::CoreGL *core;
 };
 
 class CloudDrawOverride : public MHWRender::MPxDrawOverride {
 public:
 	static MHWRender::MPxDrawOverride *Creator(const MObject &obj) {
-		cout << "Created draw override" << endl;
 		return new CloudDrawOverride(obj);
 	}
 	virtual ~CloudDrawOverride();
