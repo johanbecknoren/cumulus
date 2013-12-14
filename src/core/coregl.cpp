@@ -46,19 +46,39 @@ void CoreGL::setVolumeData() {
 
 void CoreGL::initVolumeTexture() {
 	GLuint texId = 0;
+	GLuint id = shaderManager.getId(ShaderManager::shaderId::BASIC);
 
 	glEnable(GL_TEXTURE_3D);
 
-	glGenTextures(0, &texId);
-	
-	glActiveTexture(GL_TEXTURE0);
+	glGenTextures(1, &texId);
 	glBindTexture(GL_TEXTURE_3D, texId);
-	/*TexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);*/
-	/*glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);*/
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
-	glTexImage3D(GL_TEXTURE_3D, 0, GL_FLOAT, volume_.xdim(), volume_.ydim(), volume_.zdim(), 1, GL_FLOAT, GL_FLOAT, volume_.getData());
+	// Textur-data i &volumeData
+	glTexImage3D(GL_TEXTURE_3D, 0, GL_RGB32F, volume_.xdim(), volume_.ydim(), volume_.zdim(), 0, GL_RGB, 
+		GL_FLOAT, volume_.getData());
+	
+
+	glUniform1i(glGetUniformLocation(id, "volumeData"), 0);
+	/*int samples = 256;
+	float stepSize = 1.0f/GLfloat(samples);
+	glUniform1i(glGetUniformLocation(volumeShader, "samples"), samples);
+	glUniform1f(glGetUniformLocation(volumeShader, "stepSize"), stepSize);*/
+	
+	//glGenTextures(0, &texId);
+	//
+	//glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_3D, texId);
+	///*TexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	//glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);*/
+	///*glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	//glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);*/
+
+	//glTexImage3D(GL_TEXTURE_3D, 0, GL_FLOAT, volume_.xdim(), volume_.ydim(), volume_.zdim(), 1, GL_FLOAT, GL_FLOAT, volume_.getData());
 
 	
 }
