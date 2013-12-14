@@ -30,6 +30,8 @@ endif (UNIX)
 
 #set(CMAKE_SUPPRESS_REGENERATION TRUE)
 
+find_package(Maya 201400)
+
 find_package(GLFW)
 if (GLFW_FOUND)
 	include_directories(

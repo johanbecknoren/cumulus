@@ -43,7 +43,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 	//	cam.applyMovement(Camera::DOWN);
 	//if (key == GLFW_KEY_Z && action == GLFW_PRESS)
 	//	cam.applyMovement(Camera::UP);
-	Test t = Test();
+	TestClass t = TestClass();
 }
 
 int main(int argc, char **argv) {

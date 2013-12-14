@@ -1,7 +1,5 @@
 # cumulusMaya #
 
-find_package(Maya 201200)
-
 if(WIN32)
 
 	set(MAYA_LIB_PATH
@@ -45,7 +43,7 @@ include_directories(
 )
 
 message("${CMAKE_LIBRARY_PATH}")
-add_library(cumulusMaya
+add_library(cumulusMaya SHARED
 	${SRCS}
 	${HEADERS})
 
