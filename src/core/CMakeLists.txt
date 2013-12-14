@@ -14,6 +14,10 @@ set_target_properties(cumulusCore PROPERTIES OUTPUT_NAME core CLEAN_DIRECT_OUTPU
 target_link_libraries(
   cumulusCore
   ${PLATFORM_LIBRARIES}
+  ${GLEW_LIBRARY}
+  ${GLFW_LIBRARY}
+  opengl32.lib
+	glu32.lib
   tinyobj)
 
 install(FILES ${CORE_HEADERS}
