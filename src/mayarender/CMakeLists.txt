@@ -1,9 +1,11 @@
 # cumulusMaya #
 
+find_package(Maya 201200)
+
 if(WIN32)
 
 	set(MAYA_LIB_PATH
-		"C:/Program Files/Autodesk/Maya2014/lib/")
+		${MAYA_LIBRARY_DIR})
     set(PLATFORM_COMPILE_FLAGS
         /DNT_PLUGIN
         /DREQUIRE_IOSTREAM
@@ -16,13 +18,13 @@ if(WIN32)
         "/export:initializePlugin /export:uninitializePlugin"
     )
     set(PLATFORM_LIBS
-    	${MAYA_LIB_PATH}Foundation.lib
-    	${MAYA_LIB_PATH}OpenMaya.lib
-    	${MAYA_LIB_PATH}OpenMayaUI.lib
-    	${MAYA_LIB_PATH}OpenMayaAnim.lib
-    	${MAYA_LIB_PATH}OpenMayaFX.lib
-	    ${MAYA_LIB_PATH}OpenMayaRender.lib
-		${MAYA_LIB_PATH}Image.lib
+    	${MAYA_LIB_PATH}/Foundation.lib
+    	${MAYA_LIB_PATH}/OpenMaya.lib
+    	${MAYA_LIB_PATH}/OpenMayaUI.lib
+    	${MAYA_LIB_PATH}/OpenMayaAnim.lib
+    	${MAYA_LIB_PATH}/OpenMayaFX.lib
+	    ${MAYA_LIB_PATH}/OpenMayaRender.lib
+		${MAYA_LIB_PATH}/Image.lib
 		opengl32.lib
 		glu32.lib)
 endif(WIN32)
@@ -37,7 +39,7 @@ file(GLOB SRCS *.cpp)
 include_directories(
   ${PROJECT_SOURCE_DIR}/core
   ${CMAKE_SOURCE_DIR}/externals/include
-  "C:/Program Files/Autodesk/Maya2014/include"
+  ${MAYA_INCLUDE_DIRS}
 )
 
 message("${CMAKE_LIBRARY_PATH}")
