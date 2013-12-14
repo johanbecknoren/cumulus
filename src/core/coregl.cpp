@@ -1,4 +1,5 @@
 #include "coregl.h"
+#include "volume.h"
 
 #include <iostream>
 #include <glm/gtc/type_ptr.hpp>
@@ -24,7 +25,19 @@ void CoreGL::loadShaders() {
 	shaderManager.loadShaders("basic.vert", "basic.frag", ShaderManager::shaderId::BASIC);
 }
 
-core::CoreGL::CoreGL() {
+core::CoreGL::CoreGL() : volume_(256,256,256) {
+	setVolumeData();
+}
+
+void CoreGL::setVolumeData() {
+
+	for(unsigned int i=0; i<volume_.xdim(); ++i) {
+		for(unsigned int j=0; j<volume_.ydim(); ++j) {
+			for(unsigned int k=0; k<volume_.zdim(); ++k) {
+				volume_.setValueAt((float)rand()/((float)RAND_MAX), i,j,k);
+			}
+		}
+	}
 }
 
 void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
