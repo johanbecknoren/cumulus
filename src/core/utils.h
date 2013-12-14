@@ -1,13 +1,18 @@
 
-const int kWidth = 640;
-const int kHeight = 480;
 
 #ifndef __UTILS_H__
 #define __UTILS_H__
 
-#include <glm/glm.hpp>
+//#include <glm/glm.hpp>
+
+const int kWidth = 640;
+const int kHeight = 480;
+/*
+#ifndef carrto
+#define carrto
 
 namespace core {
+
 
 glm::mat4 carrToGlmM4(const double cmat[][4]) {
 	glm::mat4 glmMat;
@@ -19,6 +24,11 @@ glm::mat4 carrToGlmM4(const double cmat[][4]) {
 	return glmMat;
 }
 
+
+
 }
+#endif
+
+*/
 
 #endif

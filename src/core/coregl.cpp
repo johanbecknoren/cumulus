@@ -31,12 +31,18 @@ core::CoreGL::CoreGL() : volume_(256,256,256) {
 
 void CoreGL::setVolumeData() {
 
-	for(unsigned int i=0; i<volume_.xdim(); ++i) {
+	/*for(unsigned int i=0; i<volume_.xdim(); ++i) {
 		for(unsigned int j=0; j<volume_.ydim(); ++j) {
 			for(unsigned int k=0; k<volume_.zdim(); ++k) {
 				volume_.setValueAt(1.f,i,j,k);//(float)rand()/((float)RAND_MAX), i,j,k);
 			}
 		}
+	}*/
+
+	for(size_t i=0; i<volume_.xdim()*volume_.ydim()*volume_.zdim(); i+=3) {
+		volume_.setValueAt(1.f, i);
+		volume_.setValueAt(1.f, i+1);
+		volume_.setValueAt(1.f, i+2);
 	}
 
 	std::cout<<"Volume max: "<<volume_.getMax()<<std::endl;

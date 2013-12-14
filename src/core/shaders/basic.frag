@@ -3,6 +3,7 @@
 in VertexData {
     vec3 normal;
     vec4 screen_space;
+    vec2 pixPos;
 } FragIn;
 
 uniform sampler3D volumeTex;
@@ -15,10 +16,12 @@ void main(void)
 	
 	vec2 normsscoord = FragIn.screen_space.xy*0.5 + 0.5;
 
-	color = texture(volumeTex , vec3(0.5,0.5,0.5));//vec3(normsscoord, 0.5f));
+	vec2 texCoord = (FragIn.pixPos + vec2(1.f)) * 0.5f;
+
+	color = texture(volumeTex , vec3(texCoord.x, texCoord.y, 0.3f)); //vec3(0.5,0.5,0.5));//vec3(normsscoord, 0.5f));
 
 	if(color.x != 0.0 || color.y != 0.0 || color.z != 0.0)
-		color.x = 1.0;
+		color.x = 0.5f;
 
 	out_Color = color;
 }

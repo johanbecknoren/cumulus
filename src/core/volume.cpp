@@ -6,7 +6,7 @@ Volume::Volume(unsigned int x, unsigned int y, unsigned int z) :
 	ydim_(y),
 	zdim_(z)
 {
-	data_ = new float[x*y*z]();
+	data_ = new GLfloat[x*y*z*3]();
 }
 
 // Assign voxel at (x,y,z) to val
@@ -17,6 +17,10 @@ void Volume::setValueAt(float val, const unsigned int &x, const unsigned int &y,
 		unsigned int id = getIndexAt(x,y,z);
 		data_[id] = val;
 	}
+}
+
+void Volume::setValueAt(float val, int i) {
+	data_[i] = val;
 }
 
 float Volume::getValueAt(const unsigned int &x, const unsigned int &y, const unsigned int &z) const {
