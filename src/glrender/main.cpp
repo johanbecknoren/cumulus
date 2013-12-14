@@ -4,8 +4,8 @@
 #include <iostream>
 #include <stdlib.h> // Exit and status
 #include "cam.h"
-#include <test.h>
-//#include <glincludes.h>
+#include <clouddrawoverride.h>
+#include <glincludes.h>
 
 Camera *cam = NULL;
 
@@ -43,7 +43,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 	//	cam.applyMovement(Camera::DOWN);
 	//if (key == GLFW_KEY_Z && action == GLFW_PRESS)
 	//	cam.applyMovement(Camera::UP);
-	TestClass t = TestClass();
+	CloudData data = CloudData();
 }
 
 int main(int argc, char **argv) {
@@ -99,7 +99,6 @@ int main(int argc, char **argv) {
 
 		cloud->render(cam->getModelView(), cam->getProjection());
     	// Keep running
-		//cam->print();
         glfwPollEvents();
     	glfwSwapBuffers(window);
 	}

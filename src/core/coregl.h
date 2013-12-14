@@ -3,6 +3,8 @@
 
 #include "shadermanager.h"
 #include "objloader.h"
+#include <glm/glm.hpp>
+#include <string>
 #ifdef __USE_CORE_GL__
 #include "glincludes.h"
 #endif
