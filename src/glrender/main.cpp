@@ -6,7 +6,7 @@
 #include "cam.h"
 #include <clouddrawoverride.h>
 #include <glincludes.h>
-
+#include <test.h>
 Camera *cam = NULL;
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -43,7 +43,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 	//	cam.applyMovement(Camera::DOWN);
 	//if (key == GLFW_KEY_Z && action == GLFW_PRESS)
 	//	cam.applyMovement(Camera::UP);
-	CloudData data = CloudData();
+	
 }
 
 int main(int argc, char **argv) {
@@ -78,13 +78,18 @@ int main(int argc, char **argv) {
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
+	core::CoreGL::printError("Obj load");
     std::string path = "bunny_small.obj";
     core::CoreGL *cloud = core::CoreGL::creator(path);
 	
-	cam = new Camera(window, 640, 480);
+	cam = new Camera(window, kWidth, kHeight);
 	glfwMakeContextCurrent(window);
 	float currentTime, lastTime = 0.0;
 	float deltaTime = 0.01f;
+	core::CoreGL::printError("MainGL");
+	TestClass c;
+	c.sm = core::ShaderManager();
+	c.sm.loadShaders("basic.vert", "basic.frag", core::ShaderManager::shaderId::BASIC);
 
 	while (!glfwWindowShouldClose(window))
 	{

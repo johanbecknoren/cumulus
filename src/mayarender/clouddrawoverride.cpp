@@ -109,7 +109,7 @@ MUserData* CloudDrawOverride::prepareForDraw(
 	data->fColor[0] = color.r;
 	data->fColor[1] = color.g;
 	data->fColor[2] = color.b;
-	data->core = core::CoreGL::creator("bunny.obj");
+//	data->core = core::CoreGL::creator("bunny.obj");
 	return data;
 }
 

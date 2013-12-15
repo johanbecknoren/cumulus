@@ -2,7 +2,11 @@
 
 if(GLEW_FOUND)
   include_directories(${GLEW_INCLUDE_DIR})
-  list(APPEND PLATFORM_LIBS ${GLEW_LIBRARY} ${GLFW_LIBRARY})
+  list(APPEND PLATFORM_LIBS 
+	${GLEW_LIBRARY} 
+	${GLFW_LIBRARY}
+	cumulusCore
+	cumulusMaya)
 endif()
 
 file(GLOB HEADERS *.h*)
@@ -28,7 +32,10 @@ f_create_glfw_executable(cumulusGL
   ${SRCS}
   ${HEADERS})
 
+foreach(MLIB ${PLATFORM_LIBS})
+	message("GL: ${MLIB}")
+endforeach()
+
 target_link_libraries(cumulusGL
 	${PLATFORM_LIBS}
-	cumulusCore
-	cumulusMaya)
+	)

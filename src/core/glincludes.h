@@ -5,9 +5,7 @@
 //#include <Windows.h>
 #endif
 
-//#ifndef __GL_H__
 #include <GL/glew.h>
-//#endif
 #include <GLFW/glfw3.h>
 
 #endif

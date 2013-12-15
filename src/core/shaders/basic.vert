@@ -8,13 +8,17 @@ uniform mat4 camTrans;
 
 out VertexData {
     vec3 normal;
+    vec4 screen_space;
+    vec2 pixPos;
 } VertexOut;
 
 void main(void)
 {
-    VertexOut.normal = in_Normal;
+	vec4 spacePos =  camTrans * vec4(in_Position, 1.0);
 
-    vec4 spacePos =  camTrans * vec4(in_Position, 1.0);
+    VertexOut.normal = in_Normal;
+    VertexOut.screen_space = spacePos / spacePos.w;
+    VertexOut.pixPos = vec2(in_Position);
 
     gl_Position = spacePos;
 }

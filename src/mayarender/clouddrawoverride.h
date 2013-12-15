@@ -23,6 +23,7 @@ public:
 	float fMultiplier;
 	float fColor[3];
 	core::CoreGL *core;
+
 };
 
 class CloudDrawOverride : public MHWRender::MPxDrawOverride {

@@ -76,6 +76,7 @@ GLuint ShaderManager::compileShaders(const char *vs, const char *fs, const char 
 {
 	GLuint v,f,g,p;
 	p = 0;
+	glewInit();
 	v = glCreateShader(GL_VERTEX_SHADER);
 	f = glCreateShader(GL_FRAGMENT_SHADER);
 	//glShaderSource(v, 1, &vs, NULL);

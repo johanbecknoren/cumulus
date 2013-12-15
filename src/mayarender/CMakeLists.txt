@@ -24,10 +24,17 @@ if(WIN32)
     	${MAYA_LIB_PATH}/OpenMayaFX.lib
 	    ${MAYA_LIB_PATH}/OpenMayaRender.lib
 		${MAYA_LIB_PATH}/Image.lib
-
+		  ${GLEW_LIBRARY}
+		${GLFW_LIBRARY}
+		tinyobj
+		cumulusCore
 		opengl32.lib
 		glu32.lib)
 endif(WIN32)
+
+foreach(MLIB ${MAYA_PLATFORM_LIBS})
+	message("Maya: ${MLIB}")
+endforeach()
 
 add_definitions(
     ${PLATFORM_COMPILE_FLAGS}
@@ -40,9 +47,10 @@ include_directories(
   ${PROJECT_SOURCE_DIR}/core
   ${CMAKE_SOURCE_DIR}/externals/include
   ${MAYA_INCLUDE_DIRS}
+  ${GLEW_INCLUDE_DIR}
+  ${GLFW_INCLUDE_DIR}
 )
 
-message("${CMAKE_LIBRARY_PATH}")
 add_library(cumulusMaya SHARED
 	${SRCS}
 	${HEADERS})
@@ -55,9 +63,6 @@ set_target_properties(cumulusMaya
 
 target_link_libraries(cumulusMaya
   ${MAYA_PLATFORM_LIBS}
-  ${GLEW_LIBRARY}
-  ${GLFW_LIBRARY}
-  tinyobj
-  cumulusCore)
+)
 
 install(TARGETS cumulusMaya DESTINATION ${CMAKE_PLUGINDIR_BASE})
