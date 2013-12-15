@@ -1,12 +1,14 @@
-#ifndef __MAYA_TESTER_H__
-#define __MAYA_TESTER_H__
+#ifndef __TEST_MGL_H__
+#define __TEST_MGL_H__
 
-#include <maya/MPxDrawOverride.h>
+#include <shadermanager.h>
 
-class TestClass{
+class TestClass {
+private:
+
 public:
-	TestClass(){};
-	~TestClass(){};
+	TestClass() { };
+	core::ShaderManager sm;
 };
 
 #endif

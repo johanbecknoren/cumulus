@@ -1,6 +1,9 @@
 #include "volume.h"
 #include <stdexcept>
-
+//#ifndef __GL_H__
+#include <GL/glew.h>
+//#endif
+#include <GLFW/glfw3.h>
 Volume::Volume(unsigned int x, unsigned int y, unsigned int z) : 
 	xdim_(x),
 	ydim_(y),

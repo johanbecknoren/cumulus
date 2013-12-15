@@ -5,7 +5,6 @@
 #include <iostream>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <GL/glew.h>
 #ifndef __USE_CORE_GL__
 #include "glincludes.h"
 #endif
@@ -112,34 +111,34 @@ void CoreGL::initVolumeTexture() {
 void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 	glm::mat4 mvp = proj * trans;
 
-	GLuint id = shaderManager.getId(ShaderManager::shaderId::BASIC);
-	glUseProgram(id);
-	GLboolean transposed = GL_FALSE;
+	//GLuint id = shaderManager.getId(ShaderManager::shaderId::BASIC);
+	//glUseProgram(id);
+	//GLboolean transposed = GL_FALSE;
 
-	GLuint matrixLoc = glGetUniformLocation(id, "camTrans");
+	//GLuint matrixLoc = glGetUniformLocation(id, "camTrans");
 
-	glUniformMatrix4fv(
-		matrixLoc, 1, 
-		transposed, glm::value_ptr(mvp));
+	//glUniformMatrix4fv(
+	//	matrixLoc, 1, 
+	//	transposed, glm::value_ptr(mvp));
 
-	objectLoader.drawModels();
-	printError("Core render");
+	//objectLoader.drawModels();
+	//printError("Core render");
 
-	glUseProgram(id);
-	glUniform1i(glGetUniformLocation(id, "volumeTex"), 0);
+	//glUseProgram(id);
+	//glUniform1i(glGetUniformLocation(id, "volumeTex"), 0);
 
-	glUseProgram(id);
+	//glUseProgram(id);
 
-	glUniformMatrix4fv(
-		matrixLoc, 1, 
-		transposed, glm::value_ptr(mvp));
+	//glUniformMatrix4fv(
+	//	matrixLoc, 1, 
+	//	transposed, glm::value_ptr(mvp));
 
-	glBegin(GL_QUADS);
-	glVertex3f(-1.0f,-1.0f, -1.0f);
-	glVertex3f( 1.0f,-1.0f, -1.0f);
-	glVertex3f( 1.0f, 1.0f, -1.0f);
-	glVertex3f(-1.0f, 1.0f, -1.0f);
-	glEnd();
+	//glBegin(GL_QUADS);
+	//glVertex3f(-1.0f,-1.0f, -1.0f);
+	//glVertex3f( 1.0f,-1.0f, -1.0f);
+	//glVertex3f( 1.0f, 1.0f, -1.0f);
+	//glVertex3f(-1.0f, 1.0f, -1.0f);
+	//glEnd();
 }
 
 core::CoreGL *core::CoreGL::creator(std::string path) {
@@ -149,11 +148,12 @@ core::CoreGL *core::CoreGL::creator(std::string path) {
 }
 
 void core::CoreGL::initialize(std::string path) {
+	printError("Pre Load");
     std::cout << "Loading object " << path.c_str() << std::endl;
 	loadShaders();
 	printError("Load Shaders");
-	objectLoader = ObjLoader();
-	objectLoader.loadObj(path, shaderManager.getId(ShaderManager::shaderId::BASIC));
+	//objectLoader = ObjLoader();
+	//objectLoader.loadObj(path, shaderManager.getId(ShaderManager::shaderId::BASIC));
 	printError("LoadObj");
 	std::cout << "Loading done.\n";
 }

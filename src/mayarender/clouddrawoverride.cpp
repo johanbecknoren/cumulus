@@ -3,7 +3,7 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
-//#include <utils.h>
+#include <utils.h>
 
 #include <maya/MHWGeometryUtilities.h>
 #include <maya/MStateManager.h>
@@ -254,6 +254,15 @@ void CloudDrawOverride::draw(const MHWRender::MDrawContext& context, const MUser
 	// GL Draw
 	if (theRenderer->drawAPIIsOpenGL())
 	{
+
+		//if (cloudData->core != NULL) 
+		{
+			
+			//glm::mat4 tproj = core::carrToGlmM4(projection.matrix);
+			//glm::mat4 ttrans = core::carrToGlmM4(transform.matrix);
+			//cloudData->core->render(ttrans, tproj);
+		}
+
 		// set colour
 		glColor4fv(color);
 		// set world matrix
@@ -265,21 +274,15 @@ void CloudDrawOverride::draw(const MHWRender::MDrawContext& context, const MUser
 		glMatrixMode(GL_PROJECTION);
 		glPushMatrix();
 		glLoadMatrixd(projection.matrix[0]);
-		//if (cloudData->core != NULL) 
-		{
-			
-	//		glm::mat4 tproj = core::carrToGlmM4(projection.matrix);
-		//	glm::mat4 ttrans = core::carrToGlmM4(transform.matrix);
-	//		cloudData->core->render(ttrans, tproj);
-		}
+
 		glColor3f(1, 0, 0);
  
-		glBegin(GL_QUADS);
-		glVertex3f(-0.5, 0.0, -0.5);
-		glVertex3f(0.5, 0.0, -0.5);
-		glVertex3f(0.5, 0.0, 0.5);
-		glVertex3f(-0.5, 0.0, 0.5);
-		glEnd();
+		//glBegin(GL_QUADS);
+		//glVertex3f(-0.5, 0.0, -0.5);
+		//glVertex3f(0.5, 0.0, -0.5);
+		//glVertex3f(0.5, 0.0, 0.5);
+		//glVertex3f(-0.5, 0.0, 0.5);
+		//glEnd();
 
 		glPopMatrix();
 		glMatrixMode(GL_MODELVIEW);
