@@ -1,9 +1,9 @@
 #ifndef VOLUME_H
 #define VOLUME_H
 //#ifndef __GL_H__
-#include <GL/glew.h>
+//#include <GL/glew.h>
 //#endif
-#include <GLFW/glfw3.h>
+//#include <GLFW/glfw3.h>
 
 class Volume {
 public:

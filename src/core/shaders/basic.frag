@@ -39,5 +39,5 @@ void main(void)
 	/*if(color.x != 0.0 || color.y != 0.0 || color.z != 0.0)
 		color.x = 0.5f;*/
 
-	out_Color = color.rrra;//vec4(max(max(color.r, color.g), color.b));
+	out_Color = 0.5f;//color.rrra;//vec4(max(max(color.r, color.g), color.b));
 }

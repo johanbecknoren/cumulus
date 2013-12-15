@@ -69,7 +69,7 @@ void CoreGL::setVolumeData() {
 				snoice_mid = 0.5f + 0.5f * snoise3(float(i)*mid_fact,float(j)*mid_fact,float(k)*mid_fact);
 				snoice_low = 0.5f + 0.5f * snoise3(float(i)*low_fact,float(j)*low_fact,float(k)*low_fact);
 				snoice = 0.6f*snoice_low + 0.2f*snoice_mid + 0.2f*snoice_mid;
-				volume_.setValueAt(snoice,i,j,k);
+				volume_.setValueAt(0.5f,i,j,k);
 			}
 		}
 	}
