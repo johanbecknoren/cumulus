@@ -39,7 +39,7 @@ float Volume::getValueAt(const unsigned int &x, const unsigned int &y, const uns
 
 // Return linear index for (x,y,z)
 unsigned int Volume::getIndexAt(const unsigned int &x, const unsigned int &y, const unsigned int &z) const {
-	return x + y*xdim_ + z*xdim_*ydim_;
+	return 3*x + 3*y*xdim_ + 3*z*xdim_*ydim_;
 }
 
 float Volume::getMax() {

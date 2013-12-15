@@ -79,30 +79,30 @@ GLuint ShaderManager::compileShaders(const char *vs, const char *fs, const char 
 	glewInit();
 	v = glCreateShader(GL_VERTEX_SHADER);
 	f = glCreateShader(GL_FRAGMENT_SHADER);
-	//glShaderSource(v, 1, &vs, NULL);
-	//glShaderSource(f, 1, &fs, NULL);
-	//glCompileShader(v);
-	//glCompileShader(f);
-	//if (gs != NULL)
-	//{
-	//	g = glCreateShader(GL_GEOMETRY_SHADER);
-	//	glShaderSource(g, 1, &gs, NULL);
-	//	glCompileShader(g);
-	//}
-	//
-	//p = glCreateProgram();
-	//glAttachShader(p,v);
-	//glAttachShader(p,f);
-	//if (gs != NULL)
-	//	glAttachShader(p,g);
-	//glLinkProgram(p);
-	//glUseProgram(p);
-	//
-	//printShaderInfoLog(v, vfn);
-	//printShaderInfoLog(f, ffn);
-	//if (gs != NULL)	printShaderInfoLog(g, gfn);
-	//
-	//printProgramInfoLog(p, vfn, ffn, gfn);
+	glShaderSource(v, 1, &vs, NULL);
+	glShaderSource(f, 1, &fs, NULL);
+	glCompileShader(v);
+	glCompileShader(f);
+	if (gs != NULL)
+	{
+		g = glCreateShader(GL_GEOMETRY_SHADER);
+		glShaderSource(g, 1, &gs, NULL);
+		glCompileShader(g);
+	}
+
+	p = glCreateProgram();
+	glAttachShader(p,v);
+	glAttachShader(p,f);
+	if (gs != NULL)
+		glAttachShader(p,g);
+	glLinkProgram(p);
+	glUseProgram(p);
+
+	printShaderInfoLog(v, vfn);
+	printShaderInfoLog(f, ffn);
+	if (gs != NULL)	printShaderInfoLog(g, gfn);
+
+	printProgramInfoLog(p, vfn, ffn, gfn);
 
 	return p;
 }
@@ -114,7 +114,7 @@ GLuint ShaderManager::getId(shaderId id) {
 bool ShaderManager::loadShaders(std::string vertFileName, std::string fragFileName, shaderId id)
 {
 	GLuint sid = loadShaderG(fixPath(vertFileName).c_str(), fixPath(fragFileName).c_str(), NULL);
-	//shaders[id] = sid;
+	shaders[id] = sid;
 	return true;
 }
 std::string ShaderManager::fixPath(std::string localPath) {
@@ -148,18 +148,18 @@ GLuint ShaderManager::loadShaderG(const char *vertFileName, const char *fragFile
         gs = readFile((char *)geomFileName);
     else
         gs = NULL;
-	//if (vs==NULL)
-	//	printf("Failed to read %s from disk.\n", vertFileName);
-	//if (fs==NULL)
-	//	printf("Failed to read %s from disk.\n", fragFileName);
-	//if ((gs==NULL) && (geomFileName != NULL))
-		//printf("Failed to read %s from disk.\n", geomFileName);
+	if (vs==NULL)
+		printf("Failed to read %s from disk.\n", vertFileName);
+	if (fs==NULL)
+		printf("Failed to read %s from disk.\n", fragFileName);
+	if ((gs==NULL) && (geomFileName != NULL))
+		printf("Failed to read %s from disk.\n", geomFileName);
 	if ((vs!=NULL)&&(fs!=NULL))
 		p = compileShaders(vs, fs, gs, vertFileName, fragFileName, geomFileName);
-	//if (vs != NULL) free(vs);
-	//if (fs != NULL) free(fs);
-	//if (gs != NULL) free(gs);
-	//printf("Shader loaded with id %i \n", p);
+	if (vs != NULL) free(vs);
+	if (fs != NULL) free(fs);
+	if (gs != NULL) free(gs);
+	printf("Shader loaded with id %i \n", p);
 	return p;
 }
 } //namespace core
