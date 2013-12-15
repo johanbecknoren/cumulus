@@ -51,7 +51,7 @@ int main(int argc, char **argv) {
 		exit(EXIT_FAILURE);
 	}
 	
-	GLFWwindow* window = glfwCreateWindow(640, 480, "Cumulus", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(kWidth, kHeight, "Cumulus", NULL, NULL);
 	
 	glfwSetKeyCallback(window, key_callback);
 	glfwMakeContextCurrent(window);

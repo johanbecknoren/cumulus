@@ -58,9 +58,9 @@ void CoreGL::setVolumeData() {
 		volume_.setValueAt((float)rand()/((float)RAND_MAX), i+2);
 	}*/
 
-	float high_fact = 12.f/255.f;
-	float mid_fact = 4.f/255.f;
-	float low_fact = 1.f/255.f;
+	float high_fact = 30.f/255.f;
+	float mid_fact = 12.f/255.f;
+	float low_fact = 4.f/255.f;
 
 	/*for(unsigned int i=0; i<volume_.xdim(); i++) {
 		for(unsigned int j=0; j<volume_.ydim(); ++j) {
@@ -92,16 +92,16 @@ void CoreGL::setVolumeData() {
 				snoice_high = 0.5f + 0.5f * snoise3(float(i)*high_fact,float(j)*high_fact,float(k)*high_fact);
 				snoice_mid = 0.5f + 0.5f * snoise3(float(i)*mid_fact,float(j)*mid_fact,float(k)*mid_fact);
 				snoice_low = 0.5f + 0.5f * snoise3(float(i)*low_fact,float(j)*low_fact,float(k)*low_fact);
-				snoice = 0.6f*snoice_low + 0.2f*snoice_mid + 0.2f*snoice_mid;
+				snoice = 0.4f*snoice_low + 0.3f*snoice_mid + 0.3f*snoice_mid;
 
-				if(snoice_high > snoice_max)
-					snoice_max = snoice_high;
+				if(snoice > snoice_max)
+					snoice_max = snoice;
 
-				float sign = radius - (dist+0.05*snoice_high);
+				float sign = radius - (dist+0.1*snoice);
 				//val = glm::clamp(sign, 0.0f, 1.0f);
 				sign = glm::max(sign, 0.0f);
 				if(sign > 0.00001f) {
-					sign = 1.f;
+					//sign = 1.f;
 				}
 
 				val = sign;
@@ -146,6 +146,8 @@ void CoreGL::initVolumeTexture() {
 	glUniform1i(glGetUniformLocation(id, "volumeData"), 0);
 	glUniform1i(glGetUniformLocation(id, "samples"), samples);
 	glUniform1f(glGetUniformLocation(id, "stepSize"), stepSize);
+	glUniform1i(glGetUniformLocation(id, "screen_width"), kWidth);
+	glUniform1i(glGetUniformLocation(id, "screen_height"), kHeight);
 	printError("Init Volume Texture");
 	
 }

@@ -10,6 +10,8 @@ in VertexData {
 uniform sampler3D volumeTex;
 uniform int samples;
 uniform float stepSize;
+uniform int screen_width;
+uniform int screen_height;
 
 out vec4 out_Color;
 
