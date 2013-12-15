@@ -1,5 +1,6 @@
 #include "coregl.h"
 #include "volume.h"
+#include "simplexnoise1234.h"
 
 #include <iostream>
 #include <glm/gtc/type_ptr.hpp>
@@ -38,10 +39,39 @@ void CoreGL::setVolumeData() {
 		}
 	}*/
 
-	for(size_t i=0; i<volume_.xdim()*volume_.ydim()*volume_.zdim(); i+=3) {
-		volume_.setValueAt(1.f, i);
+	// Write simplex noise instead of rand here
+	float snoice_high = 0.f;
+	float snoice_mid = 0.f;
+	float snoice_low = 0.f;
+	float snoice = 0.f;
+
+
+	/*for(size_t i=0; i<volume_.xdim()*volume_.ydim()*volume_.zdim(); i+=3) {
+		volume_.setValueAt(0.f, i);
 		volume_.setValueAt(1.f, i+1);
 		volume_.setValueAt(1.f, i+2);
+	}*/
+
+	/*for(size_t i=0; i<volume_.xdim()*volume_.ydim()*volume_.zdim(); i+=3) {
+		volume_.setValueAt((float)rand()/((float)RAND_MAX), i);
+		volume_.setValueAt((float)rand()/((float)RAND_MAX), i+1);
+		volume_.setValueAt((float)rand()/((float)RAND_MAX), i+2);
+	}*/
+
+	float high_fact = 12.f/255.f;
+	float mid_fact = 4.f/255.f;
+	float low_fact = 1.f/255.f;
+
+	for(unsigned int i=0; i<volume_.xdim()*3; i+=3) {
+		for(unsigned int j=0; j<volume_.ydim(); ++j) {
+			for(unsigned int k=0; k<volume_.zdim(); ++k) {
+				snoice_high = 0.5f + 0.5f * snoise3(float(i)*high_fact,float(j)*high_fact,float(k)*high_fact);
+				snoice_mid = 0.5f + 0.5f * snoise3(float(i)*mid_fact,float(j)*mid_fact,float(k)*mid_fact);
+				snoice_low = 0.5f + 0.5f * snoise3(float(i)*low_fact,float(j)*low_fact,float(k)*low_fact);
+				snoice = 0.6f*snoice_low + 0.2f*snoice_mid + 0.2f*snoice_mid;
+				volume_.setValueAt(snoice,i,j,k);
+			}
+		}
 	}
 
 	std::cout<<"Volume max: "<<volume_.getMax()<<std::endl;
@@ -62,29 +92,19 @@ void CoreGL::initVolumeTexture() {
 	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	/*glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);*/
 
 	// Textur-data i &volumeData
 	glTexImage3D(GL_TEXTURE_3D, 0, GL_RGB32F, volume_.xdim(), volume_.ydim(), volume_.zdim(), 0, GL_RGB, 
 		GL_FLOAT, volume_.getData());
 	
-
-	glUniform1i(glGetUniformLocation(id, "volumeData"), 0);
-	/*int samples = 256;
+	int samples = 256;
 	float stepSize = 1.0f/GLfloat(samples);
-	glUniform1i(glGetUniformLocation(volumeShader, "samples"), samples);
-	glUniform1f(glGetUniformLocation(volumeShader, "stepSize"), stepSize);*/
-	
-	//glGenTextures(0, &texId);
-	//
-	//glActiveTexture(GL_TEXTURE0);
-	//glBindTexture(GL_TEXTURE_3D, texId);
-	///*TexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	//glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);*/
-	///*glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	//glTexParameterf(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);*/
-
-	//glTexImage3D(GL_TEXTURE_3D, 0, GL_FLOAT, volume_.xdim(), volume_.ydim(), volume_.zdim(), 1, GL_FLOAT, GL_FLOAT, volume_.getData());
-
+	glUniform1i(glGetUniformLocation(id, "volumeData"), 0);
+	glUniform1i(glGetUniformLocation(id, "samples"), samples);
+	glUniform1f(glGetUniformLocation(id, "stepSize"), stepSize);
 	
 }
 
