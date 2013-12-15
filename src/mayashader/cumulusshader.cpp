@@ -24,7 +24,7 @@
 #include <maya/MFloatVector.h>
 #include <maya/MFloatPoint.h>
 #include <maya/MFnPlugin.h>
-
+#include <coregl.h>
 #define PI                  3.14159265358979323846
 
 #ifdef FLOOR
@@ -59,34 +59,22 @@ class Flame3D : public MPxNode
 	private:
 
 	// Input attributes
-    static MObject  aColorBase;
     static MObject  aColorFlame;
-    static MObject  aRiseSpeed;
-    static MObject  aFlickerSpeed;
-    static MObject  aFlickerDeform;
-    static MObject  aFlamePow;
-    static MObject  aFlameFrame;
-    static MObject  aRiseAxis;
     static MObject  aPlaceMat;
     static MObject  aPointWorld;
 
 	// Output attributes
     static MObject  aOutAlpha;
     static MObject  aOutColor;
+	core::CoreGL *vol;
 };
 
 // Static data
 MTypeId Flame3D::id(0x81016);
 
 // Attributes
-MObject  Flame3D::aColorBase;
 MObject  Flame3D::aColorFlame;
-MObject  Flame3D::aRiseSpeed;
-MObject  Flame3D::aFlickerSpeed;
-MObject  Flame3D::aFlickerDeform;
-MObject  Flame3D::aFlamePow;
-MObject  Flame3D::aFlameFrame;
-MObject  Flame3D::aRiseAxis;
+
 MObject  Flame3D::aPointWorld;
 MObject  Flame3D::aPlaceMat;
 
@@ -116,7 +104,7 @@ void Flame3D::postConstructor( )
 //
 // DESCRIPTION:
 ///////////////////////////////////////////////////////
-Flame3D::Flame3D()
+Flame3D::Flame3D() : vol(core::CoreGL::creator(""))
 {
 }
 
@@ -144,42 +132,6 @@ MStatus Flame3D::initialize()
     MFnNumericAttribute nAttr; 
 
 	// Create input attributes
-    aRiseSpeed = nAttr.create( "Rise", "rs", MFnNumericData::kFloat);
-	MAKE_INPUT(nAttr);
-    CHECK_MSTATUS(nAttr.setDefault(0.1f));
-    CHECK_MSTATUS(nAttr.setMin(0.0f));
-    CHECK_MSTATUS(nAttr.setMax(1.0f));
-
-    aFlickerSpeed = nAttr.create( "Speed", "s", MFnNumericData::kFloat);
-	MAKE_INPUT(nAttr);
-    CHECK_MSTATUS(nAttr.setDefault(0.1f));
-    CHECK_MSTATUS(nAttr.setMin(0.0f));
-    CHECK_MSTATUS(nAttr.setMax(1.0f));
-
-    aFlickerDeform = nAttr.create( "Flicker", "f", MFnNumericData::kFloat);
-	MAKE_INPUT(nAttr);
-    CHECK_MSTATUS(nAttr.setDefault(0.5f));
-    CHECK_MSTATUS(nAttr.setMin(0.0f));
-    CHECK_MSTATUS(nAttr.setMax(1.0f));
-
-    aFlamePow = nAttr.create( "Power", "pow", MFnNumericData::kFloat);
-	MAKE_INPUT(nAttr);
-    CHECK_MSTATUS(nAttr.setDefault(1.0f));
-    CHECK_MSTATUS(nAttr.setMin(0.0f));
-    CHECK_MSTATUS(nAttr.setMax(1.0f));
-
-    aFlameFrame = nAttr.create( "Frame", "fr", MFnNumericData::kFloat);
-	MAKE_INPUT(nAttr);
-    CHECK_MSTATUS(nAttr.setDefault(1.0f));
-    CHECK_MSTATUS(nAttr.setMin(0.0f));
-    CHECK_MSTATUS(nAttr.setMax(1000.0f));
-
-    aRiseAxis = nAttr.createPoint( "Axis", "a");
-	MAKE_INPUT(nAttr);
-    CHECK_MSTATUS(nAttr.setDefault(0., 1., 0.));
-
-    aColorBase = nAttr.createColor("ColorBase", "cg");
-	MAKE_INPUT(nAttr);
 
     aColorFlame = nAttr.createColor("ColorFlame", "cb");
 	MAKE_INPUT(nAttr);
@@ -202,14 +154,7 @@ MStatus Flame3D::initialize()
 	MAKE_OUTPUT(nAttr);
 
 	// Add the attributes here
-    CHECK_MSTATUS(addAttribute(aColorBase));
     CHECK_MSTATUS(addAttribute(aColorFlame));
-    CHECK_MSTATUS(addAttribute(aRiseSpeed));
-    CHECK_MSTATUS(addAttribute(aFlickerSpeed));
-    CHECK_MSTATUS(addAttribute(aFlickerDeform));
-    CHECK_MSTATUS(addAttribute(aFlamePow));
-    CHECK_MSTATUS(addAttribute(aFlameFrame));
-    CHECK_MSTATUS(addAttribute(aRiseAxis));
     CHECK_MSTATUS(addAttribute(aPointWorld));
     CHECK_MSTATUS(addAttribute(aPlaceMat));
 
@@ -217,36 +162,17 @@ MStatus Flame3D::initialize()
     CHECK_MSTATUS(addAttribute(aOutColor));
 
     // All input affect the output color and alpha
-    CHECK_MSTATUS(attributeAffects (aColorBase, aOutColor));
-    CHECK_MSTATUS(attributeAffects(aColorBase, aOutAlpha));
 
     CHECK_MSTATUS(attributeAffects (aColorFlame, aOutColor));
     CHECK_MSTATUS(attributeAffects(aColorFlame, aOutAlpha));
 
-    CHECK_MSTATUS(attributeAffects(aRiseSpeed, aOutColor));
-    CHECK_MSTATUS(attributeAffects(aRiseSpeed, aOutAlpha));
-
-    CHECK_MSTATUS(attributeAffects(aFlickerSpeed, aOutColor));
-    CHECK_MSTATUS(attributeAffects(aFlickerSpeed, aOutAlpha));
-
-    CHECK_MSTATUS(attributeAffects(aFlickerDeform, aOutColor));
-    CHECK_MSTATUS(attributeAffects(aFlickerDeform, aOutAlpha));
-
-    CHECK_MSTATUS(attributeAffects(aFlamePow, aOutColor));
-    CHECK_MSTATUS(attributeAffects(aFlamePow, aOutAlpha));
-
-    CHECK_MSTATUS(attributeAffects(aFlameFrame, aOutColor));
-    CHECK_MSTATUS(attributeAffects(aFlameFrame, aOutAlpha));
-
-    CHECK_MSTATUS(attributeAffects(aRiseAxis, aOutColor));
-    CHECK_MSTATUS(attributeAffects(aRiseAxis, aOutAlpha));
 
     CHECK_MSTATUS(attributeAffects(aPointWorld, aOutColor));
     CHECK_MSTATUS(attributeAffects (aPointWorld, aOutAlpha));
 
     CHECK_MSTATUS(attributeAffects(aPlaceMat, aOutColor));
     CHECK_MSTATUS(attributeAffects(aPlaceMat, aOutAlpha));
-
+	
     return MS::kSuccess;
 }
 
@@ -266,23 +192,18 @@ MStatus Flame3D::compute(const MPlug& plug, MDataBlock& block)
 
 	float3 & worldPos = block.inputValue( aPointWorld).asFloat3();
     const MFloatMatrix& mat = block.inputValue(aPlaceMat).asFloatMatrix();
-    const MFloatVector& cBase = block.inputValue(aColorBase).asFloatVector();
     const MFloatVector& cFlame=block.inputValue(aColorFlame).asFloatVector();
-    const MFloatVector& axis = block.inputValue( aRiseAxis ).asFloatVector();
-    const float rise_speed = block.inputValue( aRiseSpeed ).asFloat();
-    const float flicker_speed = block.inputValue( aFlickerSpeed ).asFloat();
-    const float dscale = block.inputValue( aFlickerDeform ).asFloat();
-    const float frame = block.inputValue( aFlameFrame ).asFloat();
-    const float power = block.inputValue( aFlamePow ).asFloat();
     
 	MFloatPoint q(worldPos[0], worldPos[1], worldPos[2]);
 	q *= mat;								// Convert into solid space
 
 	// Offset texture coord along the RiseAxis
-    
+	
 
     MFloatVector resultColor;
-
+	vol->getDensityAtVoxel((unsigned int) q.x, 
+		(unsigned int) q.y, 
+		(unsigned int) q.z);
 	resultColor = cFlame;
 
 

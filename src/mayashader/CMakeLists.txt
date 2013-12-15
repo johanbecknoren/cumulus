@@ -24,6 +24,7 @@ if(WIN32)
     	${MAYA_LIB_PATH}/OpenMayaFX.lib
 	    ${MAYA_LIB_PATH}/OpenMayaRender.lib
 		${MAYA_LIB_PATH}/Image.lib
+		cumulusCore
 		  )
 endif(WIN32)
 
