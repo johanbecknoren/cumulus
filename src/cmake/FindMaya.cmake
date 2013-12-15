@@ -103,6 +103,7 @@ if(WIN32)
             ${MAYA_LOCATION}
             $ENV{MAYA_LOCATION}
             "E:/Program/Autodesk/Maya2014"
+            "G:/Program/Autodesk/Maya2014"
             "C:/Program Files/Autodesk/Maya2014-x64"
             "C:/Program Files/Autodesk/Maya2014"
             "C:/Autodesk/maya-2014x64"

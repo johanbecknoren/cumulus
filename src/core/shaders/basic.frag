@@ -15,6 +15,7 @@ out vec4 out_Color;
 
 void main(void)
 {
+
 	vec4 color = vec4(0.f);
 	
 	//vec2 normsscoord = FragIn.screen_space.xy*0.5 + 0.5;
@@ -38,5 +39,5 @@ void main(void)
 	/*if(color.x != 0.0 || color.y != 0.0 || color.z != 0.0)
 		color.x = 0.5f;*/
 
-	out_Color = color.rrra;//vec4(max(max(color.r, color.g), color.b));
+	out_Color = 0.5f;//color.rrra;//vec4(max(max(color.r, color.g), color.b));
 }
