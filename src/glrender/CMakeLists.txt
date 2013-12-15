@@ -5,8 +5,7 @@ if(GLEW_FOUND)
   list(APPEND PLATFORM_LIBS 
 	${GLEW_LIBRARY} 
 	${GLFW_LIBRARY}
-	cumulusCore
-	cumulusMaya)
+	cumulusCore)
 endif()
 
 file(GLOB HEADERS *.h*)
@@ -14,7 +13,6 @@ file(GLOB SRCS *.cpp)
 
 include_directories(
   ${PROJECT_SOURCE_DIR}/core
-  ${PROJECT_SOURCE_DIR}/mayarender
   ${CMAKE_SOURCE_DIR}/externals/include
   ${MAYA_INCLUDE_DIRS}
 )

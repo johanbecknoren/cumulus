@@ -4,9 +4,8 @@
 #include <iostream>
 #include <stdlib.h> // Exit and status
 #include "cam.h"
-#include <clouddrawoverride.h>
 #include <glincludes.h>
-#include <test.h>
+
 Camera *cam = NULL;
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -87,9 +86,6 @@ int main(int argc, char **argv) {
 	float currentTime, lastTime = 0.0;
 	float deltaTime = 0.01f;
 	core::CoreGL::printError("MainGL");
-	TestClass c;
-	c.sm = core::ShaderManager();
-	c.sm.loadShaders("basic.vert", "basic.frag", core::ShaderManager::shaderId::BASIC);
 
 	while (!glfwWindowShouldClose(window))
 	{
