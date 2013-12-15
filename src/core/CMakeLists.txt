@@ -1,7 +1,7 @@
 # cumulusCore #
 
 file(GLOB CORE_HEADERS [a-z]*.h*)
-file(GLOB CORE_SRCS [a-z]*.cpp)
+file(GLOB CORE_SRCS [a-z]*.c*)
 
 include_directories(
   ${CMAKE_SOURCE_DIR}/externals/include

@@ -38,6 +38,7 @@
  */
 
 
+
 // We don't need to include this. It does no harm, but no use either.
 #include	"simplexnoise1234.h"
 
