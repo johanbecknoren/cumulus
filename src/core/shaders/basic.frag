@@ -10,6 +10,8 @@ in VertexData {
 uniform sampler3D volumeTex;
 uniform int samples;
 uniform float stepSize;
+uniform int screen_width;
+uniform int screen_height;
 
 out vec4 out_Color;
 
@@ -20,13 +22,13 @@ void main(void)
 	
 	//vec2 normsscoord = FragIn.screen_space.xy*0.5 + 0.5;
 
-	vec2 texCoord = (FragIn.pixPos + vec2(1.f)) * 0.5f /3.333333f; //FragIn.texCoord;
+	vec2 texCoord = (FragIn.pixPos + vec2(1.f)) * 0.5f;// / 3.333333f; //FragIn.texCoord;
 	int count =0;
 	for(int i=0; i<=samples; ++i) {
 		
 		color = texture(volumeTex , vec3(texCoord.x, texCoord.y, float(i)*stepSize));
 		
-		if(color.r > 0.001)
+		if(color.r > 0.0001)
 			++count;
 
 	}
@@ -39,5 +41,5 @@ void main(void)
 	/*if(color.x != 0.0 || color.y != 0.0 || color.z != 0.0)
 		color.x = 0.5f;*/
 
-	out_Color = 0.5f;//color.rrra;//vec4(max(max(color.r, color.g), color.b));
+	out_Color = color;//vec4(max(max(color.r, color.g), color.b));
 }
