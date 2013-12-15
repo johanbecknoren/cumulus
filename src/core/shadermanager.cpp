@@ -156,10 +156,10 @@ GLuint ShaderManager::loadShaderG(const char *vertFileName, const char *fragFile
 		//printf("Failed to read %s from disk.\n", geomFileName);
 	if ((vs!=NULL)&&(fs!=NULL))
 		p = compileShaders(vs, fs, gs, vertFileName, fragFileName, geomFileName);
-	//if (vs != NULL) free(vs);
-	//if (fs != NULL) free(fs);
-	//if (gs != NULL) free(gs);
-	//printf("Shader loaded with id %i \n", p);
+	if (vs != NULL) free(vs);
+	if (fs != NULL) free(fs);
+	if (gs != NULL) free(gs);
+	printf("Shader loaded with id %i \n", p);
 	return p;
 }
 } //namespace core
