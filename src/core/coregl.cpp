@@ -79,28 +79,45 @@ void CoreGL::setVolumeData() {
 	float radius = 0.6f;//glm::min( glm::min(volume_.xdim(), volume_.ydim()), volume_.zdim()) / 2.f;
 	glm::vec3 sphere_center(0.5,0.5,0.5);
 	float val = 0.f;
+	float snoice_max = FLT_MIN;
 
 	for(unsigned int i=0; i<volume_.xdim(); ++i) {
 		for(unsigned int j=0; j<volume_.ydim(); ++j) {
 			for(unsigned int k=0; k<volume_.zdim(); ++k) {
 				glm::vec3 voxel_pos(float(i)/float(volume_.xdim()), float(j)/float(volume_.ydim()), float(k)/float(volume_.zdim()));
-				//float dist = glm::length(sphere_center-voxel_pos);
-				float dist = sqrt( (sphere_center.x-voxel_pos.x)*(sphere_center.x-voxel_pos.x)
+				float dist = glm::length(sphere_center-voxel_pos);
+				/*float dist = sqrt( (sphere_center.x-voxel_pos.x)*(sphere_center.x-voxel_pos.x)
 					+(sphere_center.y-voxel_pos.y)*(sphere_center.y-voxel_pos.y)
-					+(sphere_center.z-voxel_pos.z)*(sphere_center.z-voxel_pos.z));
-				float sign = radius - dist;
+					+(sphere_center.z-voxel_pos.z)*(sphere_center.z-voxel_pos.z));*/
+				snoice_high = 0.5f + 0.5f * snoise3(float(i)*high_fact,float(j)*high_fact,float(k)*high_fact);
+				snoice_mid = 0.5f + 0.5f * snoise3(float(i)*mid_fact,float(j)*mid_fact,float(k)*mid_fact);
+				snoice_low = 0.5f + 0.5f * snoise3(float(i)*low_fact,float(j)*low_fact,float(k)*low_fact);
+				snoice = 0.6f*snoice_low + 0.2f*snoice_mid + 0.2f*snoice_mid;
+
+				if(snoice_high > snoice_max)
+					snoice_max = snoice_high;
+
+				float sign = radius - (dist+0.05*snoice_high);
 				//val = glm::clamp(sign, 0.0f, 1.0f);
-				if(sign >= 0.f )
+				sign = glm::max(sign, 0.0f);
+				if(sign > 0.00001f) {
+					sign = 1.f;
+				}
+
+				val = sign;
+
+				/*if(sign >= 0.f )
 					val = 1.f;
 				else
 				{
 					val = 0.4f;
-				}
+				}*/
 				volume_.setValueAt(val,i,j,k);
 			}
 		}
 	}
 
+	std::cout<<"Snoice max: "<<snoice_max<<std::endl;
 	std::cout<<"Volume max: "<<volume_.getMax()<<std::endl;
 
 	initVolumeTexture();
