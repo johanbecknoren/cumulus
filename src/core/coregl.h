@@ -24,6 +24,7 @@ public:
 	static void printError(const char *functionName);
 	void setVolumeData();
 	void initVolumeTexture();
+	float getDensityAtVoxel(unsigned int i, unsigned int j, unsigned int k);
 
 private:
 	void loadShaders();
