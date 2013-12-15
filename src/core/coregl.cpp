@@ -29,7 +29,17 @@ core::CoreGL::CoreGL() : volume_(256,256,256) {
 	setVolumeData();
 }
 
-float CoreGL::getDensityAtVoxel(unsigned int i, unsigned int j, unsigned int k) {
+// Arguments are voxel-aligned. Need to be translated to correct voxel only.
+// No interpolation needed!!
+float CoreGL::getDensityAtWorld(float w_x, float w_y, float w_z, unsigned int dimx, unsigned int dimy, unsigned int dimz) {
+	unsigned int i,j,k;
+
+	// Transform world coord. to voxel grid points.
+	// Will floor decimal values.
+	i = unsigned int(w_x * dimx);
+	j = unsigned int(w_y * dimy);
+	k = unsigned int(w_z * dimz);
+
 	float snoice_high = 0.f;
 	float snoice_mid = 0.f;
 	float snoice_low = 0.f;
@@ -41,31 +51,97 @@ float CoreGL::getDensityAtVoxel(unsigned int i, unsigned int j, unsigned int k) 
 
 	// Init sphere instead of just noise. sphere in center of volume
 	float radius = 0.6f;//glm::min( glm::min(volume_.xdim(), volume_.ydim()), volume_.zdim()) / 2.f;
-	glm::vec3 sphere_center(0.5,0.5,0.5);
+	glm::vec3 sphere_center(0.5f,0.5f,0.5f);
 	float val = 0.f;
 	float snoice_max = FLT_MIN;
 
-	glm::vec3 voxel_pos(float(i)/float(volume_.xdim()), float(j)/float(volume_.ydim()), float(k)/float(volume_.zdim()));
+	glm::vec3 voxel_pos(w_x, w_y, w_z);
 	float dist = glm::length(sphere_center-voxel_pos);
 
-	snoice_high = 0.5f + 0.5f * snoise3(float(i)*high_fact,float(j)*high_fact,float(k)*high_fact);
+	/*snoice_high = 0.5f + 0.5f * snoise3(float(i)*high_fact,float(j)*high_fact,float(k)*high_fact);
 	snoice_mid = 0.5f + 0.5f * snoise3(float(i)*mid_fact,float(j)*mid_fact,float(k)*mid_fact);
 	snoice_low = 0.5f + 0.5f * snoise3(float(i)*low_fact,float(j)*low_fact,float(k)*low_fact);
-	snoice = 0.4f*snoice_low + 0.3f*snoice_mid + 0.3f*snoice_mid;
+	snoice = 0.5f*snoice_low + 0.3f*snoice_mid + 0.2f*snoice_mid;*/
+
+	unsigned int num_octaves = 3;
+	float gain = 0.5f;
+	float freq = 4.f/255.f;
+
+	for(unsigned int x=0; x<num_octaves; ++x) {
+		snoice += gain * (0.5f + 0.5f*snoise3(float(i)*freq, float(j)*freq, float(k)*freq));
+		gain *= gain;
+		freq *= 3.f;
+	}
 
 	if(snoice > snoice_max)
 		snoice_max = snoice;
 
-	float sign = radius - (dist+0.1*snoice);
+	float sign = radius - (dist+0.1f*snoice);
 	//val = glm::clamp(sign, 0.0f, 1.0f);
 	sign = glm::max(sign, 0.0f);
+
+
 	if(sign > 0.00001f) {
 		//sign = 1.f;
 	}
 
+	sign = glm::smoothstep(0.0f, 0.05f, sign);
 	val = sign;
 
 	return val;
+}
+
+float CoreGL::getDensityAtVoxel(unsigned int i, unsigned int j, unsigned int k) {
+
+	return CoreGL::getDensityAtWorld(float(i)/float(volume_.xdim()), float(j)/float(volume_.ydim()), float(k)/float(volume_.zdim()),
+		volume_.xdim(), volume_.ydim(), volume_.zdim());
+	//float snoice_high = 0.f;
+	//float snoice_mid = 0.f;
+	//float snoice_low = 0.f;
+	//float snoice = 0.f;
+
+	//float high_fact = 30.f/255.f;
+	//float mid_fact = 12.f/255.f;
+	//float low_fact = 4.f/255.f;
+
+	//// Init sphere instead of just noise. sphere in center of volume
+	//float radius = 0.6f;//glm::min( glm::min(volume_.xdim(), volume_.ydim()), volume_.zdim()) / 2.f;
+	//glm::vec3 sphere_center(0.5,0.5,0.5);
+	//float val = 0.f;
+	//float snoice_max = FLT_MIN;
+
+	//glm::vec3 voxel_pos(float(i)/float(volume_.xdim()), float(j)/float(volume_.ydim()), float(k)/float(volume_.zdim()));
+	//float dist = glm::length(sphere_center-voxel_pos);
+
+	///*snoice_high = 0.5f + 0.5f * snoise3(float(i)*high_fact,float(j)*high_fact,float(k)*high_fact);
+	//snoice_mid = 0.5f + 0.5f * snoise3(float(i)*mid_fact,float(j)*mid_fact,float(k)*mid_fact);
+	//snoice_low = 0.5f + 0.5f * snoise3(float(i)*low_fact,float(j)*low_fact,float(k)*low_fact);
+	//snoice = 0.5f*snoice_low + 0.3f*snoice_mid + 0.2f*snoice_mid;*/
+
+	//unsigned int num_octaves = 3;
+	//float gain = 0.5f;
+	//float freq = 4.f/255.f;
+
+	//for(unsigned int x=0; x<num_octaves; ++x) {
+	//	snoice += gain * (0.5f + 0.5f*snoise3(float(i)*freq, float(j)*freq, float(k)*freq));
+	//	gain *= gain;
+	//	freq *= 3.f;
+	//}
+
+	//if(snoice > snoice_max)
+	//	snoice_max = snoice;
+
+	//float sign = radius - (dist+0.1*snoice);
+	////val = glm::clamp(sign, 0.0f, 1.0f);
+	//sign = glm::max(sign, 0.0f);
+	//if(sign > 0.00001f) {
+	//	//sign = 1.f;
+	//}
+
+	//sign = glm::smoothstep(0.0f, 0.05f, sign);
+	//val = sign;
+
+	//return val;
 }
 
 void CoreGL::setVolumeData() {
@@ -84,7 +160,6 @@ void CoreGL::setVolumeData() {
 	float radius = 0.6f;
 	glm::vec3 sphere_center(0.5,0.5,0.5);
 	float val = 0.f;
-	float snoice_max = FLT_MIN;
 
 	for(unsigned int i=0; i<volume_.xdim(); ++i) {
 		for(unsigned int j=0; j<volume_.ydim(); ++j) {
@@ -95,7 +170,6 @@ void CoreGL::setVolumeData() {
 		}
 	}
 
-	std::cout<<"Snoice max: "<<snoice_max<<std::endl;
 	std::cout<<"Volume max: "<<volume_.getMax()<<std::endl;
 
 	initVolumeTexture();
@@ -119,7 +193,7 @@ void CoreGL::initVolumeTexture() {
 	glTexImage3D(GL_TEXTURE_3D, 0, GL_RGB32F, volume_.xdim(), volume_.ydim(), volume_.zdim(), 0, GL_RGB, 
 		GL_FLOAT, volume_.getData());
 	
-	int samples = 256;
+	int samples = 512;
 	float stepSize = 1.0f/GLfloat(samples);
 	glUniform1i(glGetUniformLocation(id, "volumeData"), 0);
 	glUniform1i(glGetUniformLocation(id, "samples"), samples);

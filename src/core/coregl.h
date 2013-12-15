@@ -25,6 +25,7 @@ public:
 	void setVolumeData();
 	void initVolumeTexture();
 	float getDensityAtVoxel(unsigned int i, unsigned int j, unsigned int k);
+	static float getDensityAtWorld(float w_x, float w_y, float w_z, unsigned int dimx, unsigned int dimy, unsigned int dimz);
 
 private:
 	void loadShaders();
