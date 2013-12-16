@@ -108,7 +108,7 @@ MUserData* CloudDrawOverride::prepareForDraw(
 	data->fColor[0] = color.r;
 	data->fColor[1] = color.g;
 	data->fColor[2] = color.b;
-	data->cloudcore = core::CoreGL::creator(NULL);
+	data->cloudcore = core::CoreGL::creator("box.obj");
 	return data;
 }
 

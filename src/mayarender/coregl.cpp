@@ -16,7 +16,7 @@ void CoreGL::printError(const char *functionName)
    GLenum error;
    while (( error = glGetError() ) != GL_NO_ERROR)
    {
-	  fprintf (stderr, "GL error 0x%X detected in %s\n", error, functionName);
+	  //fprintf (stderr, "GL error 0x%X detected in %s\n", error, functionName);
    }
 }
 
@@ -26,7 +26,6 @@ void CoreGL::loadShaders() {
 }
 
 core::CoreGL::CoreGL() : volume_(256,256,256) {
-	setVolumeData();
 }
 
 // Arguments are voxel-aligned. Need to be translated to correct voxel only.
@@ -98,17 +97,7 @@ float CoreGL::getDensityAtVoxel(unsigned int i, unsigned int j, unsigned int k) 
 }
 
 void CoreGL::setVolumeData() {
-	
-	// Write simplex noise instead of rand here
-	/*float snoice_high = 0.f;
-	float snoice_mid = 0.f;
-	float snoice_low = 0.f;
-	float snoice = 0.f;
 
-	float high_fact = 30.f/255.f;
-	float mid_fact = 12.f/255.f;
-	float low_fact = 4.f/255.f;*/
-	
 	float val;
 
 	for(unsigned int i=0; i<volume_.xdim(); ++i) {
@@ -190,9 +179,12 @@ void core::CoreGL::initialize(std::string path) {
     std::cout << "Loading object " << path.c_str() << std::endl;
 	loadShaders();
 	printError("Load Shaders");
+
+	setVolumeData();
+
 	//objectLoader = ObjLoader();
 	//objectLoader.loadObj(path, shaderManager.getId(ShaderManager::shaderId::BASIC));
-	printError("LoadObj");
+	//printError("LoadObj");
 	std::cout << "Loading done.\n";
 }
 } // namespace core
