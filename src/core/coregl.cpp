@@ -117,7 +117,7 @@ void CoreGL::setVolumeData() {
 void CoreGL::initVolumeTexture() {
 	GLuint texId = 0;
 	GLuint id = shaderManager.getId(ShaderManager::shaderId::BASIC);
-
+	glEnable (GL_BLEND);
 	glEnable(GL_TEXTURE_3D);
 
 	glGenTextures(1, &texId);
@@ -140,7 +140,11 @@ void CoreGL::initVolumeTexture() {
 
 void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 	glm::mat4 mvp = proj * trans;
-
+	
+	glEnable(GL_BLEND);
+	glDisable(GL_DEPTH_TEST);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	
 	GLuint id = shaderManager.getId(ShaderManager::shaderId::BASIC);
 	printError("Core render1");
 	glUseProgram(id);
@@ -173,7 +177,8 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 	glVertex3f(-1.0f, 1.0f, -1.0f);
 	glEnd();
 	printError("Core render8");
-
+	glDisable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
 	glUseProgram(0);
 }
 
