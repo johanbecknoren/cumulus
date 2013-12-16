@@ -8,6 +8,7 @@
 #include <string>
 #include "volume.h"
 #include "utils.h"
+#include "fbo.h"
 
 #ifdef __USE_CORE_GL__
 #include "glincludes.h"
@@ -36,6 +37,9 @@ private:
 	ObjLoader objectLoader;
 
 	Volume volume_;
+
+	Fbo color_backface;
+	Fbo color_frontface;
 };
 
 }

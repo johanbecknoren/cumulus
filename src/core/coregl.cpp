@@ -159,6 +159,13 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 		matrixLoc, 1, 
 		transposed, glm::value_ptr(mvp));
 	printError("Core render7");
+
+	// Render colorcube här och spara i FBOer
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(0., 0., 0., 0.);
+	Fbo::useFbo(&color_backface, NULL, NULL, NULL);
+
+
 	glBegin(GL_QUADS);
 	glVertex3f(-1.0f,-1.0f, -1.0f);
 	glVertex3f( 1.0f,-1.0f, -1.0f);
@@ -183,6 +190,9 @@ void core::CoreGL::initialize(std::string path) {
 	printError("Load Shaders");
 
 	setVolumeData();
+
+	color_backface = Fbo(kWidth, kHeight,0);
+	color_frontface = Fbo(kWidth, kHeight,0);
 
 	//objectLoader = ObjLoader();
 	//objectLoader.loadObj(path, shaderManager.getId(ShaderManager::shaderId::BASIC));
