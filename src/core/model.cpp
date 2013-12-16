@@ -22,7 +22,7 @@ namespace core {
 		model->numFaces = (unsigned int) indices.size() / 3;
 		model->vertAttribLoc = 0;
 		model->normAttribLoc = 1;
-		model->texAttribLoc = 3;
+		model->texAttribLoc = 2;
 
 		model->indexArray = indices;
 		//std::copy(&model->indexArray, &model->indexArray + model->numIndices, verts.begin());
@@ -41,7 +41,7 @@ namespace core {
 			&(*iit), GL_STATIC_DRAW);
 		char *vertVarName = "in_Position";
 		char *normVarName = "in_Normal";
-		char *texCoordVarName = "in_TexCoord";
+		char *texCoordVarName = "in_texCoord";
 		
 		glBindAttribLocation(program, model->vertAttribLoc, vertVarName);
 		glBindAttribLocation(program, model->normAttribLoc, normVarName);

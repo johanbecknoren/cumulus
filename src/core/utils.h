@@ -9,6 +9,11 @@ const int kHeight = 480;
 
 namespace core {
 
+	enum modelId {
+		QUAD = 0,
+		CUBE = 1
+	};
+
 
 inline glm::mat4 carrToGlmM4(const double cmat[][4]) {
 	glm::mat4 glmMat;

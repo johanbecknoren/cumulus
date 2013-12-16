@@ -9,6 +9,7 @@
 #include "volume.h"
 #include "utils.h"
 #include "fbo.h"
+#include "model.h"
 
 #ifdef __USE_CORE_GL__
 #include "glincludes.h"
@@ -40,6 +41,9 @@ private:
 
 	Fbo *color_backface;
 	Fbo *color_frontface;
+
+	Model *quad;
+	Model *box;
 };
 
 }

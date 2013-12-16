@@ -40,7 +40,7 @@ void ObjLoader::loadObj(std::string path, unsigned int id) {
 
 			// glm::vec3 v0 = verts[val[0]];
 			// glm::vec3 v1 = verts[val[1]];
-			// glm::vec3 v2 = verts[val[2]];			
+			// glm::vec3 v2 = verts[val[2]];
 		}
 		vertOffset += numVerts;
 	}
@@ -57,6 +57,21 @@ void ObjLoader::drawModels() {
 		++it;
 	}
 };
+
+void ObjLoader::drawModel(int i) {
+	std::vector<Model>::iterator it = models.begin();
+	int counter = 0;
+	while(it != models.end()) {
+		if(counter = i) {
+			glBindVertexArray((it)->vao);
+			glDrawElements(GL_TRIANGLES, it->numFaces*3, GL_UNSIGNED_INT, 0L);//it->numIndices, GL_UNSIGNED_INT, 0L);
+			glBindTexture(GL_TEXTURE_2D, 0);
+			break;
+		}
+		++counter;
+		++it;
+	}
+}
 
 void ObjLoader::drawModelsWireFrame() {
 	std::vector<Model>::iterator it = models.begin();

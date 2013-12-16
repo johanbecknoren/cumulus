@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
 	std::cout << "Running OpenGL version " << OpenGLmajor << "." << OpenGLminor << std::endl;
 	
     if(OpenGLmajor < 3) {
-		std::cout << "OpenGL version support is to damn low!" << std::endl;
+		std::cout << "OpenGL version support is too damn low!" << std::endl;
         return false;
     }
 	
@@ -86,9 +86,6 @@ int main(int argc, char **argv) {
 	float currentTime, lastTime = 0.0;
 	float deltaTime = 0.01f;
 	core::CoreGL::printError("MainGL");
-
-	//std::cout<<"Density: "<<core::CoreGL::getDensityAtWorld(0.231535f, 0.818347f, 0.223266f, 256,256,256);
-	std::cout<<"Density: "<<core::CoreGL::getDensityAtWorld(0.798765f, 0.5f, 0.5f, 256,256,256);
 
 	while (!glfwWindowShouldClose(window))
 	{

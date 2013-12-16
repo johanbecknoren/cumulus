@@ -12,7 +12,9 @@ public:
 	};
 	
 	enum shaderId {
-		BASIC = 0
+		BASIC = 0,
+		COLOR_CUBE = 1,
+		TEX2SCREEN = 2
 	};
 	unsigned int getId(shaderId id);
 
@@ -27,7 +29,7 @@ private:
 	void printProgramInfoLog(unsigned int obj, const char *vfn, const char *ffn, const char *gfn);
 	unsigned int compileShaders(const char *vs, const char *fs, const char *gs, const char *vfn, const char *ffn, const char *gfn);
 	
-	static const int numShaders = 1;
+	static const int numShaders = 3;
 	std::array<unsigned int, numShaders> shaders;
 	std::string fixPath(std::string in);
 };
