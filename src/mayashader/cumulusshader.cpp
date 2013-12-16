@@ -66,7 +66,7 @@ class Flame3D : public MPxNode
 	// Output attributes
     static MObject  aOutAlpha;
     static MObject  aOutColor;
-	core::CoreGL *vol;
+	//core::CoreGL *vol;
 };
 
 // Static data
@@ -104,7 +104,7 @@ void Flame3D::postConstructor( )
 //
 // DESCRIPTION:
 ///////////////////////////////////////////////////////
-Flame3D::Flame3D() : vol(core::CoreGL::creator(""))
+Flame3D::Flame3D()
 {
 }
 
@@ -201,10 +201,9 @@ MStatus Flame3D::compute(const MPlug& plug, MDataBlock& block)
 	
 
     MFloatVector resultColor;
-	vol->getDensityAtVoxel((unsigned int) q.x, 
-		(unsigned int) q.y, 
-		(unsigned int) q.z);
-	resultColor = cFlame;
+
+	float d = core::CoreGL::getDensityAtWorld(q.x, q.y, q.z, 100, 100, 100);
+	resultColor = MFloatVector(1.f - d, 1.f - d, 1.f - d); //cFlame;
 
 
     MDataHandle outHandle = block.outputValue( aOutColor );
