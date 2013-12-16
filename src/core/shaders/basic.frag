@@ -8,16 +8,14 @@ in VertexData {
 } FragIn;
 
 uniform sampler3D volumeTex;
-uniform int samples;
-uniform float stepSize;
-uniform int screen_width;
-uniform int screen_height;
+/*uniform int samples;
+uniform float stepSize;*/
 
 out vec4 out_Color;
 
 void main(void)
 {
-	int hard_samples = 256;
+	int hard_samples = 25;
 	float hard_stepsize = 1.f/float(hard_samples);
 	vec4 color = vec4(0.f);
 	

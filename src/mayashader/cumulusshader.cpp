@@ -197,13 +197,22 @@ MStatus Flame3D::compute(const MPlug& plug, MDataBlock& block)
 	MFloatPoint q(worldPos[0], worldPos[1], worldPos[2]);
 	q *= mat;								// Convert into solid space
 
+	/*q.x = (1.f + q.x) * 0.5f;
+	q.y = (1.f + q.y) * 0.5f;
+	q.z = (1.f + q.z) * 0.5f;*/
+
 	// Offset texture coord along the RiseAxis
+
+	float d = core::CoreGL::getDensityAtWorld(q.x,q.y,q.z,256,256,256);
 	
+	if(d > 0.00001f)
+		cout << "pos: ("<<q.x<<", "<<q.y<<","<<q.z<<") d = "<<d<<flush<<endl;
 
     MFloatVector resultColor;
 
-	float d = core::CoreGL::getDensityAtWorld(q.x, q.y, q.z, 100, 100, 100);
-	resultColor = MFloatVector(1.f - d, 1.f - d, 1.f - d); //cFlame;
+	//float d = core::CoreGL::getDensityAtWorld(q.x, q.y, q.z, 100, 100, 100);
+	//resultColor = MFloatVector(1.f - d, 1.f - d, 1.f - d); //cFlame;
+	resultColor = MFloatVector(d,d,d);
 
 
     MDataHandle outHandle = block.outputValue( aOutColor );
