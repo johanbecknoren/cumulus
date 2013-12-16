@@ -31,6 +31,7 @@ core::CoreGL::CoreGL() : volume_(256,256,256) {
 
 // Arguments are voxel-aligned. Need to be translated to correct voxel only.
 // No interpolation needed!!
+// Assumes volume is a unit cube with corners in (0,0,0) and (1,1,1)
 float CoreGL::getDensityAtWorld(float w_x, float w_y, float w_z, unsigned int dimx, unsigned int dimy, unsigned int dimz) {
 	unsigned int i,j,k;
 
