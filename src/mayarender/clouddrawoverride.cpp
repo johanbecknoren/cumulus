@@ -3,7 +3,7 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <utils.h>
+#include "../core/utils.h"
 
 #include <maya/MHWGeometryUtilities.h>
 #include <maya/MStateManager.h>
@@ -251,7 +251,7 @@ void CloudDrawOverride::draw(const MHWRender::MDrawContext& context, const MUser
 	}
 
 	// GL Draw
-	if (theRenderer->drawAPIIsOpenGL())
+	//if (theRenderer->drawAPIIsOpenGL())
 	{
 
 		if (cloudData->cloudcore != NULL) 
@@ -262,6 +262,9 @@ void CloudDrawOverride::draw(const MHWRender::MDrawContext& context, const MUser
 			glm::mat4 ttrans = core::carrToGlmM4(transform.matrix);
 			cout << endl;
 			cloudData->cloudcore->render(ttrans, tproj);
+		}
+		else {
+			cout << "NULL" << endl;
 		}
 		// set colour
 		glColor4fv(color);

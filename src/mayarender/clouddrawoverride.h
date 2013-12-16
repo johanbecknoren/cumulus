@@ -11,7 +11,7 @@
 #include <maya/MFrameContext.h>
 #include <maya/MDrawRegistry.h>
 
-#include <coregl.h>
+#include "../core/coregl.h"
 
 class CloudData : public MUserData {
 public:

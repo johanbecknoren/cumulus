@@ -24,7 +24,7 @@ if(WIN32)
     	${MAYA_LIB_PATH}/OpenMayaFX.lib
 	    ${MAYA_LIB_PATH}/OpenMayaRender.lib
 		${MAYA_LIB_PATH}/Image.lib
-		  ${GLEW_LIBRARY}
+		${GLEW_LIBRARY}
 		${GLFW_LIBRARY}
 		tinyobj
 		opengl32.lib
@@ -40,12 +40,11 @@ add_definitions(
 )
 
 file(GLOB HEADERS *.h*)
-file(GLOB CORE_HEADERS ${PROJECT_SOURCE_DIR}/core/*.h*)
+#file(GLOB CORE_HEADERS ${PROJECT_SOURCE_DIR}/core/*.h*)
 file(GLOB SRCS *.cpp)
-file(GLOB CORE_SRC ${PROJECT_SOURCE_DIR}/core/*.h*)
+#file(GLOB CORE_SRC ${PROJECT_SOURCE_DIR}/core/*.h*)
 
 include_directories(
-  ${PROJECT_SOURCE_DIR}/core
   ${CMAKE_SOURCE_DIR}/externals/include
   ${MAYA_INCLUDE_DIRS}
   ${GLEW_INCLUDE_DIR}
