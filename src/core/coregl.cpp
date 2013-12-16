@@ -46,9 +46,9 @@ float CoreGL::getDensityAtWorld(float w_x, float w_y, float w_z, unsigned int di
 	float snoice_low = 0.f;
 	float snoice = 0.f;
 
-	float high_fact = 30.f/255.f;
+	/*float high_fact = 30.f/255.f;
 	float mid_fact = 12.f/255.f;
-	float low_fact = 4.f/255.f;
+	float low_fact = 4.f/255.f;*/
 
 	// Init sphere instead of just noise. sphere in center of volume
 	float radius = 0.4f;
@@ -66,8 +66,8 @@ float CoreGL::getDensityAtWorld(float w_x, float w_y, float w_z, unsigned int di
 
 	for(unsigned int x=0; x<num_octaves; ++x) {
 		snoice += gain * (0.5f + 0.5f*snoise3(float(i)*freq, float(j)*freq, float(k)*freq));
-		gain *= gain;
-		freq *= 3.f;
+		gain *= 0.5;
+		freq *= 4.f;
 	}
 
 	if(snoice > snoice_max)
@@ -100,14 +100,14 @@ float CoreGL::getDensityAtVoxel(unsigned int i, unsigned int j, unsigned int k) 
 void CoreGL::setVolumeData() {
 	
 	// Write simplex noise instead of rand here
-	float snoice_high = 0.f;
+	/*float snoice_high = 0.f;
 	float snoice_mid = 0.f;
 	float snoice_low = 0.f;
 	float snoice = 0.f;
 
 	float high_fact = 30.f/255.f;
 	float mid_fact = 12.f/255.f;
-	float low_fact = 4.f/255.f;
+	float low_fact = 4.f/255.f;*/
 	
 	float val;
 
@@ -144,7 +144,8 @@ void CoreGL::initVolumeTexture() {
 		GL_FLOAT, volume_.getData());
 	printError("Init Volume Texture2");
 
-	
+	glUniform1i(glGetUniformLocation(id, "volumeTex"), 0);
+	printError("Init Volume Texture31");
 	
 }
 
@@ -170,14 +171,14 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 	/*glUseProgram(id);
 	glUniform1i(glGetUniformLocation(id, "volumeTex"), 0);
 	printError("Core render6");*/
-	int samples = 10;
-	float stepSize = 1.0f/float(samples);
-	glUniform1i(glGetUniformLocation(id, "volumeTex"), 0);
-	printError("Init Volume Texture31");
-	glUniform1i(glGetUniformLocation(id, "samples"), samples);
+	//int samples = 10;
+	//float stepSize = 1.0f/float(samples);
+	/*glUniform1i(glGetUniformLocation(id, "volumeTex"), 0);
+	printError("Init Volume Texture31");*/
+	/*glUniform1i(glGetUniformLocation(id, "samples"), samples);
 	printError("Init Volume Texture32");
 	glUniform1f(glGetUniformLocation(id, "stepSize"), stepSize);
-	printError("Init Volume Texture33");
+	printError("Init Volume Texture33");*/
 
 	glUseProgram(id);
 	glUniformMatrix4fv(

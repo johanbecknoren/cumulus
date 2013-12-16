@@ -87,6 +87,9 @@ int main(int argc, char **argv) {
 	float deltaTime = 0.01f;
 	core::CoreGL::printError("MainGL");
 
+	//std::cout<<"Density: "<<core::CoreGL::getDensityAtWorld(0.231535f, 0.818347f, 0.223266f, 256,256,256);
+	std::cout<<"Density: "<<core::CoreGL::getDensityAtWorld(0.798765f, 0.5f, 0.5f, 256,256,256);
+
 	while (!glfwWindowShouldClose(window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
