@@ -51,7 +51,7 @@ float CoreGL::getDensityAtWorld(float w_x, float w_y, float w_z, unsigned int di
 	float low_fact = 4.f/255.f;
 
 	// Init sphere instead of just noise. sphere in center of volume
-	float radius = 0.6f;//glm::min( glm::min(volume_.xdim(), volume_.ydim()), volume_.zdim()) / 2.f;
+	float radius = 0.2f;//glm::min( glm::min(volume_.xdim(), volume_.ydim()), volume_.zdim()) / 2.f;
 	glm::vec3 sphere_center(0.5f,0.5f,0.5f);
 	float val = 0.f;
 	float snoice_max = FLT_MIN;
