@@ -166,6 +166,8 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 	glVertex3f(-1.0f, 1.0f, -1.0f);
 	glEnd();
 	printError("Core render8");
+
+	glUseProgram(0);
 }
 
 core::CoreGL *core::CoreGL::creator(std::string path) {
