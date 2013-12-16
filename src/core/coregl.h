@@ -38,8 +38,8 @@ private:
 
 	Volume volume_;
 
-	Fbo color_backface;
-	Fbo color_frontface;
+	Fbo *color_backface;
+	Fbo *color_frontface;
 };
 
 }

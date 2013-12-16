@@ -1,6 +1,7 @@
 #include "coregl.h"
 #include "volume.h"
 #include "simplexnoise1234.h"
+//#include "fbo.h"
 
 #include <iostream>
 #include <glm/gtc/type_ptr.hpp>
@@ -166,8 +167,10 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 
 	// Render colorcube här och spara i FBOer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0., 0., 0., 0.);
-	Fbo::useFbo(&color_backface, NULL, NULL, NULL);
+	glClearColor(0.f, 0.f, 0.f, 0.f);
+	
+	Fbo::useFbo(color_backface, 0L, 0L);
+	Fbo::useFbo(0L,0L,0L);
 
 
 	glBegin(GL_QUADS);
@@ -196,8 +199,8 @@ void core::CoreGL::initialize(std::string path) {
 
 	setVolumeData();
 
-	color_backface = Fbo(kWidth, kHeight,0);
-	color_frontface = Fbo(kWidth, kHeight,0);
+	color_backface = new Fbo(kWidth, kHeight,0);
+	color_frontface = new Fbo(kWidth, kHeight,0);
 
 	//objectLoader = ObjLoader();
 	//objectLoader.loadObj(path, shaderManager.getId(ShaderManager::shaderId::BASIC));

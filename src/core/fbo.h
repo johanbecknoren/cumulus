@@ -1,8 +1,8 @@
 #ifndef _FBO_H_
 #define _FBO_H_
 
-#include <GL/glew.h>
-#include <GL/glfw.h>
+//#include <GL/glew.h>
+//#include <GL/glfw.h>
 
 
 class Fbo {
@@ -21,14 +21,14 @@ public:
     static void useFbo(Fbo *out, const  Fbo *in, const  Fbo *in2, const  Fbo *in3);
     static void useDepthFbo(Fbo *out, const Fbo *in);
 
-    const GLuint getDepthId() const { return depth; };
-    const GLuint getTexId() const { return texid; };
+    const unsigned int getDepthId() const { return depth; };
+    const unsigned int getTexId() const { return texid; };
 
 private:
-    GLuint texid;
-    GLuint fb;
-    GLuint rb;
-    GLuint depth;
+    unsigned int texid;
+    unsigned int fb;
+    unsigned int rb;
+    unsigned int depth;
     int width, height;
 
     static int lastw;

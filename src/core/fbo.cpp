@@ -1,6 +1,9 @@
 #include "fbo.h"
 #include <stdio.h>
 
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 int Fbo::lastw = 0;
 int Fbo::lasth = 0;
 
