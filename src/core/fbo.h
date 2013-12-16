@@ -4,7 +4,6 @@
 #include <GL/glew.h>
 #include <GL/glfw.h>
 
-#include "utilityfunctions.h"
 
 class Fbo {
 public:

@@ -3,7 +3,7 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "../core/utils.h"
+#include "utils.h"
 
 #include <maya/MHWGeometryUtilities.h>
 #include <maya/MStateManager.h>

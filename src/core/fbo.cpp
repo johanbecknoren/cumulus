@@ -32,7 +32,7 @@ Fbo::Fbo(int width, int height, int int_method): width(width), height(height)
     // Renderbuffer
     // initialize depth renderbuffer
     glBindRenderbuffer(GL_RENDERBUFFER, rb);
-    util::CHECK_FRAMEBUFFER_STATUS();
+    //util::CHECK_FRAMEBUFFER_STATUS();
 
     //printf("Framebuffer object %d\n", fb);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
