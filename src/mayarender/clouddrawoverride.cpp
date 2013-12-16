@@ -10,7 +10,6 @@
 #include <maya/MHWGeometryUtilities.h>
 #include <maya/MDistance.h>
 
-
 CloudDrawOverride::~CloudDrawOverride() {}
 
 CloudDrawOverride::CloudDrawOverride(const MObject &obj) : MHWRender::MPxDrawOverride(obj, CloudDrawOverride::draw) {
@@ -109,7 +108,7 @@ MUserData* CloudDrawOverride::prepareForDraw(
 	data->fColor[0] = color.r;
 	data->fColor[1] = color.g;
 	data->fColor[2] = color.b;
-//	data->core = core::CoreGL::creator("bunny.obj");
+	data->cloudcore = core::CoreGL::creator(NULL);
 	return data;
 }
 
@@ -255,14 +254,15 @@ void CloudDrawOverride::draw(const MHWRender::MDrawContext& context, const MUser
 	if (theRenderer->drawAPIIsOpenGL())
 	{
 
-		//if (cloudData->core != NULL) 
-		{
-			
-			//glm::mat4 tproj = core::carrToGlmM4(projection.matrix);
-			//glm::mat4 ttrans = core::carrToGlmM4(transform.matrix);
-			//cloudData->core->render(ttrans, tproj);
+		if (cloudData->cloudcore != NULL) 
+		{	
+			cout << "trans:";
+			glm::mat4 tproj = core::carrToGlmM4(projection.matrix);
+			cout << endl << "Proj";
+			glm::mat4 ttrans = core::carrToGlmM4(transform.matrix);
+			cout << endl;
+			cloudData->cloudcore->render(ttrans, tproj);
 		}
-
 		// set colour
 		glColor4fv(color);
 		// set world matrix

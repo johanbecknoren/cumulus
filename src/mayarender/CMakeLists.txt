@@ -27,7 +27,6 @@ if(WIN32)
 		  ${GLEW_LIBRARY}
 		${GLFW_LIBRARY}
 		tinyobj
-		cumulusCore
 		opengl32.lib
 		glu32.lib)
 endif(WIN32)
@@ -41,7 +40,9 @@ add_definitions(
 )
 
 file(GLOB HEADERS *.h*)
+file(GLOB CORE_HEADERS ${PROJECT_SOURCE_DIR}/core/*.h*)
 file(GLOB SRCS *.cpp)
+file(GLOB CORE_SRC ${PROJECT_SOURCE_DIR}/core/*.h*)
 
 include_directories(
   ${PROJECT_SOURCE_DIR}/core
@@ -53,11 +54,13 @@ include_directories(
 
 add_library(cumulusMaya SHARED
 	${SRCS}
+	${CORE_HEADERS}
+	${CORE_SRC}
 	${HEADERS})
 
 set_target_properties(cumulusMaya
 	PROPERTIES
-	OUTPUT_NAME "CumulusMaya"
+	OUTPUT_NAME "CumulusMayaLocator"
 	SUFFIX ${PLATFORM_PLUGIN_EXTENSION}
 	LINK_FLAGS "${PLATFORM_LINK_FLAGS}")
 

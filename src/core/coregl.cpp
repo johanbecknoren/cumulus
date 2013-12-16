@@ -165,21 +165,6 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 		matrixLoc, 1, 
 		transposed, glm::value_ptr(mvp));
 
-	//objectLoader.drawModels();
-	//printError("Core render5");
-
-	/*glUseProgram(id);
-	glUniform1i(glGetUniformLocation(id, "volumeTex"), 0);
-	printError("Core render6");*/
-	//int samples = 10;
-	//float stepSize = 1.0f/float(samples);
-	/*glUniform1i(glGetUniformLocation(id, "volumeTex"), 0);
-	printError("Init Volume Texture31");*/
-	/*glUniform1i(glGetUniformLocation(id, "samples"), samples);
-	printError("Init Volume Texture32");
-	glUniform1f(glGetUniformLocation(id, "stepSize"), stepSize);
-	printError("Init Volume Texture33");*/
-
 	glUseProgram(id);
 	glUniformMatrix4fv(
 		matrixLoc, 1, 

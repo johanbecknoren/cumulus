@@ -203,13 +203,9 @@ MStatus Flame3D::compute(const MPlug& plug, MDataBlock& block)
 	// Offset texture coord along the RiseAxis
 
 	float d = core::CoreGL::getDensityAtWorld(q.x,q.y,q.z,256,256,256);
-	
-	if(d > 0.00001f)
-		cout << "pos: ("<<q.x<<", "<<q.y<<","<<q.z<<") d = "<<d<<flush<<endl;
 
     MFloatVector resultColor;
 
-	float d = core::CoreGL::getDensityAtWorld(q.x, q.y, q.z, 256, 256, 256);
 	if (cFlame.x > 0.5f)
 		resultColor = MFloatVector(1.f - d, 1.f - d, 1.f - d); //cFlame;
 	else

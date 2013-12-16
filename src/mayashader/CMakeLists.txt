@@ -75,7 +75,7 @@ add_library(mayaShader SHARED
 
 set_target_properties(mayaShader
 	PROPERTIES
-	OUTPUT_NAME "CumulusMaya"
+	OUTPUT_NAME "CumulusMayaShader"
 	SUFFIX ${PLATFORM_PLUGIN_EXTENSION}
 	LINK_FLAGS "${PLATFORM_LINK_FLAGS}")
 

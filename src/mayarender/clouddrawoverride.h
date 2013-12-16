@@ -15,14 +15,14 @@
 
 class CloudData : public MUserData {
 public:
-	CloudData() : MUserData(false), core(NULL) 
+	CloudData() : MUserData(false), cloudcore(NULL) 
 	{} // False - dont del after draw
 	virtual ~CloudData() {}
 
 	MBoundingBox fCurrentBoundingBox;
 	float fMultiplier;
 	float fColor[3];
-	core::CoreGL *core;
+	core::CoreGL *cloudcore;
 
 };
 
