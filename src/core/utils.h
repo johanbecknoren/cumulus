@@ -1,6 +1,7 @@
 #ifndef __UTILS_H__
 #define __UTILS_H__
 
+
 const int kWidth = 640;
 const int kHeight = 480;
 

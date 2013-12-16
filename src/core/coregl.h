@@ -2,14 +2,15 @@
 #define __CORE_GL__
 
 #include "shadermanager.h"
-#include "objloader.h"
+//#include "objloader.h"
+#include "loadobj.h"
 
 #include <glm/glm.hpp>
 #include <string>
 #include "volume.h"
 #include "utils.h"
 #include "fbo.h"
-#include "model.h"
+//#include "model.h"
 
 #ifdef __USE_CORE_GL__
 #include "glincludes.h"
@@ -35,7 +36,7 @@ private:
     CoreGL();
 
 	ShaderManager shaderManager;
-	ObjLoader objectLoader;
+	//ObjLoader objectLoader;
 
 	Volume volume_;
 

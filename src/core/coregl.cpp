@@ -1,7 +1,6 @@
 #include "coregl.h"
 #include "volume.h"
 #include "simplexnoise1234.h"
-#include "objloader.h";
 //#include "fbo.h"
 
 #include <iostream>
@@ -175,35 +174,35 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 	Fbo::useFbo(color_backface, 0L, 0L);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.f, 0.f, 0.f, 0.f);
-	glCullFace(GL_FRONT);
+	//glCullFace(GL_FRONT);
 	glUseProgram(shaderManager.getId(ShaderManager::shaderId::COLOR_CUBE));
-	glUniformMatrix4fv(glGetUniformLocation(
-		shaderManager.getId(ShaderManager::shaderId::COLOR_CUBE), "camTrans"),
+	glUniformMatrix4fv(
+		glGetUniformLocation(shaderManager.getId(ShaderManager::shaderId::COLOR_CUBE), "camTrans"),
 		1, transposed, glm::value_ptr(mvp));
 	// Draw box w/ front face culling here
-	objectLoader.drawModel(core::modelId::CUBE);
-
+	DrawModel(box);
+	glFlush();
 	// Frontface
 	Fbo::useFbo(color_frontface, 0L, 0L);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.f, 0.f, 0.f, 0.f);
-	glCullFace(GL_BACK);
+	glClearColor(0.f, 1.f, 0.f, 0.f);
+	//glCullFace(GL_BACK);
 	glUseProgram(shaderManager.getId(ShaderManager::shaderId::COLOR_CUBE));
-	glUniformMatrix4fv(glGetUniformLocation(
-		shaderManager.getId(ShaderManager::shaderId::COLOR_CUBE), "camTrans"), 
+	glUniformMatrix4fv(
+		glGetUniformLocation(shaderManager.getId(ShaderManager::shaderId::COLOR_CUBE), "camTrans"), 
 		1, transposed, glm::value_ptr(mvp));
-	// Draw box w/ front face culling here
-	objectLoader.drawModel(core::modelId::CUBE);
+	// Draw box w/ back face culling here
+	DrawModel(box);
+	glFlush();
 	
 	// Draw to viewport quad for debugging purpose only.
 	Fbo::useFbo(0L,color_backface,0L);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.f, 0.f, 0.f, 0.f);
-	glCullFace(GL_BACK);
+	glClearColor(1.f, 0.f, 0.f, 0.f);
 	glUseProgram(shaderManager.getId(ShaderManager::shaderId::TEX2SCREEN));
 	glUniform1i(glGetUniformLocation(shaderManager.getId(ShaderManager::shaderId::TEX2SCREEN), "texUnit"), 0);
-	objectLoader.drawModel(core::modelId::QUAD);
-	
+	DrawModel(quad);
+	glFlush();
 	//GLuint in_texCoord = glGetAttribLocation(shaderManager.getId(ShaderManager::shaderId::TEX2SCREEN), "in_texCoord");
 	//glBegin(GL_QUADS);
 	//glVertexAttrib2f(in_texCoord, 0, 0);
@@ -230,8 +229,8 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 	
-	Fbo::useFbo(0L,0L,0L);
-	glUseProgram(0);
+	//Fbo::useFbo(0L,0L,0L);
+	//glUseProgram(0);
 }
 
 core::CoreGL *core::CoreGL::creator(std::string path) {
@@ -250,10 +249,12 @@ void core::CoreGL::initialize(std::string path) {
 
 	color_backface = new Fbo(kWidth, kHeight,0);
 	color_frontface = new Fbo(kWidth, kHeight,0);
-
-	// Denna är BROKEN, använd ej!!
-	objectLoader.loadObj("quad.obj", shaderManager.getId(ShaderManager::shaderId::TEX2SCREEN)); // id 0
-	objectLoader.loadObj("cube.obj", shaderManager.getId(ShaderManager::shaderId::COLOR_CUBE)); // id 1
+	
+	
+	quad = LoadModelPlus(const_cast<char*>(fixPath("quad.obj").c_str()), shaderManager.getId(ShaderManager::shaderId::TEX2SCREEN), "in_Position", "in_Normal", "in_texCoord");
+	box = LoadModelPlus(const_cast<char*>(fixPath("cube.obj").c_str()), shaderManager.getId(ShaderManager::shaderId::COLOR_CUBE), "in_Position", "in_Normal", "in_texCoord");
+	
+	
 
 	//objectLoader = ObjLoader();
 	//objectLoader.loadObj(path, shaderManager.getId(ShaderManager::shaderId::BASIC));

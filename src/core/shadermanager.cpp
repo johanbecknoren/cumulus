@@ -122,6 +122,8 @@ std::string ShaderManager::fixPath(std::string localPath) {
 	fullPath << CMAKE_PROJECT_ROOT_DIR << "/src/core/shaders/" << localPath;
 	return fullPath.str();
 }
+
+
 bool ShaderManager::loadShadersG(std::string vertFileName, std::string fragFileName, 
 								 std::string geomFileName, shaderId id)
 {

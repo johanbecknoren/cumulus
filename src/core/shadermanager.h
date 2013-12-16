@@ -21,6 +21,9 @@ public:
 	bool loadShaders(std::string vertFileName, std::string fragFileName, shaderId id);
 	bool loadShadersG(std::string vertFileName, std::string fragFileName, std::string geomFileName, shaderId id);	
 
+	static std::string fixPath(std::string in);
+	
+
 private:
 	unsigned int loadShader(const char *vertFileName, const char *fragFileName);
 	unsigned int loadShaderG(const char *vertFileName, const char *fragFileName, const char *geomFileName);
@@ -31,7 +34,7 @@ private:
 	
 	static const int numShaders = 3;
 	std::array<unsigned int, numShaders> shaders;
-	std::string fixPath(std::string in);
+	
 };
 } //namespace core
 
