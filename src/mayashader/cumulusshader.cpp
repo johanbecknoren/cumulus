@@ -194,8 +194,6 @@ MStatus Flame3D::compute(const MPlug& plug, MDataBlock& block)
     const MFloatMatrix& mat = block.inputValue(aPlaceMat).asFloatMatrix();
     const MFloatVector& cFlame=block.inputValue(aColorFlame).asFloatVector();
     
-	
-
 	MFloatPoint q(worldPos[0], worldPos[1], worldPos[2]);
 	q *= mat;								// Convert into solid space
 	q.x = (1.f + q.x) * 0.5f;

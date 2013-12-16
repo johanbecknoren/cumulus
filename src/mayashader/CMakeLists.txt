@@ -26,6 +26,28 @@ if(WIN32)
 		${MAYA_LIB_PATH}/Image.lib
 		cumulusCore
 		  )
+else()
+    
+    set(PLATFORM_COMPILE_FLAGS
+        -D_BOOL
+        -DREQUIRE_IOSTREAM
+        -DLINUX
+    )
+    
+    set(PLATFORM_PLUGIN_EXTENSION
+        .so
+    )
+
+	set(MAYA_PLATFORM_LIBS
+		${MAYA_OpenMaya_LIBRARY}
+		${MAYA_Foundation_LIBRARY}
+		${MAYA_OpenMayaUI_LIBRARY}
+		${MAYA_OpenMayaAnim_LIBRARY}
+		${MAYA_OpenMayaFX_LIBRARY}
+		${MAYA_OpenMayaRenderer_LIBRARY}
+		${MAYA_Image_LIBRARY}
+		cumulusCore
+	)
 endif(WIN32)
 
 foreach(MLIB ${MAYA_PLATFORM_LIBS})
