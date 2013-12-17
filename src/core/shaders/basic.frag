@@ -20,60 +20,34 @@ void main(void)
 	float hard_stepsize = 1.f/float(hard_samples);
 	vec4 color = vec4(0.f);
 
-	vec2 tex_coord = FragIn.texCoord;
+	vec2 tex_coord = FragIn.texCoord; //vec2(gl_FragCoord.x / 640.f, gl_FragCoord.y / 480.f);
 	
-	vec4 ray_start = texture(tex_frontface, tex_coord);
-	vec4 ray_end = texture (tex_backface, tex_coord);
+	vec3 ray_start = texture(tex_frontface, tex_coord).xyz;
+	vec3 ray_end = texture (tex_backface, tex_coord).xyz;
 
-	// if(abs(ray_start.r - ray_end.r) > 0.01f) {
-	// 	vec3 direction = (ray_end.xyz - ray_start.xyz);
-	// 	float len = length(direction);
-	// 	direction = normalize(direction);
-	
-	// 	//hard_stepsize = len / float(hard_samples);
-
-	// 	int count = 0;
-	// 	vec3 sample_pos = ray_start.xyz;
-	// 	for(int i=0; i<hard_samples; ++i) {
-	// 		sample_pos += direction * hard_stepsize;
-	// 		color += texture(volumeTex, sample_pos);
-
-	// 		if(color.r > 0.0001f) {
-	// 			++count;
-	// 		}
-	// 	}
-
-	// 	if(count > 0)
-	// 	 	color /= float(count);
-
-	// 	color.a = color.r;
-	// 	color.rgb = vec3(1.f);
-	// }
-
-	tex_coord = FragIn.texCoord; //(FragIn.pixPos + vec2(1.f)) * 0.5f;// / 3.333333f; //FragIn.texCoord;
 	color = vec4(0.0f);
 	int count = 0;
 
-	vec4 direction = (ray_end - ray_start);
+	vec3 direction = (ray_end - ray_start);
+	float tend = length(direction);
+	int numSteps = int(tend / hard_stepsize);
 	direction = normalize(direction);
 
-	vec3 sample_pos = ray_start.xyz;
+    for(int i=0; i<=numSteps; ++i) {
+    	vec3 sample_pos = ray_start + (hard_stepsize*float(i)) * direction;
+        //color += texture(volumeTex , vec3(tex_coord.x, tex_coord.y, float(i)*numSteps));
+        color += texture(volumeTex , sample_pos);
+            
+        if(color.r > 0.0001)
+	        ++count;
 
-        for(int i=0; i<=hard_samples; ++i) {
-            //color += texture(volumeTex , vec3(tex_coord.x, tex_coord.y, float(i)*hard_stepsize));
-            color += texture(volumeTex , sample_pos);
-                
-            //if(color.r > 0.0001)
-    	    //    ++count;
+    }
 
-    	    sample_pos += direction.xyz * 1.f/float(hard_samples);
-        }
+    if(count > 0)
+        color /= float(count);
 
-        //if(count > 0)
-          //      color /= float(count);
-
-        //color.a = color.r;
-        //color.rgb = vec3(1.f);
+    //color.a = color.r;
+    //color.rgb = vec3(1.f);
 
 	out_Color = color;//vec4(ray_start.xyz, 1.0f);//texture(volumeTex, vec3(0.6f));//vec4(max(max(color.r, color.g), color.b));
 }
