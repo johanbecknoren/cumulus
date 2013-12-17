@@ -35,6 +35,8 @@ Model* LoadModel(char* name);
 // NEW:
 
 void DrawModel(Model *m);
+void DrawQuad();
+void DrawCube();
 void DrawWireframeModel(Model *m);
 
 Model* LoadModelPlus(char* name,

@@ -173,7 +173,7 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 
 	// Rendera colorcube här och spara i FBOer
 	// Backface
-	/*Fbo::useFbo(color_backface, 0L, 0L);
+/*	Fbo::useFbo(color_backface, 0L, 0L);*/
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.f, 0.f, 0.f, 0.f);
 	glCullFace(GL_FRONT);
@@ -182,9 +182,13 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 		glGetUniformLocation(shaderManager.getId(ShaderManager::shaderId::COLOR_CUBE), "camTrans"),
 		1, transposed, glm::value_ptr(mvp));
 	// Draw box w/ front face culling here
+#ifdef __USE_FAST_OBJ__
 	DrawModel(box);
+#else
+	DrawCube();
+#endif
 	glFlush();
-
+/*	
 	// Frontface
 	Fbo::useFbo(color_frontface, 0L, 0L);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -195,17 +199,26 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 		glGetUniformLocation(shaderManager.getId(ShaderManager::shaderId::COLOR_CUBE), "camTrans"), 
 		1, transposed, glm::value_ptr(mvp));
 	// Draw box w/ back face culling here
+#ifdef __USE_FAST_OBJ__
 	DrawModel(box);
-	glFlush();*/
+#else
+	DrawCube();
+#endif
+	glFlush();
 	
 	// Draw to viewport quad for debugging purpose only.
-	/*Fbo::useFbo(0L,color_backface,0L);
+	Fbo::useFbo(0L,color_backface,0L);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(1.f, 0.f, 0.f, 0.f);
 	glUseProgram(shaderManager.getId(ShaderManager::shaderId::TEX2SCREEN));
 	glUniform1i(glGetUniformLocation(shaderManager.getId(ShaderManager::shaderId::TEX2SCREEN), "texUnit"), 0);
+	#ifdef __USE_FAST_OBJ__
 	DrawModel(quad);
-	glFlush();*/
+#else
+	DrawQuad();
+#endif
+	glFlush();
+	*/
 	//GLuint in_texCoord = glGetAttribLocation(shaderManager.getId(ShaderManager::shaderId::TEX2SCREEN), "in_texCoord");
 	//glBegin(GL_QUADS);
 	//glVertexAttrib2f(in_texCoord, 0, 0);
@@ -236,14 +249,16 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 	glUseProgram(0);
 }
 
-core::CoreGL *core::CoreGL::creator(std::string path) {
+core::CoreGL *core::CoreGL::creator(int w, int h) {
     core::CoreGL *instance = new core::CoreGL();
-    instance->initialize(path);
+    instance->initialize(w, h);
     return instance;
 }
 
-void core::CoreGL::initialize(std::string path) {
+void core::CoreGL::initialize(int w, int h) {
 	//glfwInit();
+	winWidth = w;
+	winHeight = h;
 	glewInit();
 	
 	printError("Pre Load");
@@ -254,13 +269,13 @@ void core::CoreGL::initialize(std::string path) {
 
 	//setVolumeData();
 
-	//color_backface = new Fbo(kWidth, kHeight,0);
-	//color_frontface = new Fbo(kWidth, kHeight,0);
-	
-	
+	color_backface = new Fbo(winWidth, winHeight,0);
+	color_frontface = new Fbo(winWidth, winHeight,0);
+	maya_in_store = new Fbo(winWidth, winHeight, 0);
+#ifdef __USE_FAST_OBJ__
 	quad = LoadModelPlus(const_cast<char*>(fixPath("quad.obj").c_str()), shaderManager.getId(ShaderManager::shaderId::TEX2SCREEN), "in_Position", "in_Normal", "in_texCoord");
 	box = LoadModelPlus(const_cast<char*>(fixPath("cube.obj").c_str()), shaderManager.getId(ShaderManager::shaderId::COLOR_CUBE), "in_Position", "in_Normal", "in_texCoord");
-	
+#endif
 	std::cout << "Loading done.\n";
 }
 } // namespace core

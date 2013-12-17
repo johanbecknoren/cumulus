@@ -108,9 +108,11 @@ MUserData* CloudDrawOverride::prepareForDraw(
 	data->fColor[0] = color.r;
 	data->fColor[1] = color.g;
 	data->fColor[2] = color.b;
-
+	
+	int w, h, dontcare;
+	frameContext.getViewportDimensions(dontcare, dontcare, w, h);
 	if(!data->cloudcore)
-		data->cloudcore = core::CoreGL::creator("box.obj");
+		data->cloudcore = core::CoreGL::creator(w, h);
 
 	return data;
 }
@@ -127,6 +129,7 @@ void CloudDrawOverride::draw(const MHWRender::MDrawContext& context, const MUser
 	if (status != MStatus::kSuccess) return;
 	const MMatrix projection =
 		context.getMatrix(MHWRender::MDrawContext::kProjectionMtx, &status);
+
 	if (status != MStatus::kSuccess) return;
 
 	const int displayStyle = context.getDisplayStyle();

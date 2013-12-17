@@ -21,7 +21,7 @@ namespace core {
 class CoreGL {
 
 public:
-	static CoreGL *creator(std::string path);    
+	static CoreGL *creator(int w = kWidth, int h= kHeight);    
 	~CoreGL() {}
 	void render(glm::mat4 trans, glm::mat4 proj);
 	static void printError(const char *functionName);
@@ -32,7 +32,7 @@ public:
 
 private:
 	void loadShaders();
-	void initialize(std::string path);
+	void initialize(int w, int h);
     CoreGL();
 
 	ShaderManager shaderManager;
@@ -42,9 +42,12 @@ private:
 
 	Fbo *color_backface;
 	Fbo *color_frontface;
+	Fbo *maya_in_store;
 
 	Model *quad;
 	Model *box;
+	int winWidth;
+	int winHeight;
 };
 
 }
