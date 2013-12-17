@@ -135,7 +135,7 @@ void CoreGL::initVolumeTexture() {
 	glTexImage3D(GL_TEXTURE_3D, 0, GL_RGB32F, volume_.xdim(), volume_.ydim(), volume_.zdim(), 0, GL_RGB, 
 		GL_FLOAT, volume_.getData());
 	printError("Init Volume Texture2");
-	//glUseProgram(id);
+	glUseProgram(id);
 	glUniform1i(glGetUniformLocation(shaderManager.getId(ShaderManager::shaderId::BASIC), "volumeTex"), texId);
 	printError("Init Volume Texture31");
 	
@@ -212,7 +212,8 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 	glUseProgram(shaderManager.getId(ShaderManager::shaderId::BASIC));
 	glUniform1i(glGetUniformLocation(shaderManager.getId(ShaderManager::shaderId::BASIC), "tex_frontface"), 0);
 	glUniform1i(glGetUniformLocation(shaderManager.getId(ShaderManager::shaderId::BASIC), "tex_backface"), 1);
-	//glUniform1i(glGetUniformLocation(shaderManager.getId(ShaderManager::shaderId::BASIC), "volumeTex"), 3);
+	glBindTexture(GL_TEXTURE_3D, 3);
+	glUniform1i(glGetUniformLocation(shaderManager.getId(ShaderManager::shaderId::BASIC), "volumeTex"), 3);
 	DrawModel(quad);
 	glFlush();
 
