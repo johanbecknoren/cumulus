@@ -144,10 +144,10 @@ void CoreGL::initVolumeTexture() {
 void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 	glm::mat4 mvp = proj * trans;
 	
-	//glEnable(GL_BLEND);
-	//glDisable(GL_DEPTH_TEST);
-	//glEnable(GL_CULL_FACE);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	/*GLuint id = shaderManager.getId(ShaderManager::shaderId::BASIC);
 	printError("Core render1");
@@ -253,10 +253,10 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 	/*glTexCoord2f(0.0f,1.0f); glVertex3f(-1.0f, 1.0f, -1.0f);*/
 	//glEnd();
 	
-	//glDisable(GL_BLEND);
-	//glEnable(GL_DEPTH_TEST);
-	//glDisable(GL_CULL_FACE);
-	//Fbo::useFbo(0L,0L,0L);
+	glDisable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
+	Fbo::useFbo(0L,0L,0L);
 	glUseProgram(0);
 }
 

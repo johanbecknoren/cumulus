@@ -829,14 +829,14 @@ void DrawCube() {
 		glColor3f(1,1,1);
 		glVertex3f(1,1,1);
 		glColor3f(1,1,0);
-		glVertex3f(-1,1,1);
+		glVertex3f(0,1,1);
 		glColor3f(1,0,0);
-		glVertex3f(-1,-1,1);
+		glVertex3f(0,0,1);
 		// face v2-v3-v0
 		glColor3f(1,0,0);
-		glVertex3f(-1,-1,1);
+		glVertex3f(0,0,1);
 		glColor3f(1,0,1);
-		glVertex3f(1,-1,1);
+		glVertex3f(1,0,1);
 		glColor3f(1,1,1);
 		glVertex3f(1,1,1);
 
@@ -846,14 +846,14 @@ void DrawCube() {
 		glColor3f(1,1,1);
 		glVertex3f(1,1,1);
 		glColor3f(1,0,1);
-		glVertex3f(1,-1,1);
+		glVertex3f(1,0,1);
 		glColor3f(0,0,1);
-		glVertex3f(1,-1,-1);
+		glVertex3f(1,0,0);
 		// face v4-v5-v0
 		glColor3f(0,0,1);
-		glVertex3f(1,-1,-1);
+		glVertex3f(1,0,0);
 		glColor3f(0,1,1);
-		glVertex3f(1,1,-1);
+		glVertex3f(1,1,0);
 		glColor3f(1,1,1);
 		glVertex3f(1,1,1);
 
@@ -863,14 +863,14 @@ void DrawCube() {
 		glColor3f(1,1,1);
 		glVertex3f(1,1,1);
 		glColor3f(0,1,1);
-		glVertex3f(1,1,-1);
+		glVertex3f(1,1,0);
 		glColor3f(0,1,0);
-		glVertex3f(-1,1,-1);
+		glVertex3f(0,1,0);
 		// face v6-v1-v0
 		glColor3f(0,1,0);
-		glVertex3f(-1,1,-1);
+		glVertex3f(0,1,0);
 		glColor3f(1,1,0);
-		glVertex3f(-1,1,1);
+		glVertex3f(0,1,1);
 		glColor3f(1,1,1);
 		glVertex3f(1,1,1);
 
@@ -878,52 +878,52 @@ void DrawCube() {
 		glNormal3f(-1,0,0);
 		// face  v1-v6-v7
 		glColor3f(1,1,0);
-		glVertex3f(-1,1,1);
+		glVertex3f(0,1,1);
 		glColor3f(0,1,0);
-		glVertex3f(-1,1,-1);
+		glVertex3f(0,1,0);
 		glColor3f(0,0,0);
-		glVertex3f(-1,-1,-1);
+		glVertex3f(0,0,0);
 		// face v7-v2-v1
 		glColor3f(0,0,0);
-		glVertex3f(-1,-1,-1);
+		glVertex3f(0,0,0);
 		glColor3f(1,0,0);
-		glVertex3f(-1,-1,1);
+		glVertex3f(0,0,1);
 		glColor3f(1,1,0);
-		glVertex3f(-1,1,1);
+		glVertex3f(0,1,1);
 
 		// bottom faces
 		glNormal3f(0,-1,0);
 		// face v7-v4-v3
 		glColor3f(0,0,0);
-		glVertex3f(-1,-1,-1);
+		glVertex3f(0,0,0);
 		glColor3f(0,0,1);
-		glVertex3f(1,-1,-1);
+		glVertex3f(1,0,0);
 		glColor3f(1,0,1);
-		glVertex3f(1,-1,1);
+		glVertex3f(1,0,1);
 		// face v3-v2-v7
 		glColor3f(1,0,1);
-		glVertex3f(1,-1,1);
+		glVertex3f(1,0,1);
 		glColor3f(1,0,0);
-		glVertex3f(-1,-1,1);
+		glVertex3f(0,0,1);
 		glColor3f(0,0,0);
-		glVertex3f(-1,-1,-1);
+		glVertex3f(0,0,0);
 
 		// back faces
 		glNormal3f(0,0,-1);
 		// face v4-v7-v6
 		glColor3f(0,0,1);
-		glVertex3f(1,-1,-1);
+		glVertex3f(1,0,0);
 		glColor3f(0,0,0);
-		glVertex3f(-1,-1,-1);
+		glVertex3f(0,0,0);
 		glColor3f(0,1,0);
-		glVertex3f(-1,1,-1);
+		glVertex3f(0,1,0);
 		// face v6-v5-v4
 		glColor3f(0,1,0);
-		glVertex3f(-1,1,-1);
+		glVertex3f(0,1,0);
 		glColor3f(0,1,1);
-		glVertex3f(1,1,-1);
+		glVertex3f(1,1,0);
 		glColor3f(0,0,1);
-		glVertex3f(1,-1,-1);
+		glVertex3f(1,0,0);
 	glEnd();
 }
 

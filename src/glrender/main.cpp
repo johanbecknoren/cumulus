@@ -45,6 +45,10 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 	//	cam.applyMovement(Camera::UP);
 	
 }
+static void handleMouseMove(GLFWwindow *window, double mouseX, double mouseY)
+{
+	cam->handleMouseMove(window, mouseX, mouseY);
+}
 
 int main(int argc, char **argv) {
 	if (!glfwInit()) {
@@ -54,6 +58,8 @@ int main(int argc, char **argv) {
 	GLFWwindow* window = glfwCreateWindow(kWidth, kHeight, "Cumulus", NULL, NULL);
 	
 	glfwSetKeyCallback(window, key_callback);
+	glfwSetCursorPosCallback(window, handleMouseMove);
+
 	glfwMakeContextCurrent(window);
 	//Init glew
 	glewExperimental = GL_TRUE;
