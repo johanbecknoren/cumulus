@@ -254,10 +254,8 @@ void CloudDrawOverride::draw(const MHWRender::MDrawContext& context, const MUser
 	}
 
 	// GL Draw
-	//if (theRenderer->drawAPIIsOpenGL())
+	if (theRenderer->drawAPIIsOpenGL())
 	{
-
-		if (cloudData->cloudcore != NULL) 
 		{	
 			cout << "trans:";
 			glm::mat4 tproj = core::carrToGlmM4(projection.matrix);
@@ -266,33 +264,30 @@ void CloudDrawOverride::draw(const MHWRender::MDrawContext& context, const MUser
 			cout << endl;
 			cloudData->cloudcore->render(ttrans, tproj);
 		}
-		else {
-			cout << "NULL" << endl;
-		}
 		// set colour
-		glColor4fv(color);
-		// set world matrix
-		glMatrixMode(GL_MODELVIEW);
-		glPushMatrix();
-		glLoadMatrixd(transform.matrix[0]);
+		//glColor4fv(color);
+		//// set world matrix
+		//glMatrixMode(GL_MODELVIEW);
+		//glPushMatrix();
+		//glLoadMatrixd(transform.matrix[0]);
 
-		// set projection matrix
-		glMatrixMode(GL_PROJECTION);
-		glPushMatrix();
-		glLoadMatrixd(projection.matrix[0]);
+		//// set projection matrix
+		//glMatrixMode(GL_PROJECTION);
+		//glPushMatrix();
+		//glLoadMatrixd(projection.matrix[0]);
 
-		glColor3f(1, 0, 0);
+		//glColor3f(1, 0, 0);
  
-		//glBegin(GL_QUADS);
-		//glVertex3f(-0.5, 0.0, -0.5);
-		//glVertex3f(0.5, 0.0, -0.5);
-		//glVertex3f(0.5, 0.0, 0.5);
-		//glVertex3f(-0.5, 0.0, 0.5);
-		//glEnd();
+		////glBegin(GL_QUADS);
+		////glVertex3f(-0.5, 0.0, -0.5);
+		////glVertex3f(0.5, 0.0, -0.5);
+		////glVertex3f(0.5, 0.0, 0.5);
+		////glVertex3f(-0.5, 0.0, 0.5);
+		////glEnd();
 
-		glPopMatrix();
-		glMatrixMode(GL_MODELVIEW);
-		glPopMatrix();
+		//glPopMatrix();
+		//glMatrixMode(GL_MODELVIEW);
+		//glPopMatrix();
 	}
 
 	// Restore old blend state and old raster state

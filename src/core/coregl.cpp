@@ -17,7 +17,7 @@ void CoreGL::printError(const char *functionName)
    GLenum error;
    while (( error = glGetError() ) != GL_NO_ERROR)
    {
-	  //fprintf (stderr, "GL error 0x%X detected in %s\n", error, functionName);
+	  fprintf (stderr, "GL error 0x%X detected in %s\n", error, functionName);
    }
 }
 
@@ -144,15 +144,16 @@ void CoreGL::initVolumeTexture() {
 void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 	glm::mat4 mvp = proj * trans;
 	
-	glEnable(GL_BLEND);
-	glDisable(GL_DEPTH_TEST);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	
+	//glEnable(GL_BLEND);
+	//glDisable(GL_DEPTH_TEST);
+	//glEnable(GL_CULL_FACE);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	/*GLuint id = shaderManager.getId(ShaderManager::shaderId::BASIC);
 	printError("Core render1");
 	glUseProgram(id);
 	printError("Core render2");
-	GLboolean transposed = GL_FALSE;
+	
 	printError("Core render3");
 
 	GLuint matrixLoc = glGetUniformLocation(id, "camTrans");
@@ -166,13 +167,13 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 		matrixLoc, 1, 
 		transposed, glm::value_ptr(mvp));
 	printError("Core render7");*/
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
+
+	
 	GLboolean transposed = GL_FALSE;
 
 	// Rendera colorcube här och spara i FBOer
 	// Backface
-	Fbo::useFbo(color_backface, 0L, 0L);
+	/*Fbo::useFbo(color_backface, 0L, 0L);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.f, 0.f, 0.f, 0.f);
 	glCullFace(GL_FRONT);
@@ -195,18 +196,16 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 		1, transposed, glm::value_ptr(mvp));
 	// Draw box w/ back face culling here
 	DrawModel(box);
-	glFlush();
-
-	//Fbo::useFbo()
+	glFlush();*/
 	
 	// Draw to viewport quad for debugging purpose only.
-	Fbo::useFbo(0L,color_backface,0L);
+	/*Fbo::useFbo(0L,color_backface,0L);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(1.f, 0.f, 0.f, 0.f);
 	glUseProgram(shaderManager.getId(ShaderManager::shaderId::TEX2SCREEN));
 	glUniform1i(glGetUniformLocation(shaderManager.getId(ShaderManager::shaderId::TEX2SCREEN), "texUnit"), 0);
 	DrawModel(quad);
-	glFlush();
+	glFlush();*/
 	//GLuint in_texCoord = glGetAttribLocation(shaderManager.getId(ShaderManager::shaderId::TEX2SCREEN), "in_texCoord");
 	//glBegin(GL_QUADS);
 	//glVertexAttrib2f(in_texCoord, 0, 0);
@@ -222,19 +221,19 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 	////glTexCoord2f(0.0,1.0);
 	//glVertex3f(-1.0f, 1.0f, -1.0f);
 	//glEnd();
-	printError("Tex2Screen");
+	//printError("Tex2Screen");
 	//glBegin(GL_QUADS);
 	/*glTexCoord2f(0.0f,0.0f); glVertex3f(-1.0f,-1.0f, -1.0f);*/
 	/*glTexCoord2f(1.0f,0.0f); glVertex3f( 1.0f,-1.0f, -1.0f);*/
 	/*glTexCoord2f(1.0f,1.0f); glVertex3f( 1.0f, 1.0f, -1.0f);*/
 	/*glTexCoord2f(0.0f,1.0f); glVertex3f(-1.0f, 1.0f, -1.0f);*/
 	//glEnd();
-	printError("Core render8");
-	glDisable(GL_BLEND);
-	glEnable(GL_DEPTH_TEST);
 	
+	//glDisable(GL_BLEND);
+	//glEnable(GL_DEPTH_TEST);
+	//glDisable(GL_CULL_FACE);
 	//Fbo::useFbo(0L,0L,0L);
-	//glUseProgram(0);
+	glUseProgram(0);
 }
 
 core::CoreGL *core::CoreGL::creator(std::string path) {
@@ -244,25 +243,24 @@ core::CoreGL *core::CoreGL::creator(std::string path) {
 }
 
 void core::CoreGL::initialize(std::string path) {
+	//glfwInit();
+	glewInit();
+	
 	printError("Pre Load");
     //std::cout << "Loading object " << path.c_str() << std::endl;
+
 	loadShaders();
 	printError("Load Shaders");
 
 	//setVolumeData();
 
-	color_backface = new Fbo(kWidth, kHeight,0);
-	color_frontface = new Fbo(kWidth, kHeight,0);
+	//color_backface = new Fbo(kWidth, kHeight,0);
+	//color_frontface = new Fbo(kWidth, kHeight,0);
 	
 	
 	quad = LoadModelPlus(const_cast<char*>(fixPath("quad.obj").c_str()), shaderManager.getId(ShaderManager::shaderId::TEX2SCREEN), "in_Position", "in_Normal", "in_texCoord");
 	box = LoadModelPlus(const_cast<char*>(fixPath("cube.obj").c_str()), shaderManager.getId(ShaderManager::shaderId::COLOR_CUBE), "in_Position", "in_Normal", "in_texCoord");
 	
-	
-
-	//objectLoader = ObjLoader();
-	//objectLoader.loadObj(path, shaderManager.getId(ShaderManager::shaderId::BASIC));
-	//printError("LoadObj");
 	std::cout << "Loading done.\n";
 }
 } // namespace core

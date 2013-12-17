@@ -76,7 +76,7 @@ GLuint ShaderManager::compileShaders(const char *vs, const char *fs, const char 
 {
 	GLuint v,f,g,p;
 	p = 0;
-	glewInit();
+
 	v = glCreateShader(GL_VERTEX_SHADER);
 	f = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(v, 1, &vs, NULL);
@@ -103,7 +103,7 @@ GLuint ShaderManager::compileShaders(const char *vs, const char *fs, const char 
 	if (gs != NULL)	printShaderInfoLog(g, gfn);
 
 	printProgramInfoLog(p, vfn, ffn, gfn);
-
+	
 	return p;
 }
 
@@ -162,6 +162,7 @@ GLuint ShaderManager::loadShaderG(const char *vertFileName, const char *fragFile
 	if (fs != NULL) free(fs);
 	if (gs != NULL) free(gs);
 	printf("Shader loaded with id %i \n", p);
+	glUseProgram(0);
 	return p;
 }
 } //namespace core

@@ -825,7 +825,23 @@ Model* LoadModel(char* name)
 void DrawModel(Model *m)
 {
 	glBindVertexArray(m->vao);	// Select VAO
+#if 0
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m->ib);
 	glDrawElements(GL_TRIANGLES, m->numIndices, GL_UNSIGNED_INT, 0L);
+#else
+	glBegin(GL_TRIANGLES);
+	for (int i = 0; i < m->numIndices / 3.; ++i) {
+		unsigned int i0 = m->indexArray[i * 3 + 0];
+		unsigned int i1 = m->indexArray[i * 3 + 1];
+		unsigned int i2 = m->indexArray[i * 3 + 2];
+		float px = m->vertexArray[i0];
+		float py = m->vertexArray[i1];
+		float pz = m->vertexArray[i2];
+		glVertex3f(px, py, pz);
+	}
+	glEnd();
+#endif
+
 }
 
 
