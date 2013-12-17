@@ -167,6 +167,7 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 		transposed, glm::value_ptr(mvp));
 	printError("Core render7");*/
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
 	GLboolean transposed = GL_FALSE;
 
 	// Rendera colorcube här och spara i FBOer
@@ -174,7 +175,7 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 	Fbo::useFbo(color_backface, 0L, 0L);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.f, 0.f, 0.f, 0.f);
-	//glCullFace(GL_FRONT);
+	glCullFace(GL_FRONT);
 	glUseProgram(shaderManager.getId(ShaderManager::shaderId::COLOR_CUBE));
 	glUniformMatrix4fv(
 		glGetUniformLocation(shaderManager.getId(ShaderManager::shaderId::COLOR_CUBE), "camTrans"),
@@ -182,11 +183,12 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 	// Draw box w/ front face culling here
 	DrawModel(box);
 	glFlush();
+
 	// Frontface
 	Fbo::useFbo(color_frontface, 0L, 0L);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.f, 1.f, 0.f, 0.f);
-	//glCullFace(GL_BACK);
+	glCullFace(GL_BACK);
 	glUseProgram(shaderManager.getId(ShaderManager::shaderId::COLOR_CUBE));
 	glUniformMatrix4fv(
 		glGetUniformLocation(shaderManager.getId(ShaderManager::shaderId::COLOR_CUBE), "camTrans"), 
@@ -194,6 +196,8 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 	// Draw box w/ back face culling here
 	DrawModel(box);
 	glFlush();
+
+	//Fbo::useFbo()
 	
 	// Draw to viewport quad for debugging purpose only.
 	Fbo::useFbo(0L,color_backface,0L);
