@@ -17,7 +17,7 @@ void main(void)
 	vec4 spacePos =  camTrans * vec4(in_Position, 1.0);
 	VertexOut.texCoord = in_texCoord;
     VertexOut.normal = in_Normal;
-    VertexOut.pos = spacePos.xyz;
+    VertexOut.pos = in_Position.xyz;//spacePos.xyz;
 
     gl_Position = spacePos;
 }

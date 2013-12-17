@@ -13,7 +13,7 @@ void main(void)
 {
 
 	vec4 zval = texture(texUnit, FragIn.texCoord);
-	//out_Color = vec4(zval.r, zval.g, zval.b, 1.f);
-	out_Color = vec4(1.0f);//vec4( FragIn.texCoord, 1.0f, 1.0f );
+	out_Color = vec4(zval.r, zval.g, zval.b, 1.f);
+	//out_Color = vec4( FragIn.texCoord, 1.0f, 1.0f );
 
 }
