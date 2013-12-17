@@ -34,7 +34,7 @@ Camera::~Camera()
 void Camera::initCamera()
 {
 	// Set position, rotation and speed values to zero
-	position = glm::vec3(0.f, 0.f, 0.f);
+	position = glm::vec3(0.f, 0.f, 8.f);
 	rotation = glm::vec3(0);
 	speed = glm::vec3(0);
  

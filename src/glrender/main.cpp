@@ -1,4 +1,5 @@
 #define __USE_CORE_GL__
+#define __USE_FAST_OBJ__
 #include <coregl.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
@@ -77,9 +78,8 @@ int main(int argc, char **argv) {
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
-	core::CoreGL::printError("Obj load");
-    std::string path = "bunny_small.obj";
-    core::CoreGL *cloud = core::CoreGL::creator(path);
+	
+    core::CoreGL *cloud = core::CoreGL::creator();
 	
 	cam = new Camera(window, kWidth, kHeight);
 	glfwMakeContextCurrent(window);
