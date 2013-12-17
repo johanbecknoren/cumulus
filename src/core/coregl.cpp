@@ -118,7 +118,7 @@ void CoreGL::setVolumeData() {
 }
 
 void CoreGL::initVolumeTexture() {
-	/*GLuint texId = 0;
+	GLuint texId = 3;
 	GLuint id = shaderManager.getId(ShaderManager::shaderId::BASIC);
 	glEnable (GL_BLEND);
 	glEnable(GL_TEXTURE_3D);
@@ -135,9 +135,9 @@ void CoreGL::initVolumeTexture() {
 	glTexImage3D(GL_TEXTURE_3D, 0, GL_RGB32F, volume_.xdim(), volume_.ydim(), volume_.zdim(), 0, GL_RGB, 
 		GL_FLOAT, volume_.getData());
 	printError("Init Volume Texture2");
-
-	glUniform1i(glGetUniformLocation(id, "volumeTex"), 0);
-	printError("Init Volume Texture31");*/
+	//glUseProgram(id);
+	glUniform1i(glGetUniformLocation(shaderManager.getId(ShaderManager::shaderId::BASIC), "volumeTex"), texId);
+	printError("Init Volume Texture31");
 	
 }
 
@@ -187,7 +187,7 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 	// Frontface
 	Fbo::useFbo(color_frontface, 0L, 0L);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.f, 1.f, 0.f, 0.f);
+	glClearColor(0.f, 0.f, 0.f, 0.f);
 	glCullFace(GL_BACK);
 	glUseProgram(shaderManager.getId(ShaderManager::shaderId::COLOR_CUBE));
 	glUniformMatrix4fv(
@@ -197,12 +197,20 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 	DrawModel(box);
 	glFlush();
 
-	//Fbo::useFbo()
+	Fbo::useFbo(final_image, color_frontface, color_backface);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(0.f, 0.f, 0.f, 0.f);
+	glUseProgram(shaderManager.getId(ShaderManager::shaderId::BASIC));
+	glUniform1i(glGetUniformLocation(shaderManager.getId(ShaderManager::shaderId::BASIC), "tex_frontface"), 0);
+	glUniform1i(glGetUniformLocation(shaderManager.getId(ShaderManager::shaderId::BASIC), "tex_backface"), 1);
+	//glUniform1i(glGetUniformLocation(shaderManager.getId(ShaderManager::shaderId::BASIC), "volumeTex"), 3);
+	DrawModel(quad);
+	glFlush();
 	
 	// Draw to viewport quad for debugging purpose only.
-	Fbo::useFbo(0L,color_backface,0L);
+	Fbo::useFbo(0L,final_image,0L);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(1.f, 0.f, 0.f, 0.f);
+	glClearColor(0.f, 0.f, 0.f, 0.f);
 	glUseProgram(shaderManager.getId(ShaderManager::shaderId::TEX2SCREEN));
 	glUniform1i(glGetUniformLocation(shaderManager.getId(ShaderManager::shaderId::TEX2SCREEN), "texUnit"), 0);
 	DrawModel(quad);
@@ -249,10 +257,11 @@ void core::CoreGL::initialize(std::string path) {
 	loadShaders();
 	printError("Load Shaders");
 
-	//setVolumeData();
+	setVolumeData();
 
 	color_backface = new Fbo(kWidth, kHeight,0);
 	color_frontface = new Fbo(kWidth, kHeight,0);
+	final_image = new Fbo(kWidth, kHeight,0);
 	
 	
 	quad = LoadModelPlus(const_cast<char*>(fixPath("quad.obj").c_str()), shaderManager.getId(ShaderManager::shaderId::TEX2SCREEN), "in_Position", "in_Normal", "in_texCoord");
