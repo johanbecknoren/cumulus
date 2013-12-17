@@ -16,7 +16,7 @@ out vec4 out_Color;
 void main(void)
 {
 	int actual_samples = 256;
-	int hard_samples = 24;
+	int hard_samples = 1;
 	float hard_stepsize = 1.f/float(hard_samples);
 	vec4 color = vec4(0.f);
 
@@ -49,5 +49,5 @@ void main(void)
     //color.a = color.r;
     //color.rgb = vec3(1.f);
 
-	out_Color = color;//vec4(ray_start.xyz, 1.0f);//texture(volumeTex, vec3(0.6f));//vec4(max(max(color.r, color.g), color.b));
+	out_Color = vec4(1.f);//color;//vec4(ray_start.xyz, 1.0f);//texture(volumeTex, vec3(0.6f));//vec4(max(max(color.r, color.g), color.b));
 }

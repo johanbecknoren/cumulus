@@ -173,7 +173,7 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 
 	// Rendera colorcube här och spara i FBOer
 	// Backface
-/*	Fbo::useFbo(color_backface, 0L, 0L);*/
+	Fbo::useFbo(color_backface, 0L, 0L);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.f, 0.f, 0.f, 0.f);
 	glCullFace(GL_FRONT);
@@ -188,7 +188,7 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 	DrawCube();
 #endif
 	glFlush();
-/*	
+
 	// Frontface
 	Fbo::useFbo(color_frontface, 0L, 0L);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -214,7 +214,11 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 	glUniform1i(glGetUniformLocation(shaderManager.getId(ShaderManager::shaderId::BASIC), "tex_backface"), 1);
 	glBindTexture(GL_TEXTURE_3D, 3);
 	glUniform1i(glGetUniformLocation(shaderManager.getId(ShaderManager::shaderId::BASIC), "volumeTex"), 3);
+#ifdef __USE_FAST_OBJ__
 	DrawModel(quad);
+#else
+	DrawQuad();
+#endif
 	glFlush();
 
 	
@@ -224,13 +228,13 @@ void core::CoreGL::render(glm::mat4 trans, glm::mat4 proj) {
 	glClearColor(0.f, 0.f, 0.f, 0.f);
 	glUseProgram(shaderManager.getId(ShaderManager::shaderId::TEX2SCREEN));
 	glUniform1i(glGetUniformLocation(shaderManager.getId(ShaderManager::shaderId::TEX2SCREEN), "texUnit"), 0);
-	#ifdef __USE_FAST_OBJ__
+#ifdef __USE_FAST_OBJ__
 	DrawModel(quad);
 #else
 	DrawQuad();
 #endif
 	glFlush();
-	*/
+	
 	//GLuint in_texCoord = glGetAttribLocation(shaderManager.getId(ShaderManager::shaderId::TEX2SCREEN), "in_texCoord");
 	//glBegin(GL_QUADS);
 	//glVertexAttrib2f(in_texCoord, 0, 0);
