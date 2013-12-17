@@ -5,10 +5,6 @@ in VertexData {
     vec2 texCoord;
 } FragIn;
 
-/*uniform sampler3D volumeTex;
-uniform int samples;
-uniform float stepSize;*/
-
 out vec4 out_Color;
 
 void main(void)

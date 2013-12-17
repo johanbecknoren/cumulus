@@ -42,6 +42,7 @@ private:
 
 	Fbo *color_backface;
 	Fbo *color_frontface;
+	Fbo *final_image;
 
 	Model *quad;
 	Model *box;
