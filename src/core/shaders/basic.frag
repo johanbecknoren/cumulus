@@ -16,7 +16,7 @@ out vec4 out_Color;
 void main(void)
 {
 	int actual_samples = 256;
-	int hard_samples = 64;
+	int hard_samples = 24;
 	float hard_stepsize = 1.f/float(hard_samples);
 	vec4 color = vec4(0.f);
 
@@ -38,7 +38,7 @@ void main(void)
         //color += texture(volumeTex , vec3(tex_coord.x, tex_coord.y, float(i)*numSteps));
         color += texture(volumeTex , sample_pos);
             
-        if(color.r > 0.0001)
+        if(color.r > 0.0001f)
 	        ++count;
 
     }

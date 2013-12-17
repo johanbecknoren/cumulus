@@ -2,7 +2,6 @@
 #define __CORE_GL__
 
 #include "shadermanager.h"
-//#include "objloader.h"
 #include "loadobj.h"
 
 #include <glm/glm.hpp>
