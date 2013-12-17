@@ -25,7 +25,7 @@ void CoreGL::loadShaders() {
 	shaderManager = ShaderManager();
 	shaderManager.loadShaders("basic.vert", "basic.frag", ShaderManager::shaderId::BASIC);
 	shaderManager.loadShaders("color_cube.vert", "color_cube.frag", ShaderManager::shaderId::COLOR_CUBE);
-	shaderManager.loadShaders("textureToScreen.vert", "textureToScreen.frag", ShaderManager::shaderId::COLOR_CUBE);
+	shaderManager.loadShaders("textureToScreen.vert", "textureToScreen.frag", ShaderManager::shaderId::TEX2SCREEN);
 }
 
 core::CoreGL::CoreGL() : volume_(256,256,256) {
