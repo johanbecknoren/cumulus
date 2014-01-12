@@ -47,8 +47,19 @@
 
 
 
-\subsection{Raytracing}
-
+\subsection{Ray Marching}
+A volume data set is simply numbers representing density values at some point in the volume space.
+In our implementation the volume data is stored as a 3D texture.
+Together with GLSL shaders this allows for the use of fast hardware trilinear interpolation of values for arbitrary points within the volume. To determine the final color for a pixel on the screen we use ray marching to sample the volume.
+The most simple case is a volume set aligned with the camera viewing direction.
+This would only require samples to be taken along a ray aligned with the volume axes.
+Density values in the volume are sampled along the ray at sample points with a uniform spacing and the final density for the pixel is a sum of all the sampled density values.
+This is the implementation we used in this project.
+\\
+A method to allow for interactive camera positioning around the volume is a method using a color cube.
+A uniform cube is rendered first using front face culling and then using back face culling.
+For each pixel its position is stored in a frame buffer object in a first rendering pass.
+For the volume rendering pass these framebuffers are used to determine a ray direction by comparing the values stored in the front face and back face textures for each pixel. From this we get a ray origin and a direction, which is then used to sample the volume in the same uniform fashion as described in the previous paragraph.
 
 \section{Implementation}
 
