@@ -77,12 +77,15 @@ This would only require samples to be taken along a ray aligned with the volume 
 Density values in the volume are sampled along the ray at sample points with a uniform spacing and the final density for the pixel is a sum of all the sampled density values.
 This is the implementation we used in this project.
 \\
-A method to allow for interactive camera positioning around the volume is a method using a color cube.
+A method to allow for interactive camera positioning around the volume used extensively in scientific visualization is a method using a color cube.
 A uniform cube is rendered first using front face culling and then using back face culling.
-For each pixel its position is stored in a frame buffer object in a first rendering pass.
-For the volume rendering pass these framebuffers are used to determine a ray direction by comparing the values stored in the front face and back face textures for each pixel. From this we get a ray origin and a direction, which is then used to sample the volume in the same uniform fashion as described in the previous paragraph.
+For each pixel the position is stored in a frame buffer object texture in a first rendering pass.
+For the volume rendering pass these textures are used to determine a ray direction by comparing the values stored in the front face and back face textures for each pixel. From this we retrieve a ray origin position and a ray direction, which is then used to sample the volume in the same uniform fashion as described in the previous paragraph. An attempt was made to use this method in our implementation, but we did not succeed in using frame buffer objects together with the Maya Viewport 2.0.
 
 \section{Implementation}
+For the implementation we knew that the final goal was a plugin for Maya.
+But for development purposes we wanted a faster and more intuitive way to test run our code without having to restart Maya and load up our plugin each time.
+Instead separated the code into two layers. The bottom layer is the core where the meat of the implementation is located. It is in this layer we generate our volume density data, performe the ray marching etc. About the core layer we have two modules, on for rendering with OpenGL and one for rendering to a Maya plugin. The OpenGL module uses a GL viewport for rendering and requires no external software or installs other that the required GL libraries. This provided us with a fast way to develop and test our code thoughout the project.
 
 \section{Summary}
 
