@@ -1,0 +1,55 @@
+\documentclass[11pt,twocolumn]{article}
+\usepackage{graphicx,url,placeins,algorithm,subcaption, algorithmic,lipsum,amssymb,amsmath,float}
+\usepackage[hidelinks]{hyperref}
+\usepackage[titletoc]{appendix}
+\usepackage{pdfpages}
+\usepackage{listings}
+
+\usepackage{breqn}
+
+ %\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{natbib}
+
+\makeatletter
+\let\@texttop\relax
+\makeatother
+\topmargin-0.32in
+\textheight22.2cm
+
+\usepackage{layout}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage[utf8]{inputenc}
+\graphicspath{{figures/}}
+\setlength{\voffset}{0in}
+\setlength{\headsep}{1pt}
+\addtolength{\textheight}{2cm}
+%\setlength{\footskip}{5pt}
+%
+\begin{document}
+\title{\vskip -2em Cumulus }   % type title between braces
+\author{Andreas Valter, andva287@student.liu.se}
+\date{\today}    % type date between braces
+\maketitle
+
+\begingroup
+% \let\clearpage\relax % Removes blank page before include
+
+\begin{abstract}
+
+\end {abstract}
+
+\section{Background}
+
+\section{Implementation}
+
+\section{Summary}
+
+
+\endgroup
+\newpage
+\bibliographystyle{abbrv}
+\nocite{*}
+\bibliography{bibl}
+
+\end{document}
