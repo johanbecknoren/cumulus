@@ -27,7 +27,7 @@
 %\setlength{\footskip}{5pt}
 %
 \begin{document}
-\title{\vskip -4em Cumulus}   % type title between braces
+\title{\vskip -4em Cumulus - A Cloud Plugin for Maya}   % type title between braces
 \author{Andreas Valter, andva287@student.liu.se \\
 Johan Beck-Nor\'{e}n, johbe559@student.liu.se}
 \date{\today}    % type date between braces
@@ -60,17 +60,15 @@ The fact that it is easily extendible makes it a good tool base for VFX companie
 It is inside this application that Viewport 2.0 exists.
 It was introduced in the 2012 version of Maya to allow for custom drawing, shading and effects by creating a new rendering architecture in Maya.
 
+\section{Implementation}
+\subsection{Density data generation}
+The density data for the cloud volume was rendered using Simplex noise. Simplex noise is a further developed version of ``regular'' Perlin noise introduced by Ken Perlin. We created the cloud shape by starting from a basic unit sphere and then displacing the surface of the sphere by using a number of Simplex noise contributions of differenct frequencies. The noise function contributions where weighted acccording to frequency and then summed to form the final displacement amount.
 
 \begin{figure}[ht]
 \includegraphics[width=0.5\textwidth]{figures/cumulus_slice.png}
-\caption{A single ``slice `` of our noise generated cloud density data.}
+\caption{A single ``slice`` of our noise generated cloud density data.}
 \label{fig:cloud_slice}
 \end{figure}
-
-\section{Implementation}
-
-\subsection{Density data generation}
-The density data for the cloud volume was rendered using Simplex noise. Simplex noise is a further developed version of ``regular'' Perlin noise introduced by Ken Perlin. We created the cloud shape from a basic unit sphere, and then displacing the surface of the sphere by using a number of simplex noise contributions of differenct frequencies. The noise functions where weighted after frequency summed to form the final displacement amount.
 
 \subsection{Design}
 For the implementation we knew that the final goal was a plugin for Maya.
