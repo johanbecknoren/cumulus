@@ -60,6 +60,13 @@ The fact that it is easily extendible makes it a good tool base for VFX companie
 It is inside this application that Viewport 2.0 exists.
 It was introduced in the 2012 version of Maya to allow for custom drawing, shading and effects by creating a new rendering architecture in Maya.
 
+
+\begin{figure}[ht]
+\includegraphics[width=0.5\textwidth]{figures/cumulus_slice.png}
+\caption{A single ``slice `` of our noise generated cloud density data.}
+\label{fig:cloud_slice}
+\end{figure}
+
 \section{Implementation}
 
 \subsection{Density data generation}
@@ -73,7 +80,7 @@ Instead separated the code into two layers. The bottom layer is the core where t
 
 Maya can be extended in several ways, the implementation that was aimed for was a so called locator node.
 That node is responsible for extending the drawing loop with elements.
-
+The cloud was also implemented as a 3d Texture that allowed for maya to do its own rendering of the cloud, but this made us limited to 2D renderings from the different axes into the volume.
 
 \subsection{Ray Marching}
 A volume data set is simply numbers representing density values at some point in the volume space.
@@ -84,10 +91,12 @@ This would only require samples to be taken along a ray aligned with the volume 
 Density values in the volume are sampled along the ray at sample points with a uniform spacing and the final density for the pixel is a sum of all the sampled density values.
 This is the implementation we used in this project.
 \\
+
 A method to allow for interactive camera positioning around the volume used extensively in scientific visualization is a method using a color cube.
 A uniform cube is rendered first using front face culling and then using back face culling.
 For each pixel the position is stored in a frame buffer object texture in a first rendering pass.
 For the volume rendering pass these textures are used to determine a ray direction by comparing the values stored in the front face and back face textures for each pixel. From this we retrieve a ray origin position and a ray direction, which is then used to sample the volume in the same uniform fashion as described in the previous paragraph. An attempt was made to use this method in our implementation, but we did not succeed in using frame buffer objects together with the Maya Viewport 2.0.
+
 
 \section{Future work}
 Even though our implementation lacks a lot from the ideal implementation, it shows that the general concept is possible.
@@ -95,6 +104,12 @@ The first task would be to implement the color cube to support 3d renderings in 
 User interaction could be improved by allowing for more input and configuration from the user.
 Shadow interaction support could be added by implementing a method like Voxelized Shadow Volumes that allows for real time rendering with participating mediums.
 A way to export the resulting cloud together with the rest of the scene into a format that a renderer like Pixar Renderman can render would also be important.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{figures/cloudlol.png}
+\caption{Our cloud plugin displayed in realtime in the Maya Viewport 2.0.}
+\label{fig:mayaviewport_final}
+\end{figure}
 
 \endgroup
 \newpage
