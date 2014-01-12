@@ -95,7 +95,6 @@ A uniform cube is rendered first using front face culling and then using back fa
 For each pixel the position is stored in a frame buffer object texture in a first rendering pass.
 For the volume rendering pass these textures are used to determine a ray direction by comparing the values stored in the front face and back face textures for each pixel. From this we retrieve a ray origin position and a ray direction, which is then used to sample the volume in the same uniform fashion as described in the previous paragraph. An attempt was made to use this method in our implementation, but we did not succeed in using frame buffer objects together with the Maya Viewport 2.0.
 
-
 \section{Future work}
 Even though our implementation lacks a lot from the ideal implementation, it shows that the general concept is possible.
 The first task would be to implement the color cube to support 3d renderings in the viewport.
@@ -103,8 +102,14 @@ User interaction could be improved by allowing for more input and configuration 
 Shadow interaction support could be added by implementing a method like Voxelized Shadow Volumes that allows for real time rendering with participating mediums.
 A way to export the resulting cloud together with the rest of the scene into a format that a renderer like Pixar Renderman can render would also be important.
 
+\section{Conclusion}
+Before this project none of us had worked with Maya.
+We have learned the hard way about the problems that can occur when trying to develop a custom plugin.
+The fact that we chose an implementation of relatively new OpenGL functions together with the new Viewport 2.0 in Maya did not make thing easier for us.
+We have learned how to build a plugin in Maya using Locator nodes and 3D textures and we used sound design patterns to ease the development, but considering how new the OpenGL context in Viewport 2.0 we should have been more restrictive in what we wanted to implement for this project.
+
 \begin{figure}
-\includegraphics[width=\textwidth]{figures/cloudlol.png}
+\includegraphics[width=0.5\textwidth]{figures/cloudlol.png}
 \caption{Our cloud plugin displayed in realtime in the Maya Viewport 2.0.}
 \label{fig:mayaviewport_final}
 \end{figure}
