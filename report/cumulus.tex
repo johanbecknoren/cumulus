@@ -62,8 +62,8 @@ The fact that it is easily extendible makes it a good tool base for VFX companie
 It is inside this application that Viewport 2.0 exists.
 It was introduced in the 2012 version of Maya to allow for custom drawing, shading and effects by creating a new rendering architecture in Maya.
 
-\begin{figure}[h]
-\includegraphics[width=0.49\textwidth]{figures/cumulus_slice.png}
+\begin{figure}[ht]
+\includegraphics[width=0.5\textwidth]{figures/cumulus_slice.png}
 \caption{A single ``slice `` of the noise generated cloud density data.}
 \label{fig:cloud_slice}
 \end{figure}
@@ -94,6 +94,11 @@ A uniform cube is rendered first using front face culling and then using back fa
 For each pixel the position is stored in a frame buffer object texture in a first rendering pass.
 For the volume rendering pass these textures are used to determine a ray direction by comparing the values stored in the front face and back face textures for each pixel. From this we retrieve a ray origin position and a ray direction, which is then used to sample the volume in the same uniform fashion as described in the previous paragraph. An attempt was made to use this method in our implementation, but we did not succeed in using frame buffer objects together with the Maya Viewport 2.0.
 
+\begin{figure}
+\includegraphics[width=\textwidth]{figures/cloudlol.png}
+\caption{Our cloud plugin displayed in realtime in the Maya Viewport 2.0.}
+\label{fig:mayaviewport_final}
+\end{figure}
 
 \endgroup
 \newpage
