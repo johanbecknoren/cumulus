@@ -53,12 +53,20 @@ This would lead to a real time output for changes made to simulations and models
 
 Therefore a lot of resent research has been aimed at moving work from the CPU that is not optimized for graphics computations to the GPU which converts application from offline to real time rendering.
 
-\subsection{Viewport 2.0}
+\subsection{Maya and Viewport 2.0}
 Viewport 2.0 is one of many indications that the VFX industry is moving towards incorporating real time renderings into the artist workflow.
 One of the most commonly used tools for doing virtual effects is Autodesk Maya.
 Maya is a 3D animation software that incorporates many of the tools needed to model, rig and simulate.
+A example of how it looks when working inside Maya is show in \autoref{fig:mayaviewport} with menus on the sides and the viewport in the centre.
 The fact that it is easily extendible makes it a good tool base for VFX companies which they can extend to fit their workflow.
+It is inside this application that Viewport 2.0 exists.
+It was introduced in the 2012 version of Maya to allow for custom drawing, shading and effects by creating a new rendering architecture in Maya.
 
+\begin{figure}
+\includegraphics[width=0.49\textwidth]{maya.png}
+\caption{Example of Autodesk Maya UI and the viewport in action. Taken from http://area.autodesk.com/products/features/extensionmaya}
+\label{fig:mayaviewport}
+\end{figure}
 
 \subsection{Ray Marching}
 A volume data set is simply numbers representing density values at some point in the volume space.
